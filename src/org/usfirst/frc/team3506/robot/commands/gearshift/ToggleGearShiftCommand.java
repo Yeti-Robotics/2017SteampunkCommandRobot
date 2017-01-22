@@ -11,30 +11,30 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ToggleGearShiftCommand extends Command {
 
-    public ToggleGearShiftCommand() {
-    	requires(Robot.gearshiftsubsystem);
-    }
+	public ToggleGearShiftCommand() {
+		requires(Robot.gearShiftSubsystem);
+	}
 
-    protected void initialize() {
-    }
+	protected void initialize() {
+	}
 
-    protected void execute() {
-    	if (Robot.gearshiftsubsystem.shiftedState() == RobotMap.DRIVETRAIN_SHIFT_UP) {
-    		Robot.gearshiftsubsystem.shiftDown();
-    	} else {
-    		Robot.gearshiftsubsystem.shiftUp();
-    	}
-    }
+	protected void execute() {
+		if (Robot.gearShiftSubsystem.shiftedState() == RobotMap.DRIVETRAIN_SHIFT_UP) {
+			Robot.gearShiftSubsystem.shiftDown();
+		} else {
+			Robot.gearShiftSubsystem.shiftUp();
+		}
+	}
 
-    protected boolean isFinished() {
-        return true;
-    }
+	protected boolean isFinished() {
+		return true;
+	}
 
-    protected void end() {
-    	
-    }
+	protected void end() {
 
-    protected void interrupted() {
-    	
-    }
+	}
+
+	protected void interrupted() {
+
+	}
 }

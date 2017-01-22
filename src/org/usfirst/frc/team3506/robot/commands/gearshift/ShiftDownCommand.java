@@ -4,20 +4,17 @@ import org.usfirst.frc.team3506.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
 public class ShiftDownCommand extends Command {
 
 	public ShiftDownCommand() {
-    	requires(Robot.gearshiftsubsystem);
+    	requires(Robot.gearShiftSubsystem);
     }
 
     protected void initialize() {
     }
 
     protected void execute() {
-    	Robot.gearshiftsubsystem.shiftDown();
+    	Robot.gearShiftSubsystem.shiftDown();
     }
 
     protected boolean isFinished() {
@@ -25,10 +22,8 @@ public class ShiftDownCommand extends Command {
     }
 
     protected void end() {
-    	
     }
 
     protected void interrupted() {
-    	
     }
 }

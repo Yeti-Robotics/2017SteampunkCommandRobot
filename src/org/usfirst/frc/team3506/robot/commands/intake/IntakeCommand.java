@@ -1,24 +1,24 @@
-package org.usfirst.frc.team3506.robot.commands.gearshift;
+package org.usfirst.frc.team3506.robot.commands.intake;
 
 import org.usfirst.frc.team3506.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ShiftUpCommand extends Command {
+public class IntakeCommand extends Command {
 
-	public ShiftUpCommand() {
-		requires(Robot.gearShiftSubsystem);
+	public IntakeCommand() {
+		requires(Robot.intakeSubsystem);
 	}
 
 	protected void initialize() {
 	}
 
 	protected void execute() {
-		Robot.gearShiftSubsystem.shiftUp();
+		Robot.intakeSubsystem.floorIntake();
 	}
 
 	protected boolean isFinished() {
-		return true;
+		return false;
 	}
 
 	protected void end() {
