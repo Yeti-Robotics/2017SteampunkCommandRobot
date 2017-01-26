@@ -14,7 +14,7 @@ public class IntakeCommand extends Command {
 	}
 
 	protected void execute() {
-		Robot.intakeSubsystem.floorIntake();
+		Robot.intakeSubsystem.runIntake();
 	}
 
 	protected boolean isFinished() {
@@ -25,5 +25,6 @@ public class IntakeCommand extends Command {
 	}
 
 	protected void interrupted() {
+		Robot.intakeSubsystem.stopIntake();
 	}
 }

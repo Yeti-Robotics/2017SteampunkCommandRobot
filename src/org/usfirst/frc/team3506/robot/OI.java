@@ -2,7 +2,8 @@ package org.usfirst.frc.team3506.robot;
 
 import org.usfirst.frc.team3506.robot.commands.gearshift.ToggleGearShiftCommand;
 import org.usfirst.frc.team3506.robot.commands.intake.IntakeCommand;
-import org.usfirst.frc.team3506.robot.commands.intake.SpurtOutCommand;
+import org.usfirst.frc.team3506.robot.commands.intake.OutputCommand;
+import org.usfirst.frc.team3506.robot.commands.intake.StopIntakeCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -16,7 +17,7 @@ public class OI {
 		rightJoystick = new Joystick(RobotMap.RIGHT_JOYSTICK_PORT);
 
 		setJoystickButtonWhenPressedCommand(rightJoystick, 1, new ToggleGearShiftCommand());
-		setJoystickButtonWhilePressedCommand(rightJoystick, 2, new SpurtOutCommand());
+		setJoystickButtonWhilePressedCommand(rightJoystick, 2, new OutputCommand());
 		setJoystickButtonWhilePressedCommand(rightJoystick, 3, new IntakeCommand());
 	}
 

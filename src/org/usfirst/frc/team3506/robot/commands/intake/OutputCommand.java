@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class SpurtOutCommand extends Command {
+public class OutputCommand extends Command {
 
-	public SpurtOutCommand() {
+	public OutputCommand() {
 		requires(Robot.intakeSubsystem);
 	}
 
@@ -17,7 +17,7 @@ public class SpurtOutCommand extends Command {
 	}
 
 	protected void execute() {
-		Robot.intakeSubsystem.floorSpurtOut();
+		Robot.intakeSubsystem.runOutput();
 	}
 
 	protected boolean isFinished() {
@@ -28,5 +28,6 @@ public class SpurtOutCommand extends Command {
 	}
 
 	protected void interrupted() {
+		Robot.intakeSubsystem.stopIntake();
 	}
 }

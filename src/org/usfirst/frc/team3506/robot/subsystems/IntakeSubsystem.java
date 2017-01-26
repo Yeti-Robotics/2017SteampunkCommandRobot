@@ -16,14 +16,18 @@ public class IntakeSubsystem extends Subsystem {
 		intake = new Spark(RobotMap.INTAKE_SPARK);
 	}
 
-	public void floorIntake() {
+	public void runIntake() {
 		intake.set(RobotMap.INTAKE_SPEED);
 	}
 
-	public void floorSpurtOut() {
+	public void runOutput() {
 		intake.set(-RobotMap.INTAKE_SPEED);
 	}
-
+	
+	public void stopIntake() {
+		intake.set(0);
+	}
+	
 	public void initDefaultCommand() {
 	}
 }
