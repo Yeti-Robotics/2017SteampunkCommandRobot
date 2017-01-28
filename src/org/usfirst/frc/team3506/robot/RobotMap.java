@@ -22,4 +22,14 @@ public class RobotMap {
 	// Ball intake
 	public static final int INTAKE_SPARK = 5;
 	public static final double INTAKE_SPEED = 0.4;
+	
+	// Turret Control
+	public static final int TURRET_ROTATION_SPARK = 6;
+	public static final double X_CENTER = 340;
+	public static final double MIN_TARGET_SIZE = 300;
+	public static final double NO_TARGET_FOUND_SPEED = 0.2;
+	public static final double MAX_ACCEPTABLE_TARGET_X_VALUE = 30;
+	public static final double SLOW_TURRET_ADJUSTMENT_RANGE = 100;
+	public static final double SLOW_TURRET_ADJUSTMENT_SPEED = 0.2;
+	
 }

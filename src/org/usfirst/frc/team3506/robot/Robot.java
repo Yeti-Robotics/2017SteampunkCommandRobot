@@ -1,9 +1,9 @@
-
 package org.usfirst.frc.team3506.robot;
 
 import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.GearShiftSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.IntakeSubsystem;
+import org.usfirst.frc.team3506.robot.subsystems.TurretRotationSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -14,6 +14,7 @@ public class Robot extends IterativeRobot {
 	public static DrivetrainSubsystem driveTrainSubsystem;
 	public static GearShiftSubsystem gearShiftSubsystem;
 	public static IntakeSubsystem intakeSubsystem;
+	public static TurretRotationSubsystem turretRotationSubsystem;
 
 	public static OI oi;
 
@@ -21,6 +22,8 @@ public class Robot extends IterativeRobot {
 		driveTrainSubsystem = new DrivetrainSubsystem();
 		gearShiftSubsystem = new GearShiftSubsystem();
 		intakeSubsystem = new IntakeSubsystem();
+		turretRotationSubsystem = new TurretRotationSubsystem();
+		
 		oi = new OI();
 	}
 

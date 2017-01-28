@@ -4,7 +4,6 @@ import org.usfirst.frc.team3506.robot.commands.gearshift.ToggleGearShiftCommand;
 import org.usfirst.frc.team3506.robot.commands.intake.IntakeCommand;
 import org.usfirst.frc.team3506.robot.commands.intake.OutputCommand;
 
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
