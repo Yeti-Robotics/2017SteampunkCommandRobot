@@ -3,6 +3,8 @@ package org.usfirst.frc.team3506.robot;
 import org.usfirst.frc.team3506.robot.commands.gearshift.ToggleGearShiftCommand;
 import org.usfirst.frc.team3506.robot.commands.intake.ToggleIntakeCommand;
 import org.usfirst.frc.team3506.robot.commands.intake.ToggleOutputCommand;
+import org.usfirst.frc.team3506.robot.commands.tower.LiftDumbWaiterCommand;
+import org.usfirst.frc.team3506.robot.commands.tower.LowerDumbWaiterCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -18,6 +20,8 @@ public class OI {
 		setJoystickButtonWhenPressedCommand(rightJoystick, 1, new ToggleGearShiftCommand());
 		setJoystickButtonWhenPressedCommand(rightJoystick, 2, new ToggleOutputCommand());
 		setJoystickButtonWhenPressedCommand(rightJoystick, 3, new ToggleIntakeCommand());
+		setJoystickButtonWhilePressedCommand(rightJoystick, 4, new LiftDumbWaiterCommand());
+		setJoystickButtonWhilePressedCommand(rightJoystick, 5, new LowerDumbWaiterCommand());
 	}
 
 	private void setJoystickButtonWhilePressedCommand(Joystick joystick, int button, Command command) {
@@ -28,3 +32,4 @@ public class OI {
 		new JoystickButton(joystick, button).whenPressed(command);
 	}
 }
+ 

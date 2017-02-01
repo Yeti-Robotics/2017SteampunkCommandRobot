@@ -20,6 +20,7 @@ public class IntakeSubsystem extends Subsystem {
 	public IntakeSubsystem() {
 		intake = new Spark(RobotMap.INTAKE_SPARK);
 		intakeState = IntakeState.OFF;
+		intake.setInverted(true);
 	}
 
 	public void runIntake() {
