@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3506.robot;
 
+import org.usfirst.frc.team3506.robot.commands.climber.ClimbUpCommand;
 import org.usfirst.frc.team3506.robot.commands.gearshift.ToggleGearShiftCommand;
 import org.usfirst.frc.team3506.robot.commands.intake.ToggleIntakeCommand;
 import org.usfirst.frc.team3506.robot.commands.intake.ToggleOutputCommand;
@@ -22,6 +23,7 @@ public class OI {
 		setJoystickButtonWhenPressedCommand(rightJoystick, 3, new ToggleIntakeCommand());
 		setJoystickButtonWhilePressedCommand(rightJoystick, 4, new LiftDumbWaiterCommand());
 		setJoystickButtonWhilePressedCommand(rightJoystick, 5, new LowerDumbWaiterCommand());
+		setJoystickButtonWhilePressedCommand(leftJoystick, 3, new ClimbUpCommand());
 	}
 
 	private void setJoystickButtonWhilePressedCommand(Joystick joystick, int button, Command command) {

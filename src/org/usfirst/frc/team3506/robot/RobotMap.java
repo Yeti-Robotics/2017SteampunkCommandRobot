@@ -21,9 +21,14 @@ public class RobotMap {
 
 	// Ball intake
 	public static final int INTAKE_SPARK = 8;
-	public static final double INTAKE_SPEED = 0.4;
+	public static final double INTAKE_SPEED = 1;
 	
 	//Tower
-	public static final int DUMB_WAITER_SPARK = 4;
+	public static final int DUMB_WAITER_SPARK = 6;
 	public static final double DUMB_WAITER_LIFT_SPEED = 0.5;
+	
+	//Climber
+	public static final int CLIMBER_SPARK = 7;
+	public static final double CLIMBER_SPEED = .5;
+	
 }
