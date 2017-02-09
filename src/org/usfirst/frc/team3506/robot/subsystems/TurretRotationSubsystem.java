@@ -1,6 +1,9 @@
 package org.usfirst.frc.team3506.robot.subsystems;
 
 import org.usfirst.frc.team3506.robot.RobotMap;
+import org.usfirst.frc.team3506.robot.commands.turretrotation.ManualRotateCommand;
+
+import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -8,14 +11,17 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class TurretRotationSubsystem extends Subsystem {
 	
-	private Spark rotateSpark;
+	private CANTalon rotateSpark;
 	private NetworkTable visionTable;
 	private double[] defaultArr = {0};
 	
 	public TurretRotationSubsystem() {
-		rotateSpark = new Spark(RobotMap.TURRET_ROTATION_SPARK);
-		visionTable = NetworkTable.getTable("GRIP/myContoursReport");		
+		rotateSpark = new CANTalon(RobotMap.TURRET_ROTATION_SPARK);
+		visionTable = NetworkTable.getTable("GRIP/ContoursDetected");	
+	
+		rotateSpark.setInverted(true);
 	}
+	
 	
 	public double[] getAreas() {
 		return visionTable.getNumberArray("area", defaultArr);
@@ -25,11 +31,13 @@ public class TurretRotationSubsystem extends Subsystem {
 		return visionTable.getNumberArray("centerX", defaultArr);
 	}
 	
-	public double getDesiredRotationSpeed(double area, double centerX) {
-		double deltaPixels =  centerX - RobotMap.X_CENTER;
+	public double getDesiredRotationSpeed(double area, double targetCenterX) {
+		System.out.println("Area: " + area);
+		System.out.println("CenterX: " + targetCenterX);
+		double deltaPixels =  targetCenterX - RobotMap.IMAGE_CENTER_X;
 		
 		// This will run if there is no target in sight
-		if (area < RobotMap.MIN_TARGET_SIZE || centerX == 0) {
+		if (area < RobotMap.MIN_TARGET_SIZE || targetCenterX == 0) {
 			return RobotMap.NO_TARGET_FOUND_SPEED;
 		}
 		//This will run if there is a target, and determine the speed and direction to go at
@@ -37,10 +45,9 @@ public class TurretRotationSubsystem extends Subsystem {
 			return 0.0;
 		} else if (Math.abs(deltaPixels) < RobotMap.SLOW_TURRET_ADJUSTMENT_RANGE) {
 			return Math.signum(deltaPixels) * RobotMap.SLOW_TURRET_ADJUSTMENT_SPEED;
-		} else if (Math.abs(deltaPixels) < RobotMap.SLOW_TURRET_ADJUSTMENT_RANGE) {
-			return Math.signum(deltaPixels) * RobotMap.SLOW_TURRET_ADJUSTMENT_SPEED;
+		} else {
+			return Math.signum(deltaPixels) * RobotMap.FAST_TURRET_ADJUSTMENT_SPEED;
 		}
-		return 0.0;
 	}
 	
 	public void rotateTurret(double speed) {

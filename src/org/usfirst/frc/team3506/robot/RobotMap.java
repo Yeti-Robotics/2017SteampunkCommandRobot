@@ -24,12 +24,13 @@ public class RobotMap {
 	public static final double INTAKE_SPEED = 0.4;
 	
 	// Turret Control
-	public static final int TURRET_ROTATION_SPARK = 6;
-	public static final double X_CENTER = 340;
-	public static final double MIN_TARGET_SIZE = 300;
-	public static final double NO_TARGET_FOUND_SPEED = 0.2;
-	public static final double MAX_ACCEPTABLE_TARGET_X_VALUE = 30;
-	public static final double SLOW_TURRET_ADJUSTMENT_RANGE = 100;
-	public static final double SLOW_TURRET_ADJUSTMENT_SPEED = 0.2;
+	public static final int TURRET_ROTATION_SPARK = 9; //Black Ice talon id
+	public static final int IMAGE_CENTER_X = 320;
+	public static final int MIN_TARGET_SIZE = 300;
+	public static final double NO_TARGET_FOUND_SPEED = 0.1;
+	public static final int MAX_ACCEPTABLE_TARGET_X_VALUE = 100;
+	public static final int SLOW_TURRET_ADJUSTMENT_RANGE = 100;
+	public static final double SLOW_TURRET_ADJUSTMENT_SPEED = 0.05;
+	public static final double FAST_TURRET_ADJUSTMENT_SPEED = 0.1;
 	
 }

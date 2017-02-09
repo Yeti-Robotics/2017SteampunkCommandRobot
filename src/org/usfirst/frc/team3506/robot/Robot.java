@@ -19,9 +19,9 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 
 	public void robotInit() {
-		driveTrainSubsystem = new DrivetrainSubsystem();
-		gearShiftSubsystem = new GearShiftSubsystem();
-		intakeSubsystem = new IntakeSubsystem();
+//		driveTrainSubsystem = new DrivetrainSubsystem();
+//		gearShiftSubsystem = new GearShiftSubsystem();
+//		intakeSubsystem = new IntakeSubsystem();
 		turretRotationSubsystem = new TurretRotationSubsystem();
 		
 		oi = new OI();
