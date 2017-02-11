@@ -5,10 +5,10 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 public class RobotMap {
 
 	// Drivetrain
-	public static final int FRONT_LEFT_SPARK = 1;
-	public static final int BACK_LEFT_SPARK = 4;
-	public static final int FRONT_RIGHT_SPARK = 2;
-	public static final int BACK_RIGHT_SPARK = 3;
+	public static final int FRONT_LEFT_SPARK = 0;
+	public static final int BACK_LEFT_SPARK = 3;
+	public static final int FRONT_RIGHT_SPARK = 1;
+	public static final int BACK_RIGHT_SPARK = 2;
 
 	// Joysticks
 	public static final int LFFT_JOYSTICK_PORT = 1;
@@ -32,5 +32,13 @@ public class RobotMap {
 	public static final int SLOW_TURRET_ADJUSTMENT_RANGE = 100;
 	public static final double SLOW_TURRET_ADJUSTMENT_SPEED = 0.05;
 	public static final double FAST_TURRET_ADJUSTMENT_SPEED = 0.1;
+	
+	//Tower
+	public static final int DUMB_WAITER_SPARK = 6;
+	public static final double DUMB_WAITER_LIFT_SPEED = 0.5;
+	
+	//Climber
+	public static final int CLIMBER_SPARK = 7;
+	public static final double CLIMBER_SPEED = .5;
 	
 }

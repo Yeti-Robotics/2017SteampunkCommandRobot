@@ -1,8 +1,10 @@
 package org.usfirst.frc.team3506.robot;
 
+import org.usfirst.frc.team3506.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.GearShiftSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.IntakeSubsystem;
+import org.usfirst.frc.team3506.robot.subsystems.TowerSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.TurretRotationSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -15,15 +17,18 @@ public class Robot extends IterativeRobot {
 	public static GearShiftSubsystem gearShiftSubsystem;
 	public static IntakeSubsystem intakeSubsystem;
 	public static TurretRotationSubsystem turretRotationSubsystem;
+	public static TowerSubsystem towerSubsystem;
+	public static ClimberSubsystem climberSubsystem;
 
 	public static OI oi;
 
 	public void robotInit() {
-//		driveTrainSubsystem = new DrivetrainSubsystem();
-//		gearShiftSubsystem = new GearShiftSubsystem();
-//		intakeSubsystem = new IntakeSubsystem();
 		turretRotationSubsystem = new TurretRotationSubsystem();
-		
+		driveTrainSubsystem = new DrivetrainSubsystem();
+		gearShiftSubsystem = new GearShiftSubsystem();
+		intakeSubsystem = new IntakeSubsystem();
+		towerSubsystem = new TowerSubsystem();
+		climberSubsystem = new ClimberSubsystem();
 		oi = new OI();
 	}
 

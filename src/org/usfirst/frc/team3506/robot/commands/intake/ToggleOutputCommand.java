@@ -1,15 +1,16 @@
 package org.usfirst.frc.team3506.robot.commands.intake;
 
 import org.usfirst.frc.team3506.robot.Robot;
+import org.usfirst.frc.team3506.robot.subsystems.IntakeSubsystem.IntakeState;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class OutputCommand extends Command {
+public class ToggleOutputCommand extends Command {
 
-	public OutputCommand() {
+	public ToggleOutputCommand() {
 		requires(Robot.intakeSubsystem);
 	}
 
@@ -17,17 +18,20 @@ public class OutputCommand extends Command {
 	}
 
 	protected void execute() {
-		Robot.intakeSubsystem.runOutput();
+		if (Robot.intakeSubsystem.intakeState != IntakeState.OUT) {
+			Robot.intakeSubsystem.intakeState = IntakeState.OUT;
+		} else {
+			Robot.intakeSubsystem.intakeState = IntakeState.OFF;
+		}
 	}
 
 	protected boolean isFinished() {
-		return false;
+		return true;
 	}
 
 	protected void end() {
 	}
 
 	protected void interrupted() {
-		Robot.intakeSubsystem.stopIntake();
 	}
 }

@@ -16,8 +16,8 @@ public class DrivetrainSubsystem extends Subsystem {
 		frontRightSpark = new Spark(RobotMap.FRONT_RIGHT_SPARK);
 		backRightSpark = new Spark(RobotMap.BACK_RIGHT_SPARK);
 
-		// spark3.setInverted(true);
-		// spark4.setInverted(true);
+		frontLeftSpark.setInverted(true);
+		backLeftSpark.setInverted(true);
 	}
 
 	public void initDefaultCommand() {
