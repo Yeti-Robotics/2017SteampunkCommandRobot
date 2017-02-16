@@ -1,4 +1,4 @@
-package org.usfirst.frc.team3506.robot.commands.tower;
+package org.usfirst.frc.team3506.robot.commands.turretpitch;
 
 import org.usfirst.frc.team3506.robot.Robot;
 
@@ -7,17 +7,17 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class LiftDumbWaiterCommand extends Command {
+public class DecreasePitchCommand extends Command {
 
-    public LiftDumbWaiterCommand() {
-    	requires(Robot.towerSubsystem);
+    public DecreasePitchCommand() {
+    	requires(Robot.turretPitchSubsystem);
     }
 
     protected void initialize() {
     }
 
     protected void execute() {
-    	Robot.towerSubsystem.liftDumbWaiter();
+    	Robot.turretPitchSubsystem.decreasePitch();
     }
 
     protected boolean isFinished() {
@@ -28,6 +28,5 @@ public class LiftDumbWaiterCommand extends Command {
     }
 
     protected void interrupted() {
-    	Robot.towerSubsystem.stopDumbWaiter();
     }
 }

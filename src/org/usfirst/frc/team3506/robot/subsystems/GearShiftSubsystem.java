@@ -13,7 +13,7 @@ public class GearShiftSubsystem extends Subsystem {
 	private DoubleSolenoid shifter;
 
 	public GearShiftSubsystem() {
-		shifter = new DoubleSolenoid(RobotMap.SOLENOID_PORTS[0], RobotMap.SOLENOID_PORTS[1]);
+		shifter = new DoubleSolenoid(RobotMap.GEAR_SHIFT_SOLENOID_PORTS[0], RobotMap.GEAR_SHIFT_SOLENOID_PORTS[1]);
 		shifter.set(RobotMap.DRIVETRAIN_SHIFT_DOWN);
 	}
 

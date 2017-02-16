@@ -8,6 +8,7 @@ import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TurretRotationSubsystem extends Subsystem {
 	
@@ -22,7 +23,6 @@ public class TurretRotationSubsystem extends Subsystem {
 		rotateSpark.setInverted(true);
 	}
 	
-	
 	public double[] getAreas() {
 		return visionTable.getNumberArray("area", defaultArr);
 	}
@@ -32,8 +32,8 @@ public class TurretRotationSubsystem extends Subsystem {
 	}
 	
 	public double getDesiredRotationSpeed(double area, double targetCenterX) {
-		System.out.println("Area: " + area);
-		System.out.println("CenterX: " + targetCenterX);
+		SmartDashboard.putNumber("Area", area);
+		SmartDashboard.putNumber("Contour center x", targetCenterX);
 		double deltaPixels =  targetCenterX - RobotMap.IMAGE_CENTER_X;
 		
 		// This will run if there is no target in sight

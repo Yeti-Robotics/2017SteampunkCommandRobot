@@ -1,4 +1,4 @@
-package org.usfirst.frc.team3506.robot.commands.tower;
+package org.usfirst.frc.team3506.robot.commands.dumbwaiter;
 
 import org.usfirst.frc.team3506.robot.Robot;
 
@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class LowerDumbWaiterCommand extends Command {
+public class RaiseTowerCommand extends Command {
 
-    public LowerDumbWaiterCommand() {
+    public RaiseTowerCommand() {
     	requires(Robot.towerSubsystem);
     }
 
@@ -17,7 +17,7 @@ public class LowerDumbWaiterCommand extends Command {
     }
 
     protected void execute() {
-    	Robot.towerSubsystem.lowerDumbWaiter();
+    	Robot.towerSubsystem.raiseTower();
     }
 
     protected boolean isFinished() {
@@ -28,6 +28,6 @@ public class LowerDumbWaiterCommand extends Command {
     }
 
     protected void interrupted() {
-    	Robot.towerSubsystem.stopDumbWaiter();
+    	Robot.towerSubsystem.stopTower();
     }
 }
