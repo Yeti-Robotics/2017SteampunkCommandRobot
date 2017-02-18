@@ -37,8 +37,8 @@ public class OI {
 		setJoystickButtonWhenPressedCommand(leftJoystick, 12, new ExtendGearDispenserCommand());
 		
 		setJoystickButtonWhenPressedCommand(rightJoystick, 1, new ToggleGearShiftCommand());
-		setJoystickButtonWhilePressedCommand(rightJoystick, 6, new ToggleOutputCommand());
-		setJoystickButtonWhilePressedCommand(rightJoystick, 4, new ToggleIntakeCommand());
+		setJoystickButtonWhenPressedCommand(rightJoystick, 6, new ToggleOutputCommand());
+		setJoystickButtonWhenPressedCommand(rightJoystick, 4, new ToggleIntakeCommand());
 		setJoystickButtonWhilePressedCommand(rightJoystick, 5, new RaiseTowerCommand());
 		setJoystickButtonWhilePressedCommand(rightJoystick, 3, new LowerTowerCommand());
 		

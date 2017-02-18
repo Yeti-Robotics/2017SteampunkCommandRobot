@@ -43,9 +43,11 @@ public class RobotMap {
 	public static final int TURRET_FLYWHEEL_SPARK = 4; //Practice bot
 	
 	//Turret pitch
-	public static final int LEFT_TURRET_SERVO = 9; //Practice bot
-	public static final int RIGHT_TURRET_SERVO = 5; //Practice bot
-	public static final double MANUAL_SERVO_ADJUSTMENT_RATE = .01;
+	public static final int LEFT_TURRET_SERVO = 5; //Practice bot
+	public static final int RIGHT_TURRET_SERVO = 9; //Practice bot
+	public static final double MANUAL_SERVO_ADJUSTMENT_RATE = .005;
+	public static final double LEFT_SERVO_LOWER_LIMIT = 0.2;
+	public static final double RIGHT_SERVO_UPPER_LIMIT = 0.8;
 	
 	//Gear dispenser
 	public static final int[] GEAR_DISPENSER_SOLENOID = { 4, 5 }; //Practice bot

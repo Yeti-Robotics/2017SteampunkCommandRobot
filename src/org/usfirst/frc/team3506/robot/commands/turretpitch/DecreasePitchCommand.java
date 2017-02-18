@@ -18,6 +18,8 @@ public class DecreasePitchCommand extends Command {
 
     protected void execute() {
     	Robot.turretPitchSubsystem.decreasePitch();
+    	Robot.turretPitchSubsystem.setLeftPitch();
+    	Robot.turretPitchSubsystem.setRightPitch();
     }
 
     protected boolean isFinished() {
