@@ -34,8 +34,10 @@ public class TurretPitchSubsystem extends Subsystem {
 	}
 	
 	public void increasePitch() {
-		leftServoDesired += RobotMap.MANUAL_SERVO_ADJUSTMENT_RATE;
-		rightServoDesired -= RobotMap.MANUAL_SERVO_ADJUSTMENT_RATE;
+		if ((rightServoDesired > RobotMap.RIGHT_SERVO_LOWER_LIMIT) && (leftServoDesired < RobotMap.LEFT_SERVO_UPPER_LIMIT)) {
+			leftServoDesired += RobotMap.MANUAL_SERVO_ADJUSTMENT_RATE;
+			rightServoDesired -= RobotMap.MANUAL_SERVO_ADJUSTMENT_RATE;
+		}
 	}
 	
 	public void decreasePitch() {
