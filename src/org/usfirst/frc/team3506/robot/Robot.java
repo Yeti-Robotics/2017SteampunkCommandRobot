@@ -60,6 +60,7 @@ public class Robot extends IterativeRobot {
 
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		turretRotationSubsystem.getDesiredRotationSpeed(turretRotationSubsystem.getAreas()[0], turretRotationSubsystem.getCenterX()[0]);
 	}
 
 	public void testPeriodic() {

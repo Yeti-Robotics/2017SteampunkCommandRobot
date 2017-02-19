@@ -12,6 +12,7 @@ import org.usfirst.frc.team3506.robot.commands.intake.ToggleOutputCommand;
 import org.usfirst.frc.team3506.robot.commands.turretflywheel.ActivateFlywheelCommand;
 import org.usfirst.frc.team3506.robot.commands.turretpitch.DecreasePitchCommand;
 import org.usfirst.frc.team3506.robot.commands.turretpitch.IncreasePitchCommand;
+import org.usfirst.frc.team3506.robot.commands.turretrotation.FindTargetCommand;
 import org.usfirst.frc.team3506.robot.commands.turretrotation.ManualRotateCommand;
 import org.usfirst.frc.team3506.robot.commands.turretrotation.ManualRotateReverseCommand;
 
@@ -27,6 +28,7 @@ public class OI {
 		rightJoystick = new Joystick(RobotMap.RIGHT_JOYSTICK_PORT);
 
 		setJoystickButtonWhilePressedCommand(leftJoystick, 1, new ActivateFlywheelCommand());
+		setJoystickButtonWhilePressedCommand(rightJoystick, 2, new FindTargetCommand());
 		setJoystickButtonWhilePressedCommand(leftJoystick, 5, new ClimbUpCommand());
 		setJoystickButtonWhilePressedCommand(leftJoystick, 3, new ClimbDownCommand());
 		setJoystickButtonWhilePressedCommand(leftJoystick, 6, new IncreasePitchCommand());
