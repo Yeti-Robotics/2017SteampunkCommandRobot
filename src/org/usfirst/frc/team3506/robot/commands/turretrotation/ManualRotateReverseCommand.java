@@ -18,6 +18,7 @@ public class ManualRotateReverseCommand extends Command {
     }
 
     protected void execute() {
+    	System.out.println("1");
     	Robot.turretRotationSubsystem.rotateTurret(-RobotMap.MANUAL_TURRET_ROTATION_SPEED);
     }
 
@@ -29,6 +30,7 @@ public class ManualRotateReverseCommand extends Command {
     }
 
     protected void interrupted() {
+    	System.out.println("2");
     	Robot.turretRotationSubsystem.rotateTurret(0);
     }
 }
