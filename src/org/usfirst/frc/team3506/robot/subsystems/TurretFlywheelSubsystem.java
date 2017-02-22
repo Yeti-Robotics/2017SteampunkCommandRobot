@@ -17,7 +17,7 @@ public class TurretFlywheelSubsystem extends Subsystem {
 	}
 	
 	public void activateFlywheels() {
-		flywheel.set(1);
+		flywheel.set(RobotMap.TURRET_FLYWHEEL_SPEED);
 	}
 	
 	public void deactivateFlywheels() {

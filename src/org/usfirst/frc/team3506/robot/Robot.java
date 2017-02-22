@@ -5,6 +5,7 @@ import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.GearDispenserSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.GearShiftSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.IntakeSubsystem;
+import org.usfirst.frc.team3506.robot.subsystems.IntakeSubsystem.IntakeState;
 import org.usfirst.frc.team3506.robot.subsystems.TowerSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.TurretFlywheelSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.TurretPitchSubsystem;
@@ -42,6 +43,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void disabledInit() {
+		intakeSubsystem.intakeState = IntakeState.OFF;
 	}
 
 	public void disabledPeriodic() {

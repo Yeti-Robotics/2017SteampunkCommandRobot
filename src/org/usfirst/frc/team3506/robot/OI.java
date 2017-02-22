@@ -1,18 +1,14 @@
 package org.usfirst.frc.team3506.robot;
 
-import org.usfirst.frc.team3506.robot.commands.climber.ClimbDownCommand;
 import org.usfirst.frc.team3506.robot.commands.climber.ClimbUpCommand;
-import org.usfirst.frc.team3506.robot.commands.dumbwaiter.RaiseTowerCommand;
 import org.usfirst.frc.team3506.robot.commands.dumbwaiter.LowerTowerCommand;
+import org.usfirst.frc.team3506.robot.commands.dumbwaiter.RaiseTowerCommand;
 import org.usfirst.frc.team3506.robot.commands.geardispenser.ExtendGearDispenserCommand;
 import org.usfirst.frc.team3506.robot.commands.geardispenser.RetractGearDispenserCommand;
 import org.usfirst.frc.team3506.robot.commands.gearshift.ToggleGearShiftCommand;
 import org.usfirst.frc.team3506.robot.commands.intake.ToggleIntakeCommand;
 import org.usfirst.frc.team3506.robot.commands.intake.ToggleOutputCommand;
 import org.usfirst.frc.team3506.robot.commands.turretflywheel.ActivateFlywheelCommand;
-import org.usfirst.frc.team3506.robot.commands.turretpitch.DecreasePitchCommand;
-import org.usfirst.frc.team3506.robot.commands.turretpitch.IncreasePitchCommand;
-import org.usfirst.frc.team3506.robot.commands.turretrotation.FindTargetCommand;
 import org.usfirst.frc.team3506.robot.commands.turretrotation.ManualRotateCommand;
 import org.usfirst.frc.team3506.robot.commands.turretrotation.ManualRotateReverseCommand;
 
@@ -21,30 +17,29 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class OI {
-	public Joystick leftJoystick, rightJoystick;
+	public Joystick leftJoystick, rightJoystick, shooterJoystick;
 
 	public OI() {
 		leftJoystick = new Joystick(RobotMap.LFFT_JOYSTICK_PORT);
 		rightJoystick = new Joystick(RobotMap.RIGHT_JOYSTICK_PORT);
-
-		setJoystickButtonWhilePressedCommand(leftJoystick, 1, new ActivateFlywheelCommand());
-		setJoystickButtonWhilePressedCommand(rightJoystick, 2, new FindTargetCommand());
-		setJoystickButtonWhilePressedCommand(leftJoystick, 5, new ClimbUpCommand());
-		setJoystickButtonWhilePressedCommand(leftJoystick, 3, new ClimbDownCommand());
-		setJoystickButtonWhilePressedCommand(leftJoystick, 6, new IncreasePitchCommand());
-		setJoystickButtonWhilePressedCommand(leftJoystick, 4, new DecreasePitchCommand());
-		setJoystickButtonWhilePressedCommand(rightJoystick, 9, new ManualRotateCommand());
-		setJoystickButtonWhilePressedCommand(rightJoystick, 10, new ManualRotateReverseCommand());
-		setJoystickButtonWhenPressedCommand(leftJoystick, 11, new RetractGearDispenserCommand());
-		setJoystickButtonWhenPressedCommand(leftJoystick, 12, new ExtendGearDispenserCommand());
+		shooterJoystick = new Joystick(RobotMap.SHOOTER_JOYSTICK_PORT);
 		
-		setJoystickButtonWhenPressedCommand(rightJoystick, 1, new ToggleGearShiftCommand());
-		setJoystickButtonWhenPressedCommand(rightJoystick, 6, new ToggleOutputCommand());
+		//Left joystick
+		setJoystickButtonWhenPressedCommand(leftJoystick, 1, new ToggleGearShiftCommand());
+		setJoystickButtonWhenPressedCommand(leftJoystick, 3, new ExtendGearDispenserCommand());
+		setJoystickButtonWhenPressedCommand(leftJoystick, 5, new RetractGearDispenserCommand());
+		
+		//Right joystick
+		setJoystickButtonWhilePressedCommand(rightJoystick, 1, new ClimbUpCommand());
 		setJoystickButtonWhenPressedCommand(rightJoystick, 4, new ToggleIntakeCommand());
-		setJoystickButtonWhilePressedCommand(rightJoystick, 5, new RaiseTowerCommand());
-		setJoystickButtonWhilePressedCommand(rightJoystick, 3, new LowerTowerCommand());
+		setJoystickButtonWhenPressedCommand(rightJoystick, 6, new ToggleOutputCommand());
 		
-//		setJoystickButtonWhilePressedCommand(rightJoystick, 3, new FindTargetCommand());
+		//Shooter joystick
+		setJoystickButtonWhilePressedCommand(shooterJoystick, 1, new ActivateFlywheelCommand());
+		setJoystickButtonWhilePressedCommand(shooterJoystick, 2, new LowerTowerCommand());
+		setJoystickButtonWhilePressedCommand(shooterJoystick, 3, new RaiseTowerCommand());
+		setJoystickButtonWhilePressedCommand(shooterJoystick, 4, new ManualRotateReverseCommand());
+		setJoystickButtonWhilePressedCommand(shooterJoystick, 5, new ManualRotateCommand());
 	}
 
 	private void setJoystickButtonWhilePressedCommand(Joystick joystick, int button, Command command) {
@@ -53,7 +48,6 @@ public class OI {
 
 	private void setJoystickButtonWhenPressedCommand(Joystick joystick, int button, Command command) {
 		new JoystickButton(joystick, button).whenPressed(command);
-		
 	}
 	
 }
