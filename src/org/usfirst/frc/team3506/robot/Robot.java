@@ -1,6 +1,10 @@
 package org.usfirst.frc.team3506.robot;
 
-import org.usfirst.frc.team3506.robot.Robot.AutoModes;
+import java.util.Collections;
+import java.util.Comparator;
+
+import org.opencv.core.Rect;
+import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team3506.robot.commands.commandgroups.CenterGearCommandGroup;
 import org.usfirst.frc.team3506.robot.commands.commandgroups.LeftCenterCommandGroup;
 import org.usfirst.frc.team3506.robot.commands.commandgroups.RightGearCommandGroup;
@@ -42,6 +46,7 @@ public class Robot extends IterativeRobot {
 	public static Command autonomousCommand;
 	private VisionThread visionThread;
 	private final Object imgLock = new Object ();
+	double centerX;
 
 	public static enum AutoModes {
 		CENTER_GEAR, LEFT_GEAR, RIGHT_GEAR 
@@ -64,9 +69,26 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("Right Gear", AutoModes.RIGHT_GEAR);
 		autonomousCommand = new CenterGearCommandGroup();
 		SmartDashboard.putData("Auto Chooser", autoChooser);
+		
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(RobotMap.IMG_WIDTH, RobotMap.IMG_HEIGHT);
-		//visionThread = new VisionThread(camera, new RedContourVisionPipeline(), RedContourVisionPipelinepipeline() -> {});
+		visionThread = new VisionThread(camera, new RedContourVisionPipeline(), pipeline -> {
+			if (!pipeline.findContoursOutput().isEmpty()) {
+				Collections.sort(pipeline.convexHullsOutput(), (first, second) -> {
+					if (first.size().area() > second.size().area()) {
+						return -1;
+					} else if (first.size().area() == second.size().area()) {
+						return 0;
+					} else {
+						return 1;
+					}
+				});
+				Rect rectangle = Imgproc.boundingRect(pipeline.convexHullsOutput().get(0));
+				synchronized (imgLock) {
+					centerX = rectangle.x + (rectangle.width / 2);
+				}
+			}
+		});
 	}
 
 	public void disabledInit() {
@@ -104,7 +126,11 @@ public class Robot extends IterativeRobot {
 
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		turretRotationSubsystem.getDesiredRotationSpeed(turretRotationSubsystem.getAreas()[0], turretRotationSubsystem.getCenterX()[0]);
+		double centerX;
+		synchronized (imgLock) {
+			centerX = this.centerX;
+		}
+		turretRotationSubsystem.getDesiredRotationSpeed(centerX);
 	}
 
 	public void testPeriodic() {

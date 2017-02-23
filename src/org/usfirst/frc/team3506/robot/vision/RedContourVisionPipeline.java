@@ -14,6 +14,8 @@ import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
+import edu.wpi.first.wpilibj.vision.VisionPipeline;
+
 /**
  * RedContourVisionPipeline class.
  *
@@ -22,7 +24,7 @@ import org.opencv.imgproc.Imgproc;
  *
  * @author GRIP
  */
-public class RedContourVisionPipeline {
+public class RedContourVisionPipeline implements VisionPipeline {
 
 	// Outputs
 	private Mat resizeImageOutput = new Mat();
@@ -39,6 +41,7 @@ public class RedContourVisionPipeline {
 	 * This is the primary method that runs the entire pipeline and updates the
 	 * outputs.
 	 */
+	@Override
 	public void process(Mat source0) {
 		// Step Resize_Image0:
 		Mat resizeImageInput = source0;

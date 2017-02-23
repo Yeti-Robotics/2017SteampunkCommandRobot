@@ -39,13 +39,13 @@ public class TurretRotationSubsystem extends Subsystem {
 		}
 	}
 	
-	public double getDesiredRotationSpeed(double area, double targetCenterX) {
-		SmartDashboard.putNumber("Area", area);
+	public double getDesiredRotationSpeed(/*double area, */double targetCenterX) {
+//		SmartDashboard.putNumber("Area", area);
 		SmartDashboard.putNumber("Contour center x", targetCenterX);
 		double deltaPixels =  targetCenterX - RobotMap.IMAGE_CENTER_X;
 		System.out.println("Delta = " + deltaPixels);
 		// This will run if there is no target in sight
-		if (area < RobotMap.MIN_TARGET_SIZE || targetCenterX == 0) {
+		if (/*area < RobotMap.MIN_TARGET_SIZE || */targetCenterX == 0) {
 			System.out.println("No Target");
 			return RobotMap.NO_TARGET_FOUND_SPEED;
 		}

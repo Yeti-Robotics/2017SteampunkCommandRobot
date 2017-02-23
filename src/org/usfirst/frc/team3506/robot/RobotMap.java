@@ -70,5 +70,9 @@ public class RobotMap {
 	public static final int CLIMBER_SPARK = 8; //Final bot
 //	public static final int CLIMBER_SPARK = 18; //When servo is in
 	public static final double CLIMBER_SPEED = 1;
+	
+	//Vision
+	public static final int IMG_WIDTH = 640;
+	public static final int IMG_HEIGHT = 480;
 
 }
