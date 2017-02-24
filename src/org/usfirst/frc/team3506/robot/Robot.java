@@ -1,7 +1,6 @@
 package org.usfirst.frc.team3506.robot;
 
 import java.util.Collections;
-import java.util.Comparator;
 
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
@@ -41,15 +40,18 @@ public class Robot extends IterativeRobot {
 	public static GearDispenserSubsystem gearDispenserSubsystem;
 	public static TurretFlywheelSubsystem turretFlywheelSubsystem;
 	public static TurretPitchSubsystem turretPitchSubsystem;
-	public SendableChooser autoChooser;
+	public SendableChooser<Robot.AutoModes> autoChooser;
 	public static OI oi;
+
 	public static Command autonomousCommand;
+
 	private VisionThread visionThread;
-	private final Object imgLock = new Object ();
-	double centerX;
+	private final Object imgLock = new Object();
+	public static double visionCenterX;
+	public static double visionArea;
 
 	public static enum AutoModes {
-		CENTER_GEAR, LEFT_GEAR, RIGHT_GEAR 
+		CENTER_GEAR, LEFT_GEAR, RIGHT_GEAR
 	}
 
 	public void robotInit() {
@@ -63,13 +65,13 @@ public class Robot extends IterativeRobot {
 		turretFlywheelSubsystem = new TurretFlywheelSubsystem();
 		turretPitchSubsystem = new TurretPitchSubsystem();
 		oi = new OI();
-		autoChooser = new SendableChooser();
+		autoChooser = new SendableChooser<AutoModes>();
 		autoChooser.addDefault("Center Gear", AutoModes.CENTER_GEAR);
 		autoChooser.addObject("Left Gear", AutoModes.LEFT_GEAR);
 		autoChooser.addObject("Right Gear", AutoModes.RIGHT_GEAR);
 		autonomousCommand = new CenterGearCommandGroup();
 		SmartDashboard.putData("Auto Chooser", autoChooser);
-		
+
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(RobotMap.IMG_WIDTH, RobotMap.IMG_HEIGHT);
 		visionThread = new VisionThread(camera, new RedContourVisionPipeline(), pipeline -> {
@@ -85,10 +87,12 @@ public class Robot extends IterativeRobot {
 				});
 				Rect rectangle = Imgproc.boundingRect(pipeline.convexHullsOutput().get(0));
 				synchronized (imgLock) {
-					centerX = rectangle.x + (rectangle.width / 2);
+					Robot.visionCenterX = rectangle.x + (rectangle.width / 2);
+					Robot.visionArea = rectangle.area();
 				}
 			}
 		});
+		visionThread.start();
 	}
 
 	public void disabledInit() {
@@ -126,15 +130,9 @@ public class Robot extends IterativeRobot {
 
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		double centerX;
-		synchronized (imgLock) {
-			centerX = this.centerX;
-		}
-		turretRotationSubsystem.getDesiredRotationSpeed(centerX);
 	}
 
 	public void testPeriodic() {
 		LiveWindow.run();
 	}
 }
-	

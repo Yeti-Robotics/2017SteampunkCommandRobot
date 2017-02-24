@@ -5,9 +5,6 @@ import org.usfirst.frc.team3506.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
-/**
- *
- */
 public class ResetDriveTrainEncodersCommand extends Command {
 
     public ResetDriveTrainEncodersCommand() {

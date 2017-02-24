@@ -4,9 +4,6 @@ import org.usfirst.frc.team3506.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
 public class FindTargetCommand extends Command {
 
     public FindTargetCommand() {
@@ -18,7 +15,7 @@ public class FindTargetCommand extends Command {
 
     protected void execute() {
     	System.out.println("ExecutingCommand");
-    	Robot.turretRotationSubsystem.rotateTurret(Robot.turretRotationSubsystem.getDesiredRotationSpeed(Robot.turretRotationSubsystem.getAreas()[0], Robot.turretRotationSubsystem.getCenterX()[0]));
+    	Robot.turretRotationSubsystem.rotateTurret(Robot.turretRotationSubsystem.getDesiredRotationSpeed(Robot.visionArea, Robot.visionCenterX));
     }
 
     protected boolean isFinished() {
@@ -28,8 +25,6 @@ public class FindTargetCommand extends Command {
     protected void end() {
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
     protected void interrupted() {
     }
 }

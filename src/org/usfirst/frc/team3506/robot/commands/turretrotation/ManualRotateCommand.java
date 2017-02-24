@@ -5,9 +5,6 @@ import org.usfirst.frc.team3506.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
 public class ManualRotateCommand extends Command {
 
     public ManualRotateCommand() {

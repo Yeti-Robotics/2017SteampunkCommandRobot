@@ -39,7 +39,7 @@ public class RobotMap {
 	public static final int MIN_TARGET_SIZE = 300;
 	public static final double NO_TARGET_FOUND_SPEED = 0.1;
 	public static final int MAX_ACCEPTABLE_TARGET_X_VALUE = 100;
-	public static final int SLOW_TURRET_ADJUSTMENT_RANGE = 100;
+	public static final int SLOW_TURRET_ADJUSTMENT_RANGE = 200;
 	public static final double SLOW_TURRET_ADJUSTMENT_SPEED = 0.18;
 	public static final double FAST_TURRET_ADJUSTMENT_SPEED = 0.2;
 	

@@ -6,9 +6,6 @@ import org.usfirst.frc.team3506.robot.commands.intake.IntakeDefaultCommand;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-/**
- *
- */
 public class IntakeSubsystem extends Subsystem {
 
 	private Spark intake;

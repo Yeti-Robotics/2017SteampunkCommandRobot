@@ -4,9 +4,6 @@ import org.usfirst.frc.team3506.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
 public class DriveStraightTimeAtPowerCommand extends Command {
 
 	double power, time;
@@ -34,5 +31,5 @@ public class DriveStraightTimeAtPowerCommand extends Command {
 
     protected void interrupted() {
     	
-    	}
     }
+}

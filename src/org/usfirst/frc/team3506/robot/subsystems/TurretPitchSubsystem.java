@@ -1,15 +1,11 @@
 package org.usfirst.frc.team3506.robot.subsystems;
 
-import org.usfirst.frc.team3506.robot.Robot;
 import org.usfirst.frc.team3506.robot.RobotMap;
 import org.usfirst.frc.team3506.robot.commands.turretpitch.DefaultPitchCommand;
 
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-/**
- *
- */
 public class TurretPitchSubsystem extends Subsystem {
 
 	public Servo leftServo, rightServo;

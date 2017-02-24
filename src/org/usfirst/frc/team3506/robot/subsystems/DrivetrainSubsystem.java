@@ -19,16 +19,17 @@ public class DrivetrainSubsystem extends Subsystem {
 		backLeftSpark = new Spark(RobotMap.BACK_LEFT_SPARK);
 		frontRightSpark = new Spark(RobotMap.FRONT_RIGHT_SPARK);
 		backRightSpark = new Spark(RobotMap.BACK_RIGHT_SPARK);
-		
 
 		frontLeftSpark.setInverted(true);
 		backLeftSpark.setInverted(true);
-		
-		//leftEnc = new Encoder(RobotMap.LEFT_ENCODER_PORT[0], RobotMap.LEFT_ENCODER_PORT[1], false, EncodingType.k4X);
-		//rightEnc = new Encoder(RobotMap.RIGHT_ENCODER_PORT[0], RobotMap.RIGHT_ENCODER_PORT[1], false, EncodingType.k1X);
-		//leftEnc.setDistancePerPulse(RobotMap.DRIVE_TRAIN_ENCODER_DISTANCE_PER_PULSE);
- 		//rightEnc.setDistancePerPulse(RobotMap.DRIVE_TRAIN_ENCODER_DISTANCE_PER_PULSE);
-		//NEED TO PUT ENCOER VALUS/PORTS IN ROBOT MAP
+
+		// leftEnc = new Encoder(RobotMap.LEFT_ENCODER_PORT[0],
+		// RobotMap.LEFT_ENCODER_PORT[1], false, EncodingType.k4X);
+		// rightEnc = new Encoder(RobotMap.RIGHT_ENCODER_PORT[0],
+		// RobotMap.RIGHT_ENCODER_PORT[1], false, EncodingType.k1X);
+		// leftEnc.setDistancePerPulse(RobotMap.DRIVE_TRAIN_ENCODER_DISTANCE_PER_PULSE);
+		// rightEnc.setDistancePerPulse(RobotMap.DRIVE_TRAIN_ENCODER_DISTANCE_PER_PULSE);
+		// NEED TO PUT ENCOER VALUS/PORTS IN ROBOT MAP
 	}
 
 	public void initDefaultCommand() {
@@ -49,18 +50,20 @@ public class DrivetrainSubsystem extends Subsystem {
 		moveLeftTrain(left);
 		moveRightTrain(right);
 	}
+
 	public void driveStraight(double speed) {
 		moveLeftTrain(speed);
 		moveRightTrain(speed);
 	}
+
 	public double getRawLeftEncoderPos() {
 		return leftEnc.getRaw();
 	}
-	
+
 	public double getLeftEncoderDistance() {
 		return leftEnc.getDistance();
 	}
-	
+
 	public double getRightEncoderDistance() {
 		return rightEnc.getDistance();
 	}
@@ -80,6 +83,7 @@ public class DrivetrainSubsystem extends Subsystem {
 	public double getRawRightEncoderVel() {
 		return rightEnc.getRate();
 	}
+
 	public void resetEncoders() {
 		leftEnc.reset();
 		rightEnc.reset();
@@ -95,6 +99,6 @@ public class DrivetrainSubsystem extends Subsystem {
 		SmartDashboard.putNumber("Left drive encoder position (in ft)", getLeftEncoderDistance());
 		SmartDashboard.putNumber("Left drive encoder velocity", getRawLeftEncoderVel());
 		SmartDashboard.putNumber("Right drive encoder positon (raw)", getRawRightEncoderPos());
-			SmartDashboard.putNumber("Right drive encoder velocity (raw)", getRawRightEncoderVel());
-}
+		SmartDashboard.putNumber("Right drive encoder velocity (raw)", getRawRightEncoderVel());
 	}
+}

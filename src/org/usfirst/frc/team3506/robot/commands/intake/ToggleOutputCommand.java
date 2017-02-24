@@ -5,9 +5,6 @@ import org.usfirst.frc.team3506.robot.subsystems.IntakeSubsystem.IntakeState;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
 public class ToggleOutputCommand extends Command {
 
 	public ToggleOutputCommand() {

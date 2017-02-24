@@ -23,18 +23,18 @@ public class OI {
 		leftJoystick = new Joystick(RobotMap.LFFT_JOYSTICK_PORT);
 		rightJoystick = new Joystick(RobotMap.RIGHT_JOYSTICK_PORT);
 		shooterJoystick = new Joystick(RobotMap.SHOOTER_JOYSTICK_PORT);
-		
-		//Left joystick
+
+		// Left joystick
 		setJoystickButtonWhenPressedCommand(leftJoystick, 1, new ToggleGearShiftCommand());
 		setJoystickButtonWhenPressedCommand(leftJoystick, 3, new ExtendGearDispenserCommand());
 		setJoystickButtonWhenPressedCommand(leftJoystick, 5, new RetractGearDispenserCommand());
-		
-		//Right joystick
+
+		// Right joystick
 		setJoystickButtonWhilePressedCommand(rightJoystick, 1, new ClimbUpCommand());
 		setJoystickButtonWhenPressedCommand(rightJoystick, 4, new ToggleIntakeCommand());
 		setJoystickButtonWhenPressedCommand(rightJoystick, 6, new ToggleOutputCommand());
-		
-		//Shooter joystick
+
+		// Shooter joystick
 		setJoystickButtonWhilePressedCommand(shooterJoystick, 1, new ActivateFlywheelCommand());
 		setJoystickButtonWhilePressedCommand(shooterJoystick, 2, new LowerTowerCommand());
 		setJoystickButtonWhilePressedCommand(shooterJoystick, 3, new RaiseTowerCommand());
@@ -49,5 +49,5 @@ public class OI {
 	private void setJoystickButtonWhenPressedCommand(Joystick joystick, int button, Command command) {
 		new JoystickButton(joystick, button).whenPressed(command);
 	}
-	
+
 }

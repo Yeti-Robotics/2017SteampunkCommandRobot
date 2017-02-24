@@ -6,10 +6,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-/**
- *
- */
 public class GearShiftSubsystem extends Subsystem {
+	
 	private DoubleSolenoid shifter;
 
 	public GearShiftSubsystem() {
@@ -32,5 +30,4 @@ public class GearShiftSubsystem extends Subsystem {
 	@Override
 	protected void initDefaultCommand() {
 	}
-
 }

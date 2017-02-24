@@ -1,13 +1,9 @@
 package org.usfirst.frc.team3506.robot.commands.drivetrain;
 
 import org.usfirst.frc.team3506.robot.Robot;
-import org.usfirst.frc.team3506.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
 public class PointTurnDegreesAtPowerCommand extends Command {
 	private double degrees, power, turnArcLength;
 	/**

@@ -1,51 +1,27 @@
 package org.usfirst.frc.team3506.robot.subsystems;
 
 import org.usfirst.frc.team3506.robot.RobotMap;
-import org.usfirst.frc.team3506.robot.commands.turretrotation.ManualRotateCommand;
 
-import com.ctre.CANTalon;
-
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TurretRotationSubsystem extends Subsystem {
 	
 	private Talon rotateSpark;
-	private NetworkTable visionTable;
-	private double[] defaultArr = {0};
 	
 	public TurretRotationSubsystem() {
 		rotateSpark = new Talon(RobotMap.TURRET_ROTATION_SPARK);
-		visionTable = NetworkTable.getTable("GRIP/ContoursDetected");	
 		rotateSpark.setInverted(true);
 	}
 	
-	public double[] getAreas() {
-		if (visionTable.getNumberArray("area", defaultArr).length != 0) {
-			return visionTable.getNumberArray("area", defaultArr);
-		} else {
-			return defaultArr;
-		}
-	}
-	
-	public double[] getCenterX() {
-		if (visionTable.getNumberArray("centerX", defaultArr).length != 0) {
-			return visionTable.getNumberArray("centerX", defaultArr);
-		} else {
-			return defaultArr;
-		}
-	}
-	
-	public double getDesiredRotationSpeed(/*double area, */double targetCenterX) {
-//		SmartDashboard.putNumber("Area", area);
+	public double getDesiredRotationSpeed(double area, double targetCenterX) {
+		SmartDashboard.putNumber("Contour Area", area);
 		SmartDashboard.putNumber("Contour center x", targetCenterX);
 		double deltaPixels =  targetCenterX - RobotMap.IMAGE_CENTER_X;
 		System.out.println("Delta = " + deltaPixels);
 		// This will run if there is no target in sight
-		if (/*area < RobotMap.MIN_TARGET_SIZE || */targetCenterX == 0) {
+		if (area < RobotMap.MIN_TARGET_SIZE || targetCenterX == 0) {
 			System.out.println("No Target");
 			return RobotMap.NO_TARGET_FOUND_SPEED;
 		}

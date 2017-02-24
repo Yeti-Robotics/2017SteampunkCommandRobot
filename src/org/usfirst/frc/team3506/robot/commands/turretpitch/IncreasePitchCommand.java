@@ -4,9 +4,6 @@ import org.usfirst.frc.team3506.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
 public class IncreasePitchCommand extends Command {
 
     public IncreasePitchCommand() {
