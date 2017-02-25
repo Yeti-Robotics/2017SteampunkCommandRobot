@@ -1,12 +1,12 @@
-package org.usfirst.frc.team3506.robot.commands.geardispenser;
+package org.usfirst.frc.team3506.robot.commands.gearpicker;
 
 import org.usfirst.frc.team3506.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class RetractGearDispenserCommand extends Command {
+public class ExtendGearDispenserCommand extends Command {
 
-    public RetractGearDispenserCommand() {
+    public ExtendGearDispenserCommand() {
     	requires(Robot.gearDispenserSubsystem);
     }
 
@@ -14,7 +14,7 @@ public class RetractGearDispenserCommand extends Command {
     }
 
     protected void execute() {
-    	Robot.gearDispenserSubsystem.retractDispenser();
+    	Robot.gearDispenserSubsystem.extendDispenser();
     }
 
     protected boolean isFinished() {

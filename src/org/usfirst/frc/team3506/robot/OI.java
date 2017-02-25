@@ -3,8 +3,8 @@ package org.usfirst.frc.team3506.robot;
 import org.usfirst.frc.team3506.robot.commands.climber.ClimbUpCommand;
 import org.usfirst.frc.team3506.robot.commands.dumbwaiter.LowerTowerCommand;
 import org.usfirst.frc.team3506.robot.commands.dumbwaiter.RaiseTowerCommand;
-import org.usfirst.frc.team3506.robot.commands.geardispenser.ExtendGearDispenserCommand;
-import org.usfirst.frc.team3506.robot.commands.geardispenser.RetractGearDispenserCommand;
+import org.usfirst.frc.team3506.robot.commands.geardispenser.ExtendGearPickerCommand;
+import org.usfirst.frc.team3506.robot.commands.geardispenser.RetractGearPickerCommand;
 import org.usfirst.frc.team3506.robot.commands.gearshift.ToggleGearShiftCommand;
 import org.usfirst.frc.team3506.robot.commands.intake.ToggleIntakeCommand;
 import org.usfirst.frc.team3506.robot.commands.intake.ToggleOutputCommand;
@@ -26,13 +26,15 @@ public class OI {
 
 		// Left joystick
 		setJoystickButtonWhenPressedCommand(leftJoystick, 1, new ToggleGearShiftCommand());
-		setJoystickButtonWhenPressedCommand(leftJoystick, 3, new ExtendGearDispenserCommand());
-		setJoystickButtonWhenPressedCommand(leftJoystick, 5, new RetractGearDispenserCommand());
+		setJoystickButtonWhenPressedCommand(leftJoystick, 3, new ExtendGearPickerCommand());
+		setJoystickButtonWhenPressedCommand(leftJoystick, 5, new RetractGearPickerCommand());
 
 		// Right joystick
 		setJoystickButtonWhilePressedCommand(rightJoystick, 1, new ClimbUpCommand());
 		setJoystickButtonWhenPressedCommand(rightJoystick, 4, new ToggleIntakeCommand());
 		setJoystickButtonWhenPressedCommand(rightJoystick, 6, new ToggleOutputCommand());
+		setJoystickButtonWhenPressedCommand(rightJoystick, 10, new ExtendGearPickerCommand());
+		setJoystickButtonWhenPressedCommand(rightJoystick, 11, new RetractGearPickerCommand());
 
 		// Shooter joystick
 		setJoystickButtonWhilePressedCommand(shooterJoystick, 1, new ActivateFlywheelCommand());

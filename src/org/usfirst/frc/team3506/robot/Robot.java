@@ -10,6 +10,7 @@ import org.usfirst.frc.team3506.robot.commands.commandgroups.RightGearCommandGro
 import org.usfirst.frc.team3506.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.GearDispenserSubsystem;
+import org.usfirst.frc.team3506.robot.subsystems.GearPickerSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.GearShiftSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.IntakeSubsystem.IntakeState;
@@ -38,6 +39,7 @@ public class Robot extends IterativeRobot {
 	public static TowerSubsystem towerSubsystem;
 	public static ClimberSubsystem climberSubsystem;
 	public static GearDispenserSubsystem gearDispenserSubsystem;
+	public static GearPickerSubsystem gearPickerSubsystem;
 	public static TurretFlywheelSubsystem turretFlywheelSubsystem;
 	public static TurretPitchSubsystem turretPitchSubsystem;
 	public SendableChooser<Robot.AutoModes> autoChooser;
@@ -62,6 +64,7 @@ public class Robot extends IterativeRobot {
 		towerSubsystem = new TowerSubsystem();
 		climberSubsystem = new ClimberSubsystem();
 		gearDispenserSubsystem = new GearDispenserSubsystem();
+		gearPickerSubsystem = new GearPickerSubsystem();
 		turretFlywheelSubsystem = new TurretFlywheelSubsystem();
 		turretPitchSubsystem = new TurretPitchSubsystem();
 		oi = new OI();
