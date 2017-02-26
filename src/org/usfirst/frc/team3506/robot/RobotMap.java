@@ -20,6 +20,7 @@ public class RobotMap {
 	public static final int LFFT_JOYSTICK_PORT = 1;
 	public static final int RIGHT_JOYSTICK_PORT = 2;
 	public static final int SHOOTER_JOYSTICK_PORT = 0;
+	public static final double JOYSTICK_DEADZONE = .15;
 
 	// Gear shift
 	public static final int[] GEAR_SHIFT_SOLENOID_PORTS = { 0, 1 };
@@ -46,7 +47,7 @@ public class RobotMap {
 	//Turret flywheel
 	public static final int TURRET_FLYWHEEL_SPARK = 7; //Practice bot
 //	public static final int TURRET_FLYWHEEL_SPARK = 7; //Final bot
-	public static final double TURRET_FLYWHEEL_SPEED = .7;
+	public static final double TURRET_FLYWHEEL_SPEED = .65;
 	
 	//Turret pitch
 	public static final int LEFT_TURRET_SERVO = 15; //Practice bot
@@ -78,5 +79,7 @@ public class RobotMap {
 	//Vision
 	public static final int IMG_WIDTH = 640;
 	public static final int IMG_HEIGHT = 480;
+	public static final int CAM_EXPOSURE = 0;
+	public static final int CAM_BRIGHTNESS = 50;
 
 }

@@ -44,6 +44,8 @@ public class Robot extends IterativeRobot {
 	public static TurretPitchSubsystem turretPitchSubsystem;
 	public SendableChooser<Robot.AutoModes> autoChooser;
 	public static OI oi;
+	UsbCamera camera;
+	int currentCameraExposure = 0;
 
 	public static Command autonomousCommand;
 
@@ -75,8 +77,10 @@ public class Robot extends IterativeRobot {
 		autonomousCommand = new CenterGearCommandGroup();
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 
-		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-		camera.setResolution(RobotMap.IMG_WIDTH, RobotMap.IMG_HEIGHT);
+		camera = CameraServer.getInstance().startAutomaticCapture();
+//		camera.setResolution(RobotMap.IMG_WIDTH, RobotMap.IMG_HEIGHT);
+//		camera.setBrightness(RobotMap.CAM_BRIGHTNESS);
+		camera.setExposureManual(RobotMap.CAM_EXPOSURE);
 		visionThread = new VisionThread(camera, new RedContourVisionPipeline(), pipeline -> {
 			if (!pipeline.findContoursOutput().isEmpty()) {
 				Collections.sort(pipeline.convexHullsOutput(), (first, second) -> {
@@ -104,6 +108,13 @@ public class Robot extends IterativeRobot {
 
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		if (camera.getBrightness() != SmartDashboard.getNumber("Camera Brightness", 100)) {
+			camera.setBrightness((int) SmartDashboard.getNumber("Camera Brightness", 100));
+		}
+		if (currentCameraExposure != SmartDashboard.getNumber("Camera exposure", 0)) {
+			camera.setExposureManual((int) SmartDashboard.getNumber("Camera exposure", 0));
+			currentCameraExposure = (int) SmartDashboard.getNumber("Camera exposure", 0);
+		}
 	}
 
 	public void autonomousInit() {

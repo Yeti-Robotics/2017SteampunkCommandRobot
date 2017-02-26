@@ -14,7 +14,7 @@ public class UserDriveCommand extends Command {
     }
 
     protected void execute() {
-    	Robot.driveTrainSubsystem.tankDrive(Robot.oi.leftJoystick.getY(), Robot.oi.rightJoystick.getY());
+    	Robot.driveTrainSubsystem.tankDrive(Robot.oi.getLeftY(), Robot.oi.getRightY());
     }
 
     protected boolean isFinished() {
