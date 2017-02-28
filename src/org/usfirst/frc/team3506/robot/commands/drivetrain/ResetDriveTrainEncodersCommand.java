@@ -23,10 +23,10 @@ public class ResetDriveTrainEncodersCommand extends Command {
     }
 
     protected void end() {
-    	Scheduler.getInstance().add(new UserDriveCommand());
+    	
     }
 
     protected void interrupted() {
-    	Scheduler.getInstance().add(new UserDriveCommand());
+    	
     }
 }

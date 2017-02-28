@@ -13,14 +13,15 @@ public class RobotMap {
 //	public static final int BACK_LEFT_SPARK = 1; //Final bot
 //	public static final int FRONT_RIGHT_SPARK = 3; //Final bot
 //	public static final int BACK_RIGHT_SPARK = 0; //Final bot
-	public static final int[] LEFT_DRIVE_ENCODER = { 8, 9};
-	public static final int[] RIGHT_DRIVE_ENCODER = { 6, 7 }; 
-
+	public static final int[] LEFT_DRIVE_ENCODER = { 6, 7 };
+	public static final int[] RIGHT_DRIVE_ENCODER = { 8, 9 };
+	public static final double DRIVE_ENCODER_DISTANCE_PER_PULSE = (Math.PI / 3.0) / 128.0;
+    
 	// Joysticks
 	public static final int LFFT_JOYSTICK_PORT = 1;
 	public static final int RIGHT_JOYSTICK_PORT = 2;
 	public static final int SHOOTER_JOYSTICK_PORT = 0;
-	public static final double JOYSTICK_DEADZONE = .15;
+	public static final double JOYSTICK_DEADZONE = .2;
 
 	// Gear shift
 	public static final int[] GEAR_SHIFT_SOLENOID_PORTS = { 0, 1 };

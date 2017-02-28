@@ -144,6 +144,7 @@ public class Robot extends IterativeRobot {
 
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		driveTrainSubsystem.publishEncoderValues();
 	}
 
 	public void testPeriodic() {

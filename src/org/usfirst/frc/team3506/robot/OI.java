@@ -1,6 +1,8 @@
 package org.usfirst.frc.team3506.robot;
 
 import org.usfirst.frc.team3506.robot.commands.climber.ClimbUpCommand;
+import org.usfirst.frc.team3506.robot.commands.drivetrain.DriveStraightUntilDistanceCommand;
+import org.usfirst.frc.team3506.robot.commands.drivetrain.ResetDriveTrainEncodersCommand;
 import org.usfirst.frc.team3506.robot.commands.dumbwaiter.LowerTowerCommand;
 import org.usfirst.frc.team3506.robot.commands.dumbwaiter.RaiseTowerCommand;
 import org.usfirst.frc.team3506.robot.commands.geardispenser.ExtendGearPickerCommand;
@@ -27,7 +29,9 @@ public class OI {
 		// Left joystick
 		setJoystickButtonWhenPressedCommand(leftStick, 1, new ToggleGearShiftCommand());
 		setJoystickButtonWhenPressedCommand(leftStick, 3, new ExtendGearPickerCommand());
+		setJoystickButtonWhenPressedCommand(leftStick, 4, new DriveStraightUntilDistanceCommand(.4, 1));
 		setJoystickButtonWhenPressedCommand(leftStick, 5, new RetractGearPickerCommand());
+		setJoystickButtonWhenPressedCommand(leftStick, 7, new ResetDriveTrainEncodersCommand());
 
 		// Right joystick
 		setJoystickButtonWhilePressedCommand(rightStick, 1, new ClimbUpCommand());
