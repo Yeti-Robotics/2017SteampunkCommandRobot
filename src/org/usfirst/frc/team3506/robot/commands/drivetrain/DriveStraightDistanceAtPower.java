@@ -31,7 +31,7 @@ public class DriveStraightDistanceAtPower extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return Robot.driveTrainSubsystem.getLeftEncoderDistance() >= distance;
+		return Math.abs(Robot.driveTrainSubsystem.getLeftEncoderDistance()) >= distance;
 	}
 
 	@Override

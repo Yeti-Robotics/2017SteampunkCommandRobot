@@ -25,8 +25,8 @@ public class DrivetrainSubsystem extends Subsystem {
 
 		leftEnc = new Encoder(RobotMap.LEFT_DRIVE_ENCODER[0], RobotMap.LEFT_DRIVE_ENCODER[1], false, EncodingType.k4X);
 		rightEnc = new Encoder(RobotMap.RIGHT_DRIVE_ENCODER[0], RobotMap.RIGHT_DRIVE_ENCODER[1], true, EncodingType.k4X);
-		leftEnc.setDistancePerPulse(RobotMap.DRIVE_ENCODER_DISTANCE_PER_PULSE);
-		rightEnc.setDistancePerPulse(RobotMap.DRIVE_ENCODER_DISTANCE_PER_PULSE);
+		leftEnc.setDistancePerPulse(RobotMap.DRIVE_ENCODER_FEET_PER_PULSE);
+		rightEnc.setDistancePerPulse(RobotMap.DRIVE_ENCODER_FEET_PER_PULSE);
 	}
 
 	public void initDefaultCommand() {
@@ -44,13 +44,13 @@ public class DrivetrainSubsystem extends Subsystem {
 	}
 
 	public void tankDrive(double left, double right) {
-		moveLeftTrain(left);
-		moveRightTrain(right);
+		moveLeftTrain(-left);
+		moveRightTrain(-right);
 	}
 
 	public void driveStraight(double speed) {
-		moveLeftTrain(speed);
-		moveRightTrain(speed);
+		moveLeftTrain(-speed);
+		moveRightTrain(-speed);
 	}
 
 	public double getRawLeftEncoderPos() {
@@ -94,7 +94,7 @@ public class DrivetrainSubsystem extends Subsystem {
 		SmartDashboard.putNumber("Left drive encoder position (raw)", getRawLeftEncoderPos());
 		SmartDashboard.putNumber("Left drive encoder position (modded)", leftEnc.get());
 		SmartDashboard.putNumber("Left drive encoder position (in ft)", getLeftEncoderDistance());
-		SmartDashboard.putNumber("Left drive encoder velocity", getRawLeftEncoderVel());
+		SmartDashboard.putNumber("Left drive encoder velocity (raw)", getRawLeftEncoderVel());
 		SmartDashboard.putNumber("Right drive encoder positon (raw)", getRawRightEncoderPos());
 		SmartDashboard.putNumber("Right drive encoder positon (in ft)", getRightEncoderDistance());
 		SmartDashboard.putNumber("Right drive encoder velocity (raw)", getRawRightEncoderVel());

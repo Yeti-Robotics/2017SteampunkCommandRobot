@@ -1,7 +1,9 @@
 package org.usfirst.frc.team3506.robot;
 
 import org.usfirst.frc.team3506.robot.commands.climber.ClimbUpCommand;
-import org.usfirst.frc.team3506.robot.commands.drivetrain.DriveStraightUntilDistanceCommand;
+import org.usfirst.frc.team3506.robot.commands.commandgroups.CenterGearCommandGroup;
+import org.usfirst.frc.team3506.robot.commands.commandgroups.TestEncodersCommandGroup;
+import org.usfirst.frc.team3506.robot.commands.drivetrain.DriveStraightDistanceAtPower;
 import org.usfirst.frc.team3506.robot.commands.drivetrain.ResetDriveTrainEncodersCommand;
 import org.usfirst.frc.team3506.robot.commands.dumbwaiter.LowerTowerCommand;
 import org.usfirst.frc.team3506.robot.commands.dumbwaiter.RaiseTowerCommand;
@@ -29,7 +31,6 @@ public class OI {
 		// Left joystick
 		setJoystickButtonWhenPressedCommand(leftStick, 1, new ToggleGearShiftCommand());
 		setJoystickButtonWhenPressedCommand(leftStick, 3, new ExtendGearPickerCommand());
-		setJoystickButtonWhenPressedCommand(leftStick, 4, new DriveStraightUntilDistanceCommand(.4, 1));
 		setJoystickButtonWhenPressedCommand(leftStick, 5, new RetractGearPickerCommand());
 		setJoystickButtonWhenPressedCommand(leftStick, 7, new ResetDriveTrainEncodersCommand());
 
@@ -44,8 +45,11 @@ public class OI {
 		setJoystickButtonWhilePressedCommand(shooterStick, 1, new ActivateFlywheelCommand());
 		setJoystickButtonWhilePressedCommand(shooterStick, 2, new LowerTowerCommand());
 		setJoystickButtonWhilePressedCommand(shooterStick, 3, new RaiseTowerCommand());
-		setJoystickButtonWhilePressedCommand(shooterStick, 4, new ManualRotateReverseCommand());
-		setJoystickButtonWhilePressedCommand(shooterStick, 5, new ManualRotateCommand());
+//		setJoystickButtonWhilePressedCommand(shooterStick, 4, new ManualRotateReverseCommand());
+//		setJoystickButtonWhilePressedCommand(shooterStick, 5, new ManualRotateCommand());
+		
+		setJoystickButtonWhenPressedCommand(shooterStick, 8, new TestEncodersCommandGroup());
+		setJoystickButtonWhenPressedCommand(shooterStick, 9, new CenterGearCommandGroup());
 	}
 	
 	public double getShooterY() {
@@ -74,7 +78,7 @@ public class OI {
 
 	public double getRightY() {
 		if (!(rightStick == null)) {
-			return deadZoneMod(rightStick.getY());
+			return -deadZoneMod(rightStick.getY());
 		} else {
 			return 0;
 		}
@@ -82,7 +86,7 @@ public class OI {
 
 	public double getLeftY() {
 		if (!(leftStick == null)) {
-			return deadZoneMod(leftStick.getY());
+			return -deadZoneMod(leftStick.getY());
 		} else {
 			return 0;
 		}

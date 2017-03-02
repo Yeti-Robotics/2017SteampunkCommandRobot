@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3506.robot.commands.drivetrain;
 
 import org.usfirst.frc.team3506.robot.Robot;
+import org.usfirst.frc.team3506.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -18,8 +19,7 @@ public class PointTurnDegreesAtPowerCommand extends Command {
 
     protected void initialize() {
     	Robot.driveTrainSubsystem.resetEncoders();
-    	//turnArcLength = (degrees / 360.0) * (RobotMap.ROBOT_TRACK_WIDTH_FT * Math.PI);
-    	//ADD TRACK WIDTH IN ROBOT MAP
+    	turnArcLength = Math.abs((degrees / 360.0) * (RobotMap.ROBOT_TRACK_WIDTH_FT * Math.PI));
     }
 
     protected void execute() {
