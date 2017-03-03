@@ -14,9 +14,9 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 public class RightGearCommandGroup extends CommandGroup {
 
     public RightGearCommandGroup() {
-    	addSequential(new DriveStraightDistanceAtPower(.25, -4.495));
+    	addSequential(new DriveStraightDistanceAtPower(-.25, 4.495));
     	addSequential(new PointTurnDegreesAtPowerCommand(-60, .25));
-    	addSequential(new DriveStraightDistanceAtPower(.25, -7.049));
+    	addSequential(new DriveStraightDistanceAtPower(-.25, 7.049));
     	addSequential(new WaitCommand(1));
     }
 }

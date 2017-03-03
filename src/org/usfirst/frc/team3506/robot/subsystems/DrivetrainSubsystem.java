@@ -4,6 +4,7 @@ import org.usfirst.frc.team3506.robot.RobotMap;
 import org.usfirst.frc.team3506.robot.commands.drivetrain.UserDriveCommand;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -13,6 +14,12 @@ public class DrivetrainSubsystem extends Subsystem {
 
 	Spark frontLeftSpark, backLeftSpark, frontRightSpark, backRightSpark;
 	private Encoder leftEnc, rightEnc;
+	ControlType controlType;
+	RobotDrive drive;
+	
+	public static enum ControlType {
+		TANK, ARCADE;
+	}
 
 	public DrivetrainSubsystem() {
 		frontLeftSpark = new Spark(RobotMap.FRONT_LEFT_SPARK);
@@ -22,6 +29,10 @@ public class DrivetrainSubsystem extends Subsystem {
 
 		frontLeftSpark.setInverted(true);
 		backLeftSpark.setInverted(true);
+		
+		drive = new RobotDrive(frontLeftSpark, backLeftSpark, frontRightSpark, backRightSpark);
+		
+		controlType = ControlType.TANK;
 
 		leftEnc = new Encoder(RobotMap.LEFT_DRIVE_ENCODER[0], RobotMap.LEFT_DRIVE_ENCODER[1], false, EncodingType.k4X);
 		rightEnc = new Encoder(RobotMap.RIGHT_DRIVE_ENCODER[0], RobotMap.RIGHT_DRIVE_ENCODER[1], true, EncodingType.k4X);
@@ -31,6 +42,14 @@ public class DrivetrainSubsystem extends Subsystem {
 
 	public void initDefaultCommand() {
 		setDefaultCommand(new UserDriveCommand());
+	}
+	
+	public ControlType getControlType() {
+		return controlType;
+	}
+	
+	public void setControlType(ControlType controlType) {
+		this.controlType = controlType;
 	}
 
 	public void moveLeftTrain(double speed) {
@@ -44,13 +63,16 @@ public class DrivetrainSubsystem extends Subsystem {
 	}
 
 	public void tankDrive(double left, double right) {
-		moveLeftTrain(-left);
-		moveRightTrain(-right);
+		drive.tankDrive(-left, right);
+	}
+	
+	public void arcadeDrive(double moveSpeed, double rotateSpeed) {
+		drive.arcadeDrive(moveSpeed, rotateSpeed);
 	}
 
 	public void driveStraight(double speed) {
-		moveLeftTrain(-speed);
-		moveRightTrain(-speed);
+		moveLeftTrain(-RobotMap.LEFT_DRIVETRAIN_TRIM * speed);
+		moveRightTrain(-RobotMap.RIGHT_DRIVETRAIN_TRIM * speed);
 	}
 
 	public double getRawLeftEncoderPos() {
@@ -71,6 +93,10 @@ public class DrivetrainSubsystem extends Subsystem {
 
 	public double getRawAvgEncoderPos() {
 		return (getRawLeftEncoderPos() + getRawRightEncoderPos()) / 2;
+	}
+	
+	public double getAvgEncoderDistance() {
+		return (getRightEncoderDistance() + getLeftEncoderDistance()) / 2;
 	}
 
 	public double getRawLeftEncoderVel() {

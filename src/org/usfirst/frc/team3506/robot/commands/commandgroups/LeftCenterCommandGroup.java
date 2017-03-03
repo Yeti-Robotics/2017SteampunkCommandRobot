@@ -1,9 +1,10 @@
 package org.usfirst.frc.team3506.robot.commands.commandgroups;
 
-import org.usfirst.frc.team3506.robot.commands.drivetrain.DriveStraightTimeAtPowerCommand;
-import org.usfirst.frc.team3506.robot.commands.drivetrain.PointTurnTimeAtPowerCommand;
+import org.usfirst.frc.team3506.robot.commands.drivetrain.DriveStraightDistanceAtPower;
+import org.usfirst.frc.team3506.robot.commands.drivetrain.PointTurnDegreesAtPowerCommand;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  *
@@ -11,9 +12,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class LeftCenterCommandGroup extends CommandGroup {
 
     public LeftCenterCommandGroup() {
-    	addSequential(new DriveStraightTimeAtPowerCommand(.5, .5)); //power, speed
-    	addSequential(new PointTurnTimeAtPowerCommand(-.25, .25));
-    	addSequential(new DriveStraightTimeAtPowerCommand(.5, .5));
-    	addSequential(new DriveStraightTimeAtPowerCommand(0, 1));
+    	addSequential(new DriveStraightDistanceAtPower(-.25, 4.495));
+    	addSequential(new PointTurnDegreesAtPowerCommand(60, .25));
+    	addSequential(new DriveStraightDistanceAtPower(-.25, 7.049));
+    	addSequential(new WaitCommand(1));
     }
 }

@@ -78,28 +78,30 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 
 		camera = CameraServer.getInstance().startAutomaticCapture();
-//		camera.setResolution(RobotMap.IMG_WIDTH, RobotMap.IMG_HEIGHT);
-//		camera.setBrightness(RobotMap.CAM_BRIGHTNESS);
-		camera.setExposureManual(RobotMap.CAM_EXPOSURE);
-		visionThread = new VisionThread(camera, new RedContourVisionPipeline(), pipeline -> {
-			if (!pipeline.findContoursOutput().isEmpty()) {
-				Collections.sort(pipeline.convexHullsOutput(), (first, second) -> {
-					if (first.size().area() > second.size().area()) {
-						return -1;
-					} else if (first.size().area() == second.size().area()) {
-						return 0;
-					} else {
-						return 1;
-					}
-				});
-				Rect rectangle = Imgproc.boundingRect(pipeline.convexHullsOutput().get(0));
-				synchronized (imgLock) {
-					Robot.visionCenterX = rectangle.x + (rectangle.width / 2);
-					Robot.visionArea = rectangle.area();
-				}
-			}
-		});
-		visionThread.start();
+		camera.setResolution(RobotMap.IMG_WIDTH, RobotMap.IMG_HEIGHT);
+		// camera.setBrightness(RobotMap.CAM_BRIGHTNESS);
+//		if (!camera.isConnected()) {
+//			camera.setExposureManual(RobotMap.CAM_EXPOSURE);
+//			visionThread = new VisionThread(camera, new RedContourVisionPipeline(), pipeline -> {
+//				if (!pipeline.findContoursOutput().isEmpty()) {
+//					Collections.sort(pipeline.convexHullsOutput(), (first, second) -> {
+//						if (first.size().area() > second.size().area()) {
+//							return -1;
+//						} else if (first.size().area() == second.size().area()) {
+//							return 0;
+//						} else {
+//							return 1;
+//						}
+//					});
+//					Rect rectangle = Imgproc.boundingRect(pipeline.convexHullsOutput().get(0));
+//					synchronized (imgLock) {
+//						Robot.visionCenterX = rectangle.x + (rectangle.width / 2);
+//						Robot.visionArea = rectangle.area();
+//					}
+//				}
+//			});
+//			visionThread.start();
+//		}
 	}
 
 	public void disabledInit() {
@@ -108,28 +110,30 @@ public class Robot extends IterativeRobot {
 
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		if (camera.getBrightness() != SmartDashboard.getNumber("Camera Brightness", 100)) {
-			camera.setBrightness((int) SmartDashboard.getNumber("Camera Brightness", 100));
-		}
-		if (currentCameraExposure != SmartDashboard.getNumber("Camera exposure", 0)) {
-			camera.setExposureManual((int) SmartDashboard.getNumber("Camera exposure", 0));
-			currentCameraExposure = (int) SmartDashboard.getNumber("Camera exposure", 0);
-		}
+//		if (!camera.isConnected()) {
+//			if (camera.getBrightness() != SmartDashboard.getNumber("Camera Brightness", 100)) {
+//				camera.setBrightness((int) SmartDashboard.getNumber("Camera Brightness", 100));
+//			}
+//			if (currentCameraExposure != SmartDashboard.getNumber("Camera exposure", 0)) {
+//				camera.setExposureManual((int) SmartDashboard.getNumber("Camera exposure", 0));
+//				currentCameraExposure = (int) SmartDashboard.getNumber("Camera exposure", 0);
+//			} 
+//		}
 	}
 
 	public void autonomousInit() {
 		switch ((AutoModes) autoChooser.getSelected()) {
-		case CENTER_GEAR:
-			autonomousCommand = new CenterGearCommandGroup();
-			break;
-		case LEFT_GEAR:
-			autonomousCommand = new LeftCenterCommandGroup();
-			break;
-		case RIGHT_GEAR:
-			autonomousCommand = new RightGearCommandGroup();
-			break;
-		default:
-			autonomousCommand = new CenterGearCommandGroup();
+			case CENTER_GEAR:
+				autonomousCommand = new CenterGearCommandGroup();
+				break;
+			case LEFT_GEAR:
+				autonomousCommand = new LeftCenterCommandGroup();
+				break;
+			case RIGHT_GEAR:
+				autonomousCommand = new RightGearCommandGroup();
+				break;
+			default:
+				autonomousCommand = new CenterGearCommandGroup();
 		}
 		if (autonomousCommand != null)
 			autonomousCommand.start();

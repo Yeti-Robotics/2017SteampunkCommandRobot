@@ -18,6 +18,7 @@ public class DriveStraightDistanceAtPower extends Command {
 	public DriveStraightDistanceAtPower(double power, double distance) {
 		this.power = power;
 		this.distance = distance;
+		requires(Robot.driveTrainSubsystem);
 	}
 
 	protected void initialize() {
