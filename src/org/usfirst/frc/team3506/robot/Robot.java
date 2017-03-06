@@ -4,9 +4,10 @@ import java.util.Collections;
 
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
-import org.usfirst.frc.team3506.robot.commands.commandgroups.CenterGearCommandGroup;
-import org.usfirst.frc.team3506.robot.commands.commandgroups.LeftCenterCommandGroup;
-import org.usfirst.frc.team3506.robot.commands.commandgroups.RightGearCommandGroup;
+import org.usfirst.frc.team3506.robot.commands.autonomous.CenterGearAutonomous;
+import org.usfirst.frc.team3506.robot.commands.autonomous.DriveForwardAutonomous;
+import org.usfirst.frc.team3506.robot.commands.autonomous.LeftCenterAutonomous;
+import org.usfirst.frc.team3506.robot.commands.autonomous.RightGearAutonomous;
 import org.usfirst.frc.team3506.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.GearDispenserSubsystem;
@@ -55,7 +56,7 @@ public class Robot extends IterativeRobot {
 	public static double visionArea;
 
 	public static enum AutoModes {
-		CENTER_GEAR, LEFT_GEAR, RIGHT_GEAR
+		CENTER_GEAR, LEFT_GEAR, RIGHT_GEAR, DRIVE_FORWARD
 	}
 
 	public void robotInit() {
@@ -71,10 +72,11 @@ public class Robot extends IterativeRobot {
 		turretPitchSubsystem = new TurretPitchSubsystem();
 		oi = new OI();
 		autoChooser = new SendableChooser<AutoModes>();
-		autoChooser.addDefault("Center Gear", AutoModes.CENTER_GEAR);
+		autoChooser.addDefault("Drive Forward", AutoModes.DRIVE_FORWARD);
+		autoChooser.addObject("Center Gear", AutoModes.CENTER_GEAR);
 		autoChooser.addObject("Left Gear", AutoModes.LEFT_GEAR);
 		autoChooser.addObject("Right Gear", AutoModes.RIGHT_GEAR);
-		autonomousCommand = new CenterGearCommandGroup();
+		autonomousCommand = new DriveForwardAutonomous();
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 
 		camera = CameraServer.getInstance().startAutomaticCapture();
@@ -123,17 +125,20 @@ public class Robot extends IterativeRobot {
 
 	public void autonomousInit() {
 		switch ((AutoModes) autoChooser.getSelected()) {
+			case DRIVE_FORWARD:
+				autonomousCommand = new DriveForwardAutonomous();
+				break;
 			case CENTER_GEAR:
-				autonomousCommand = new CenterGearCommandGroup();
+				autonomousCommand = new CenterGearAutonomous();
 				break;
 			case LEFT_GEAR:
-				autonomousCommand = new LeftCenterCommandGroup();
+				autonomousCommand = new LeftCenterAutonomous();
 				break;
 			case RIGHT_GEAR:
-				autonomousCommand = new RightGearCommandGroup();
+				autonomousCommand = new RightGearAutonomous();
 				break;
 			default:
-				autonomousCommand = new CenterGearCommandGroup();
+				autonomousCommand = new DriveForwardAutonomous();
 		}
 		if (autonomousCommand != null)
 			autonomousCommand.start();
