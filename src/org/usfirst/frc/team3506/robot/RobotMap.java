@@ -76,4 +76,12 @@ public class RobotMap {
 	public static final int IMG_HEIGHT = 480;
 	public static final int CAM_EXPOSURE = 0;
 	public static final int CAM_BRIGHTNESS = 50;
+	
+	//Vision driving
+	public static final double P = 2;
+	public static final double I = 0;
+	public static final double D = 0;
+	public static final double MAX_TURN_SPEED = .4;
+	public static final double MIN_TURN_SPEED = 0;
+	public static final double MAX_DRIVE_DISTANCE = 6.08333;
 }

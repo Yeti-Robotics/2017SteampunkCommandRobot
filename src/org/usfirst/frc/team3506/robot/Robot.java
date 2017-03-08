@@ -45,7 +45,7 @@ public class Robot extends IterativeRobot {
 	public static TurretPitchSubsystem turretPitchSubsystem;
 	public SendableChooser<Robot.AutoModes> autoChooser;
 	public static OI oi;
-	UsbCamera camera;
+	public static UsbCamera camera;
 	int currentCameraExposure = 0;
 
 	public static Command autonomousCommand;

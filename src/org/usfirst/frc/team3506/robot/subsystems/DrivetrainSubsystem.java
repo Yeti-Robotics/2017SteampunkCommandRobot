@@ -15,7 +15,7 @@ public class DrivetrainSubsystem extends Subsystem {
 	Spark frontLeftSpark, backLeftSpark, frontRightSpark, backRightSpark;
 	private Encoder leftEnc, rightEnc;
 	ControlType controlType;
-	RobotDrive drive;
+	private RobotDrive drive;
 	
 	public static enum ControlType {
 		TANK, ARCADE;
