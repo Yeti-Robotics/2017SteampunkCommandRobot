@@ -2,23 +2,23 @@ package org.usfirst.frc.team3506.robot;
 
 import java.util.Collections;
 
-import org.opencv.core.Rect;
-import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team3506.robot.commands.autonomous.CenterGearAutonomous;
 import org.usfirst.frc.team3506.robot.commands.autonomous.DriveForwardAutonomous;
 import org.usfirst.frc.team3506.robot.commands.autonomous.LeftCenterAutonomous;
 import org.usfirst.frc.team3506.robot.commands.autonomous.RightGearAutonomous;
 import org.usfirst.frc.team3506.robot.subsystems.ClimberSubsystem;
-import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.GearDispenserSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.GearPickerSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.GearShiftSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.IntakeSubsystem.IntakeState;
+import org.usfirst.frc.team3506.robot.subsystems.LeftDrivetrainSubsystem;
+import org.usfirst.frc.team3506.robot.subsystems.RightDrivetrainSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.TowerSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.TurretFlywheelSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.TurretPitchSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.TurretRotationSubsystem;
+import org.usfirst.frc.team3506.robot.vision.GearTargetInfo;
 import org.usfirst.frc.team3506.robot.vision.RedContourVisionPipeline;
 
 import edu.wpi.cscore.UsbCamera;
@@ -33,7 +33,8 @@ import edu.wpi.first.wpilibj.vision.VisionThread;
 
 public class Robot extends IterativeRobot {
 
-	public static DrivetrainSubsystem driveTrainSubsystem;
+	public static RightDrivetrainSubsystem rightDrivetrainSubsystem;
+	public static LeftDrivetrainSubsystem leftMainDrivetrainSubsystem;
 	public static GearShiftSubsystem gearShiftSubsystem;
 	public static IntakeSubsystem intakeSubsystem;
 	public static TurretRotationSubsystem turretRotationSubsystem;
@@ -46,14 +47,12 @@ public class Robot extends IterativeRobot {
 	public SendableChooser<Robot.AutoModes> autoChooser;
 	public static OI oi;
 	public static UsbCamera camera;
-	int currentCameraExposure = 0;
 
 	public static Command autonomousCommand;
 
 	private VisionThread visionThread;
 	private final Object imgLock = new Object();
-	public static double visionCenterX;
-	public static double visionArea;
+	private boolean runVisionThread;
 
 	public static enum AutoModes {
 		CENTER_GEAR, LEFT_GEAR, RIGHT_GEAR, DRIVE_FORWARD
@@ -61,7 +60,8 @@ public class Robot extends IterativeRobot {
 
 	public void robotInit() {
 		turretRotationSubsystem = new TurretRotationSubsystem();
-		driveTrainSubsystem = new DrivetrainSubsystem();
+		rightDrivetrainSubsystem = new RightDrivetrainSubsystem();
+		leftMainDrivetrainSubsystem = new LeftDrivetrainSubsystem();
 		gearShiftSubsystem = new GearShiftSubsystem();
 		intakeSubsystem = new IntakeSubsystem();
 		towerSubsystem = new TowerSubsystem();
@@ -78,32 +78,41 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("Right Gear", AutoModes.RIGHT_GEAR);
 		autonomousCommand = new DriveForwardAutonomous();
 		SmartDashboard.putData("Auto Chooser", autoChooser);
+		SmartDashboard.putData(rightDrivetrainSubsystem);
+		SmartDashboard.putData(Scheduler.getInstance());
 
 		camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(RobotMap.IMG_WIDTH, RobotMap.IMG_HEIGHT);
-		// camera.setBrightness(RobotMap.CAM_BRIGHTNESS);
-//		if (!camera.isConnected()) {
-//			camera.setExposureManual(RobotMap.CAM_EXPOSURE);
-//			visionThread = new VisionThread(camera, new RedContourVisionPipeline(), pipeline -> {
-//				if (!pipeline.findContoursOutput().isEmpty()) {
-//					Collections.sort(pipeline.convexHullsOutput(), (first, second) -> {
-//						if (first.size().area() > second.size().area()) {
-//							return -1;
-//						} else if (first.size().area() == second.size().area()) {
-//							return 0;
-//						} else {
-//							return 1;
-//						}
-//					});
-//					Rect rectangle = Imgproc.boundingRect(pipeline.convexHullsOutput().get(0));
-//					synchronized (imgLock) {
-//						Robot.visionCenterX = rectangle.x + (rectangle.width / 2);
-//						Robot.visionArea = rectangle.area();
-//					}
-//				}
-//			});
-//			visionThread.start();
-//		}
+		disableVisionProcessing();
+		if (camera.isConnected()) {
+			visionThread = new VisionThread(camera, new RedContourVisionPipeline(), pipeline -> {
+				if (runVisionThread) {
+					Collections.sort(pipeline.convexHullsOutput(), (first, second) -> {
+						if (first.size().area() > second.size().area()) {
+							return -1;
+						} else if (first.size().area() == second.size().area()) {
+							return 0;
+						} else {
+							return 1;
+						}
+					});
+					GearTargetInfo.setTargetContours(pipeline.convexHullsOutput());
+				}
+			});
+			visionThread.start();
+		}
+	}
+	
+	public void enableVisionProcessing() {
+		camera.setBrightness(RobotMap.CAM_BRIGHTNESS_VISION);
+		camera.setExposureManual(RobotMap.CAM_EXPOSURE_VISION);
+		runVisionThread = true;
+	}
+	
+	public void disableVisionProcessing() {
+		camera.setBrightness(RobotMap.CAM_BRIGHTNESS_DRIVING);
+		camera.setExposureManual(RobotMap.CAM_EXPOSURE_DRIVING);
+		runVisionThread = false;
 	}
 
 	public void disabledInit() {
@@ -153,7 +162,8 @@ public class Robot extends IterativeRobot {
 
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		driveTrainSubsystem.publishEncoderValues();
+		rightDrivetrainSubsystem.publishEncoderValues();
+		leftMainDrivetrainSubsystem.publishEncoderValues();
 	}
 
 	public void testPeriodic() {

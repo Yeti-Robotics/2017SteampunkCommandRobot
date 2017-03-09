@@ -1,41 +1,43 @@
 package org.usfirst.frc.team3506.robot.commands.drivetrain;
 
 import org.usfirst.frc.team3506.robot.Robot;
+import org.usfirst.frc.team3506.robot.RobotMap;
 import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystemHandler;
 import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystemHandler.DrivetrainFeedbackType;
+import org.usfirst.frc.team3506.robot.vision.GearTargetInfo;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class UserDriveCommand extends Command {
+/**
+ *
+ */
+public class DriveToPegCommand extends Command {
 
-    public UserDriveCommand() {
-    	requires(Robot.rightDrivetrainSubsystem);
+    public DriveToPegCommand() {
     	requires(Robot.leftMainDrivetrainSubsystem);
+    	requires(Robot.rightDrivetrainSubsystem);
     }
 
     protected void initialize() {
+    	DrivetrainSubsystemHandler.setFeedbackType(DrivetrainFeedbackType.DISTANCE);
     	DrivetrainSubsystemHandler.resetEncoders();
-    	DrivetrainSubsystemHandler.setFeedbackType(DrivetrainFeedbackType.RATE);
+    	DrivetrainSubsystemHandler.setSetpoint(GearTargetInfo.getDistance());
     	DrivetrainSubsystemHandler.enable();
     }
 
     protected void execute() {
-//    	if (Robot.leftMainDrivetrainSubsystem.getControlType() == ControlType.TANK) {
-//    		Robot.leftMainDrivetrainSubsystem.tankDrive(Robot.oi.getLeftY(), Robot.oi.getRightY());
-//    	} else {
-//    		Robot.leftMainDrivetrainSubsystem.arcadeDrive(-Robot.oi.getRightX(), Robot.oi.getLeftY());
-//    	}
-    	DrivetrainSubsystemHandler.setSetpoint(Robot.oi.getLeftY(), Robot.oi.getRightY());
+    	
     }
 
     protected boolean isFinished() {
-        return false;
+        return GearTargetInfo.getDistance() <= RobotMap.GEAR_PLACEMENT_DISTANCE;
     }
 
     protected void end() {
+    	DrivetrainSubsystemHandler.disable();
     }
 
     protected void interrupted() {
-    	DrivetrainSubsystemHandler.disable();
+    	
     }
 }

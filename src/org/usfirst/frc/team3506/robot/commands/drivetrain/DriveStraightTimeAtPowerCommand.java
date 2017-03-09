@@ -8,7 +8,7 @@ public class DriveStraightTimeAtPowerCommand extends Command {
 
 	double power, time;
     public DriveStraightTimeAtPowerCommand(double power, double time) {
-    	requires(Robot.driveTrainSubsystem);
+    	requires(Robot.leftMainDrivetrainSubsystem);
     	this.power = power;
     	this.time = time;
     }
@@ -18,7 +18,7 @@ public class DriveStraightTimeAtPowerCommand extends Command {
     }
 
     protected void execute() {
-    	Robot.driveTrainSubsystem.driveStraight(power);
+    	Robot.leftMainDrivetrainSubsystem.driveStraight(power);
     }
 
     protected boolean isFinished() {
@@ -26,7 +26,7 @@ public class DriveStraightTimeAtPowerCommand extends Command {
     }
 
     protected void end() {
-    	Robot.driveTrainSubsystem.driveStraight(0);
+    	Robot.leftMainDrivetrainSubsystem.driveStraight(0);
     }
 
     protected void interrupted() {

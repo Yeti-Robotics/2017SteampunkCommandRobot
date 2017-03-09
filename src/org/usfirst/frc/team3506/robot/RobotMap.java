@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 public class RobotMap {
 	
-	public static final boolean IS_PRACTICE_BOT = false;
+	public static final boolean IS_PRACTICE_BOT = true;
 
 	// Drivetrain
 	public static final int FRONT_LEFT_SPARK = IS_PRACTICE_BOT ? 0 : 2;
@@ -17,6 +17,15 @@ public class RobotMap {
 	public static final double ROBOT_TRACK_WIDTH_FT = 2;
 	public static final double LEFT_DRIVETRAIN_TRIM = IS_PRACTICE_BOT ? 1 : .95;
 	public static final double RIGHT_DRIVETRAIN_TRIM = IS_PRACTICE_BOT ? .701 : 1;
+	public static final double MAX_DRIVE_RATE = 11.5;
+	public static final double MIN_DRIVETRAIN_OUTPUT = 0;
+	public static final double MAX_DRIVETRAIN_OUTPUT = 1;
+	public static final double P = 2;
+	public static final double I = 0;
+	public static final double D = 0;
+	public static final double MAX_TURN_SPEED = .4;
+	public static final double MIN_TURN_SPEED = 0;
+	public static final double GEAR_PLACEMENT_DISTANCE = .5;
     
 	// Joysticks
 	public static final int LFFT_JOYSTICK_PORT = 1;
@@ -71,17 +80,16 @@ public class RobotMap {
 	public static final int CLIMBER_SPARK = IS_PRACTICE_BOT ? 9 : 8;
 	public static final double CLIMBER_SPEED = 1;
 	
-	//Vision
+	//Camera
 	public static final int IMG_WIDTH = 640;
 	public static final int IMG_HEIGHT = 480;
-	public static final int CAM_EXPOSURE = 0;
-	public static final int CAM_BRIGHTNESS = 50;
-	
-	//Vision driving
-	public static final double P = 2;
-	public static final double I = 0;
-	public static final double D = 0;
-	public static final double MAX_TURN_SPEED = .4;
-	public static final double MIN_TURN_SPEED = 0;
-	public static final double MAX_DRIVE_DISTANCE = 6.08333;
+	public static final int CAM_EXPOSURE_VISION = 0;
+	public static final int CAM_BRIGHTNESS_VISION = 50;
+	public static final int CAM_EXPOSURE_DRIVING = 50;
+	public static final int CAM_BRIGHTNESS_DRIVING = 100;
+	public static final double HORIZONTAL_FOV = 66 * Math.cos(Math.atan(9.0 / 16.0));
+	public static final double VERTICAL_FOV = 66 * Math.sin(Math.atan(9.0 / 16.0));
+	public static final double FOCAL_LENGTH = 125;
+	public static final double TARGET_WIDTH_INCH = 10.25;
+	public static final double TARGET_HEIGHT_INCH = 5;
 }

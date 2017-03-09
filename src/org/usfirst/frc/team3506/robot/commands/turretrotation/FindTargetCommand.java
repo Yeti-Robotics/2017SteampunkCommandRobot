@@ -15,7 +15,7 @@ public class FindTargetCommand extends Command {
 
     protected void execute() {
     	System.out.println("ExecutingCommand");
-    	Robot.turretRotationSubsystem.rotateTurret(Robot.turretRotationSubsystem.getDesiredRotationSpeed(Robot.visionArea, Robot.visionCenterX));
+//    	Robot.turretRotationSubsystem.rotateTurret(Robot.turretRotationSubsystem.getDesiredRotationSpeed(Robot.visionArea, Robot.visionCenterX));
     }
 
     protected boolean isFinished() {

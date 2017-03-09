@@ -1,21 +1,22 @@
 package org.usfirst.frc.team3506.robot.commands.drivetrain;
 
 import org.usfirst.frc.team3506.robot.Robot;
+import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystemHandler;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class ResetDriveTrainEncodersCommand extends Command {
 
     public ResetDriveTrainEncodersCommand() {
-    	requires(Robot.driveTrainSubsystem);
+    	requires(Robot.rightDrivetrainSubsystem);
+    	requires(Robot.leftMainDrivetrainSubsystem);
     }
 
     protected void initialize() {
     }
 
     protected void execute() {
-    	Robot.driveTrainSubsystem.resetEncoders();
+    	DrivetrainSubsystemHandler.resetEncoders();
     }
 
     protected boolean isFinished() {

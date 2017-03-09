@@ -1,7 +1,7 @@
 package org.usfirst.frc.team3506.robot.commands.drivetrain;
 
 import org.usfirst.frc.team3506.robot.Robot;
-import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystem.ControlType;
+import org.usfirst.frc.team3506.robot.subsystems.LeftDrivetrainSubsystem.ControlType;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -11,14 +11,14 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ToggleDrivetrainControlTypeCommand extends Command {
 
     public ToggleDrivetrainControlTypeCommand() {
-    	requires(Robot.driveTrainSubsystem);
+    	requires(Robot.rightDrivetrainSubsystem);
     }
 
     protected void initialize() {
-    	if (Robot.driveTrainSubsystem.getControlType() == ControlType.TANK) {
-    		Robot.driveTrainSubsystem.setControlType(ControlType.ARCADE);
+    	if (Robot.leftMainDrivetrainSubsystem.getControlType() == ControlType.TANK) {
+    		Robot.leftMainDrivetrainSubsystem.setControlType(ControlType.ARCADE);
     	} else {
-    		Robot.driveTrainSubsystem.setControlType(ControlType.TANK);
+    		Robot.leftMainDrivetrainSubsystem.setControlType(ControlType.TANK);
     	}
     }
 

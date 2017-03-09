@@ -18,21 +18,21 @@ public class DriveStraightDistanceAtPower extends Command {
 	public DriveStraightDistanceAtPower(double power, double distance) {
 		this.power = power;
 		this.distance = distance;
-		requires(Robot.driveTrainSubsystem);
+		requires(Robot.leftMainDrivetrainSubsystem);
 	}
 
 	protected void initialize() {
-		Robot.driveTrainSubsystem.resetEncoders();
+		Robot.leftMainDrivetrainSubsystem.resetEncoders();
 	}
 
 	@Override
 	protected void execute() {
-		Robot.driveTrainSubsystem.driveStraight(power);
+		Robot.leftMainDrivetrainSubsystem.driveStraight(power);
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return Math.abs(Robot.driveTrainSubsystem.getLeftEncoderDistance()) >= distance;
+		return Math.abs(Robot.leftMainDrivetrainSubsystem.getLeftEncoderDistance()) >= distance;
 	}
 
 	@Override
