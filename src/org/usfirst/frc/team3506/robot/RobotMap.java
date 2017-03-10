@@ -89,7 +89,7 @@ public class RobotMap {
 	public static final int CAM_BRIGHTNESS_DRIVING = 100;
 	public static final double HORIZONTAL_FOV = 66 * Math.cos(Math.atan(9.0 / 16.0));
 	public static final double VERTICAL_FOV = 66 * Math.sin(Math.atan(9.0 / 16.0));
-	public static final double FOCAL_LENGTH = 125;
-	public static final double TARGET_WIDTH_INCH = 10.25;
-	public static final double TARGET_HEIGHT_INCH = 5;
+	public static final double FOCAL_LENGTH = 543.45;
+	public static final double TARGET_WIDTH_INCH = /*10.25*/9.5;
+	public static final double TARGET_HEIGHT_INCH = /*5*/4.75;
 }

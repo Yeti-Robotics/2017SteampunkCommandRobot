@@ -10,9 +10,6 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RightDrivetrainSubsystem extends PIDSubsystem {
-
-//	Spark frontLeftSpark, backLeftSpark, frontRightSpark, backRightSpark;
-//	private Encoder leftEnc, rightEnc;
 	
 	public Spark frontRightSpark = new Spark(RobotMap.FRONT_RIGHT_SPARK);
 	public Spark backRightSpark = new Spark(RobotMap.BACK_RIGHT_SPARK);

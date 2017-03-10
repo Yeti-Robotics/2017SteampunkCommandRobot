@@ -22,10 +22,11 @@ public class DrivetrainSubsystemHandler {
 	public static void setFeedbackType(DrivetrainFeedbackType drivetrainFeedbackType) {
 		leftTrain.setFeedbackType(drivetrainFeedbackType);
 		rightTrain.setFeedbackType(drivetrainFeedbackType);
+		DrivetrainSubsystemHandler.drivetrainFeedbackType = drivetrainFeedbackType;
 	}
 
 	public static DrivetrainFeedbackType getDrivetrainFeedbackType() {
-		return leftTrain.getFeedbackType();
+		return drivetrainFeedbackType;
 	}
 	
 	public static void enable() {

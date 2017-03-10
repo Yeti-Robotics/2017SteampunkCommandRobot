@@ -14,8 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LeftDrivetrainSubsystem extends PIDSubsystem {
 
-//	Spark frontLeftSpark, backLeftSpark, frontRightSpark, backRightSpark;
-//	private Encoder leftEnc, rightEnc;
 	private ControlType controlType;
 	private DrivetrainFeedbackType feedbackType;
 	private RobotDrive drive;

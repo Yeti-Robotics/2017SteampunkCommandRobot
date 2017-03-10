@@ -21,6 +21,7 @@ public class PointTurnPIDCommand extends Command {
     	this.degrees = degrees;
     	this.power = power;
     	requires(Robot.leftMainDrivetrainSubsystem);
+    	requires(Robot.rightDrivetrainSubsystem);
     }
 
 	protected void initialize() {
