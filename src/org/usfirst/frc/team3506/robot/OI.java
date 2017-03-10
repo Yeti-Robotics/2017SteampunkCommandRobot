@@ -6,6 +6,8 @@ import org.usfirst.frc.team3506.robot.commands.dumbwaiter.LowerTowerCommand;
 import org.usfirst.frc.team3506.robot.commands.dumbwaiter.RaiseTowerCommand;
 import org.usfirst.frc.team3506.robot.commands.geardispenser.ExtendGearPickerCommand;
 import org.usfirst.frc.team3506.robot.commands.geardispenser.RetractGearPickerCommand;
+import org.usfirst.frc.team3506.robot.commands.gearpicker.ExtendGearDispenserCommand;
+import org.usfirst.frc.team3506.robot.commands.gearpicker.RetractGearDispenserCommand;
 import org.usfirst.frc.team3506.robot.commands.gearshift.ToggleGearShiftCommand;
 import org.usfirst.frc.team3506.robot.commands.intake.ToggleIntakeCommand;
 import org.usfirst.frc.team3506.robot.commands.intake.ToggleOutputCommand;

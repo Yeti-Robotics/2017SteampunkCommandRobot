@@ -2,6 +2,8 @@ package org.usfirst.frc.team3506.robot.subsystems;
 
 import org.usfirst.frc.team3506.robot.Robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class DrivetrainSubsystemHandler {
 
 	private static DrivetrainFeedbackType drivetrainFeedbackType;
@@ -44,5 +46,12 @@ public class DrivetrainSubsystemHandler {
 	public static void setSetpoint(double leftSetpoint, double rightSetpoint) {
 		leftTrain.setSetpoint(leftSetpoint);
 		rightTrain.setSetpoint(rightSetpoint);
+	}
+	
+	public static void publishSmartDashboardValues() {
+		SmartDashboard.getNumber("LeftTrain Setpoint", leftTrain.getSetpoint());
+		SmartDashboard.getNumber("LeftTrain Position", leftTrain.getPosition());
+		SmartDashboard.getNumber("RightTrain Setpoint", rightTrain.getSetpoint());
+		SmartDashboard.getNumber("RightTrain Position", rightTrain.getPosition());
 	}
 }

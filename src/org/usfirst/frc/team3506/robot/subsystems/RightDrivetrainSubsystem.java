@@ -50,8 +50,10 @@ public class RightDrivetrainSubsystem extends PIDSubsystem {
 	}
     
 	public void moveRightTrain(double speed) {
-		frontRightSpark.set(-speed);
-		backRightSpark.set(-speed);
+		if (Math.abs(speed) > RobotMap.JOYSTICK_DEADZONE) {
+			frontRightSpark.set(-speed);
+			backRightSpark.set(-speed);
+		}
 	}
 
 	public double getRightEncoderDistance() {

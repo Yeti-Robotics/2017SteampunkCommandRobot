@@ -7,6 +7,7 @@ import org.usfirst.frc.team3506.robot.commands.autonomous.DriveForwardAutonomous
 import org.usfirst.frc.team3506.robot.commands.autonomous.LeftCenterAutonomous;
 import org.usfirst.frc.team3506.robot.commands.autonomous.RightGearAutonomous;
 import org.usfirst.frc.team3506.robot.subsystems.ClimberSubsystem;
+import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystemHandler;
 import org.usfirst.frc.team3506.robot.subsystems.GearDispenserSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.GearPickerSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.GearShiftSubsystem;
@@ -78,7 +79,6 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("Right Gear", AutoModes.RIGHT_GEAR);
 		autonomousCommand = new DriveForwardAutonomous();
 		SmartDashboard.putData("Auto Chooser", autoChooser);
-		SmartDashboard.putData(rightDrivetrainSubsystem);
 		SmartDashboard.putData(Scheduler.getInstance());
 
 		camera = CameraServer.getInstance().startAutomaticCapture();
@@ -164,6 +164,7 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		rightDrivetrainSubsystem.publishEncoderValues();
 		leftMainDrivetrainSubsystem.publishEncoderValues();
+		DrivetrainSubsystemHandler.publishSmartDashboardValues();
 	}
 
 	public void testPeriodic() {

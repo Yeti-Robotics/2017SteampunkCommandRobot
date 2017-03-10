@@ -18,10 +18,10 @@ public class RobotMap {
 	public static final double LEFT_DRIVETRAIN_TRIM = IS_PRACTICE_BOT ? 1 : .95;
 	public static final double RIGHT_DRIVETRAIN_TRIM = IS_PRACTICE_BOT ? .701 : 1;
 	public static final double MAX_DRIVE_RATE = 11.5;
-	public static final double MIN_DRIVETRAIN_OUTPUT = 0;
+	public static final double MIN_DRIVETRAIN_OUTPUT = -1;
 	public static final double MAX_DRIVETRAIN_OUTPUT = 1;
-	public static final double P = 2;
-	public static final double I = 0;
+	public static final double P = 1;
+	public static final double I = 0.1;
 	public static final double D = 0;
 	public static final double MAX_TURN_SPEED = .4;
 	public static final double MIN_TURN_SPEED = 0;

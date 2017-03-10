@@ -30,7 +30,7 @@ public class LeftDrivetrainSubsystem extends PIDSubsystem {
 	}
 
 	public LeftDrivetrainSubsystem() {
-		super("Left Drivetrain", .5, .05, .01);
+		super("Left Drivetrain", RobotMap.P, RobotMap.I, RobotMap.D);
     	setOutputRange(RobotMap.MIN_DRIVETRAIN_OUTPUT, RobotMap.MAX_DRIVETRAIN_OUTPUT);
     	disable();
 
@@ -74,8 +74,10 @@ public class LeftDrivetrainSubsystem extends PIDSubsystem {
 	}
 
 	public void moveLeftTrain(double speed) {
-		frontLeftSpark.set(-speed);
-		backLeftSpark.set(-speed);
+		if (Math.abs(speed) > RobotMap.JOYSTICK_DEADZONE) {
+			frontLeftSpark.set(-speed);
+			backLeftSpark.set(-speed);
+		}
 	}
 
 	public void tankDrive(double left, double right) {
