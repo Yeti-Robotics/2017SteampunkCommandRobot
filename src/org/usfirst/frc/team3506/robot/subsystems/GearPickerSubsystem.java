@@ -11,7 +11,7 @@ public class GearPickerSubsystem extends Subsystem {
 	DoubleSolenoid gearPiston;
 	
 	public GearPickerSubsystem() {
-		gearPiston = new DoubleSolenoid(RobotMap.GEAR_PICKER_SOLENOID[0], RobotMap.GEAR_PICKER_SOLENOID[1]);
+		gearPiston = new DoubleSolenoid(RobotMap.GEAR_PICKER_SOLENOID[0],RobotMap.GEAR_PICKER_SOLENOID[1]);
 	}
 	
 	public void retractDispenser() {

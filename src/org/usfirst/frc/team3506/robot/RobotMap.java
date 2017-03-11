@@ -66,11 +66,8 @@ public class RobotMap {
 	public static final double RIGHT_SERVO_UPPER_LIMIT = 0.8;
 	public static final double RIGHT_SERVO_LOWER_LIMIT = 0.3;
 	
-	//Gear dispenser
-	public static final int[] GEAR_DISPENSER_SOLENOID = { 2, 3 };
-	
 	//Gear Picker
-	public static final int[] GEAR_PICKER_SOLENOID = { 4, 5 };
+	public static final int [] GEAR_PICKER_SOLENOID =  {20,21};
 	
 	//Tower
 	public static final int TOWER_SPARK = 6;

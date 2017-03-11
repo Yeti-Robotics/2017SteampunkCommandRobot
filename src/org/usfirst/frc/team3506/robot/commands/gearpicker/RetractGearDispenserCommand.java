@@ -7,14 +7,14 @@ import edu.wpi.first.wpilibj.command.Command;
 public class RetractGearDispenserCommand extends Command {
 
     public RetractGearDispenserCommand() {
-    	requires(Robot.gearDispenserSubsystem);
+    	requires(Robot.gearPickerSubsystem);
     }
 
     protected void initialize() {
     }
 
     protected void execute() {
-    	Robot.gearDispenserSubsystem.retractDispenser();
+    	Robot.gearPickerSubsystem.retractDispenser();
     }
 
     protected boolean isFinished() {

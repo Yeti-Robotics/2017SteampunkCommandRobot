@@ -55,7 +55,7 @@ public class GearTargetInfo {
 
 	public static double getDistance() {
 		if (gearTargetCenterX != 0 && gearTargetCenterY != 0) {
-			return (RobotMap.TARGET_WIDTH_INCH * RobotMap.FOCAL_LENGTH) / gearTargetWidth;
+			return ((RobotMap.TARGET_WIDTH_INCH * RobotMap.FOCAL_LENGTH) / gearTargetWidth) / 12;
 		} else {
 			return 0;
 		}
