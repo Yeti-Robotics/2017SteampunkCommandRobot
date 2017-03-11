@@ -2,13 +2,13 @@ package org.usfirst.frc.team3506.robot;
 
 import java.util.Collections;
 
+import org.usfirst.frc.team3506.robot.commands.autonomous.AutonomousRouteControl;
 import org.usfirst.frc.team3506.robot.commands.autonomous.CenterGearAutonomous;
 import org.usfirst.frc.team3506.robot.commands.autonomous.DriveForwardAutonomous;
 import org.usfirst.frc.team3506.robot.commands.autonomous.LeftCenterAutonomous;
 import org.usfirst.frc.team3506.robot.commands.autonomous.RightGearAutonomous;
 import org.usfirst.frc.team3506.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystemHandler;
-import org.usfirst.frc.team3506.robot.subsystems.GearDispenserSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.GearPickerSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.GearShiftSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.IntakeSubsystem;
@@ -41,10 +41,10 @@ public class Robot extends IterativeRobot {
 	public static TurretRotationSubsystem turretRotationSubsystem;
 	public static TowerSubsystem towerSubsystem;
 	public static ClimberSubsystem climberSubsystem;
-	public static GearDispenserSubsystem gearDispenserSubsystem;
 	public static GearPickerSubsystem gearPickerSubsystem;
 	public static TurretFlywheelSubsystem turretFlywheelSubsystem;
 	public static TurretPitchSubsystem turretPitchSubsystem;
+	public static AutonomousRouteControl autonomousRouteControl;
 	public SendableChooser<Robot.AutoModes> autoChooser;
 	public static OI oi;
 	public static UsbCamera camera;
@@ -56,7 +56,7 @@ public class Robot extends IterativeRobot {
 	private boolean runVisionThread;
 
 	public static enum AutoModes {
-		CENTER_GEAR, LEFT_GEAR, RIGHT_GEAR, DRIVE_FORWARD
+		CENTER_GEAR, LEFT_GEAR, RIGHT_GEAR, DRIVE_FORWARD, ROUTE_CONTROL
 	}
 
 	public void robotInit() {
@@ -67,16 +67,17 @@ public class Robot extends IterativeRobot {
 		intakeSubsystem = new IntakeSubsystem();
 		towerSubsystem = new TowerSubsystem();
 		climberSubsystem = new ClimberSubsystem();
-		gearDispenserSubsystem = new GearDispenserSubsystem();
 		gearPickerSubsystem = new GearPickerSubsystem();
 		turretFlywheelSubsystem = new TurretFlywheelSubsystem();
 		turretPitchSubsystem = new TurretPitchSubsystem();
+		autonomousRouteControl = new AutonomousRouteControl();
 		oi = new OI();
 		autoChooser = new SendableChooser<AutoModes>();
 		autoChooser.addDefault("Drive Forward", AutoModes.DRIVE_FORWARD);
 		autoChooser.addObject("Center Gear", AutoModes.CENTER_GEAR);
 		autoChooser.addObject("Left Gear", AutoModes.LEFT_GEAR);
 		autoChooser.addObject("Right Gear", AutoModes.RIGHT_GEAR);
+		autoChooser.addObject("Route Control", AutoModes.ROUTE_CONTROL);
 		autonomousCommand = new DriveForwardAutonomous();
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		SmartDashboard.putData(Scheduler.getInstance());
@@ -145,6 +146,9 @@ public class Robot extends IterativeRobot {
 				break;
 			case RIGHT_GEAR:
 				autonomousCommand = new RightGearAutonomous();
+				break;
+			case ROUTE_CONTROL:
+				autonomousCommand = autonomousRouteControl;
 				break;
 			default:
 				autonomousCommand = new DriveForwardAutonomous();

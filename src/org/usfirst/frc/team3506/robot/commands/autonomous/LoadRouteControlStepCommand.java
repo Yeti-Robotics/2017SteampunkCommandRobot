@@ -1,20 +1,24 @@
-package org.usfirst.frc.team3506.robot.commands.gearpicker;
+package org.usfirst.frc.team3506.robot.commands.autonomous;
 
 import org.usfirst.frc.team3506.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ExtendGearDispenserCommand extends Command {
+/**
+ *
+ */
+public class LoadRouteControlStepCommand extends Command {
 
-    public ExtendGearDispenserCommand() {
-    	requires(Robot.gearPickerSubsystem);
+    public LoadRouteControlStepCommand() {
+    	
     }
 
     protected void initialize() {
+    	Robot.autonomousRouteControl.saveStep();
     }
 
     protected void execute() {
-    	Robot.gearPickerSubsystem.extendDispenser();
+    	
     }
 
     protected boolean isFinished() {
@@ -22,8 +26,10 @@ public class ExtendGearDispenserCommand extends Command {
     }
 
     protected void end() {
+    	
     }
 
     protected void interrupted() {
+    	
     }
 }

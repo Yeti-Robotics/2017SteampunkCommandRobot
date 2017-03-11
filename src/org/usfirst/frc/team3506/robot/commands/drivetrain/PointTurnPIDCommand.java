@@ -15,7 +15,6 @@ public class PointTurnPIDCommand extends Command {
 	private double degrees, turnArcLength;
 	/**
 	 * @param degrees The amount, in degrees, to turn. A positive value will turn clockwise and a negative counter clockwise.
-	 * @param power The speed at which to turn. A negative value will cause the robot to turn in the opposite direction specified by degrees.
 	 */
 	public PointTurnPIDCommand(double degrees) {
     	this.degrees = degrees;

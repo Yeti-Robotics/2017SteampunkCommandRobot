@@ -14,11 +14,11 @@ public class GearPickerSubsystem extends Subsystem {
 		gearPiston = new DoubleSolenoid(RobotMap.GEAR_PICKER_SOLENOID[0],RobotMap.GEAR_PICKER_SOLENOID[1]);
 	}
 	
-	public void retractDispenser() {
+	public void retractPicker() {
 		gearPiston.set(Value.kForward);
 	}
 	
-	public void extendDispenser() {
+	public void extendPicker() {
 		gearPiston.set(Value.kReverse);
 	}
 
