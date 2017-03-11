@@ -165,6 +165,7 @@ public class Robot extends IterativeRobot {
 		rightDrivetrainSubsystem.publishEncoderValues();
 		leftMainDrivetrainSubsystem.publishEncoderValues();
 		DrivetrainSubsystemHandler.publishSmartDashboardValues();
+		GearTargetInfo.publishTargetValues();
 	}
 
 	public void testPeriodic() {

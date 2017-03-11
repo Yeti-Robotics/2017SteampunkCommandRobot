@@ -1,14 +1,13 @@
 package org.usfirst.frc.team3506.robot.vision;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import org.opencv.core.MatOfPoint;
-import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team3506.robot.RobotMap;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class GearTargetInfo {
 
@@ -17,14 +16,12 @@ public class GearTargetInfo {
 	private static Rect leftRect, rightRect, gearRect;
 	private static double leftTargetCenterX, leftTargetCenterY, leftTargetArea, leftTargetWidth, rightTargetCenterX,
 			rightTargetCenterY, rightTargetArea, rightTargetWidth, gearTargetCenterX, gearTargetCenterY,
-			gearTargetWidth;
+			gearTargetWidth, gearTargetHeight;
 
 	public static void setTargetContours(ArrayList<MatOfPoint> matOfPoints) {
 		synchronized (imgLock) {
 			if (matOfPoints.size() >= 2) {
 				numTargets = 2;
-				List<Point> targets = Arrays.asList(matOfPoints.get(0).toArray());
-				targets.addAll(Arrays.asList(matOfPoints.get(1).toArray()));
 				if (Imgproc.boundingRect(matOfPoints.get(0)).x < Imgproc.boundingRect(matOfPoints.get(1)).x) {
 					leftRect = Imgproc.boundingRect(matOfPoints.get(0));
 					rightRect = Imgproc.boundingRect(matOfPoints.get(1));
@@ -36,7 +33,7 @@ public class GearTargetInfo {
 					setLeftTarget(rightRect);
 					setRightTarget(leftRect);
 				}
-				gearRect = Imgproc.boundingRect(new MatOfPoint((Point[]) targets.toArray()));
+				gearRect = new Rect(leftRect.x, leftRect.y, (rightRect.x + rightRect.width) - leftRect.x, (leftRect.height + rightRect.height) / 2);
 				setTargetCenter();
 			} else if (matOfPoints.size() >= 1) {
 				numTargets = 1;
@@ -64,6 +61,22 @@ public class GearTargetInfo {
 		}
 	}
 
+	public static double getSkew(double leftDistance, double rightDistance, double knownWidth, double objectPixelWidth,
+			double azimuth) {
+		double a = knownWidth;
+		double b = rightDistance;
+		double c = leftDistance;
+		double A = Math.toDegrees(Math.acos(((b * b) + (c * c) - (a * a)) / (2 * b * c)));
+		double B = Math.toDegrees(Math.acos(((c * c) + (a * a) - (b * b)) / (2 * c * a)));
+		double C = Math.toDegrees(Math.acos(((a * a) + (b * b) - (c * c)) / (2 * a * b)));
+		double fovAngle = 68.5;
+		double imagePixelWidth = 1280;
+		double leftAzimuth = azimuth - ((objectPixelWidth / 2) * (fovAngle / imagePixelWidth));
+		double rightAzimuth = azimuth + ((objectPixelWidth / 2) * (fovAngle / imagePixelWidth));
+		double skew = ((180 - (180 - leftAzimuth - B)) + (180 - (180 - rightAzimuth - (180 - C)))) / 2;
+		return skew;
+	}
+
 	private static void setLeftTarget(Rect gearRect1) {
 		leftTargetCenterX = gearRect1.x + (gearRect1.width / 2);
 		leftTargetCenterY = gearRect1.y + (gearRect1.height / 2);
@@ -83,8 +96,20 @@ public class GearTargetInfo {
 //		gearTargetCenterX = (leftTargetCenterX - (leftTargetWidth / 2)) + (gearTargetWidth / 2);
 //		gearTargetCenterY = (leftTargetCenterY + rightTargetCenterY) / 2;
 		gearTargetWidth = gearRect.width;
+		gearTargetHeight = gearRect.height;
 		gearTargetCenterX = gearRect.x + (gearRect.width / 2);
 		gearTargetCenterY = gearRect.y - (gearRect.height / 2);
+	}
+	
+	public static void publishTargetValues() {
+		SmartDashboard.putNumber("Number of targets", numTargets);
+		SmartDashboard.putNumber("Target width", gearTargetWidth);
+		SmartDashboard.putNumber("Target height", gearTargetHeight);
+		SmartDashboard.putNumber("Azimuth", getAzimuth());
+		SmartDashboard.putNumber("Distance", getDistance());
+		SmartDashboard.putString("Left target center", "(" + leftTargetCenterX + ", " + leftTargetCenterY + ")");
+		SmartDashboard.putString("Right target center",  "(" + rightTargetCenterX + ", " + rightTargetCenterY + ")");
+		SmartDashboard.putString("Target center",  "(" + gearTargetCenterX + ", " + gearTargetCenterY + ")");
 	}
 
 	public static int getNumTargets() {

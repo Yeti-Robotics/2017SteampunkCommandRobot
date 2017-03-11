@@ -1,20 +1,22 @@
 package org.usfirst.frc.team3506.robot.vision;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.opencv.core.Core;
-import org.opencv.core.CvType;
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfInt;
-import org.opencv.core.MatOfPoint;
-import org.opencv.core.MatOfPoint2f;
-import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
-import org.opencv.core.Size;
-import org.opencv.imgproc.Imgproc;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.HashMap;
 
 import edu.wpi.first.wpilibj.vision.VisionPipeline;
+
+import org.opencv.core.*;
+import org.opencv.core.Core.*;
+import org.opencv.features2d.FeatureDetector;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.*;
+import org.opencv.objdetect.*;
 
 /**
 * RedContourVisionPipeline class.
@@ -27,10 +29,11 @@ public class RedContourVisionPipeline implements VisionPipeline {
 
 	//Outputs
 	private Mat resizeImageOutput = new Mat();
-	private Mat hslThresholdOutput = new Mat();
+	private Mat rgbThresholdOutput = new Mat();
+	private Mat cvErodeOutput = new Mat();
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
-	private ArrayList<MatOfPoint> convexHullsOutput = new ArrayList<MatOfPoint>();
 	private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
+	private ArrayList<MatOfPoint> convexHullsOutput = new ArrayList<MatOfPoint>();
 
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -42,41 +45,50 @@ public class RedContourVisionPipeline implements VisionPipeline {
 	@Override	public void process(Mat source0) {
 		// Step Resize_Image0:
 		Mat resizeImageInput = source0;
-		double resizeImageWidth = 640;
-		double resizeImageHeight = 480;
+		double resizeImageWidth = 640.0;
+		double resizeImageHeight = 480.0;
 		int resizeImageInterpolation = Imgproc.INTER_CUBIC;
 		resizeImage(resizeImageInput, resizeImageWidth, resizeImageHeight, resizeImageInterpolation, resizeImageOutput);
 
-		// Step HSL_Threshold0:
-		Mat hslThresholdInput = resizeImageOutput;
-		double[] hslThresholdHue = {0.0, 180.0};
-		double[] hslThresholdSaturation = {0.0, 255.0};
-		double[] hslThresholdLuminance = {160.52158273381295, 231.0665529010239};
-		hslThreshold(hslThresholdInput, hslThresholdHue, hslThresholdSaturation, hslThresholdLuminance, hslThresholdOutput);
+		// Step RGB_Threshold0:
+		Mat rgbThresholdInput = resizeImageOutput;
+		double[] rgbThresholdRed = {87.14028776978417, 255.0};
+		double[] rgbThresholdGreen = {0.0, 255.0};
+		double[] rgbThresholdBlue = {0.0, 255.0};
+		rgbThreshold(rgbThresholdInput, rgbThresholdRed, rgbThresholdGreen, rgbThresholdBlue, rgbThresholdOutput);
+
+		// Step CV_erode0:
+		Mat cvErodeSrc = rgbThresholdOutput;
+		Mat cvErodeKernel = new Mat();
+		Point cvErodeAnchor = new Point(-1, -1);
+		double cvErodeIterations = 1;
+		int cvErodeBordertype = Core.BORDER_CONSTANT;
+		Scalar cvErodeBordervalue = new Scalar(-1);
+		cvErode(cvErodeSrc, cvErodeKernel, cvErodeAnchor, cvErodeIterations, cvErodeBordertype, cvErodeBordervalue, cvErodeOutput);
 
 		// Step Find_Contours0:
-		Mat findContoursInput = hslThresholdOutput;
+		Mat findContoursInput = cvErodeOutput;
 		boolean findContoursExternalOnly = false;
 		findContours(findContoursInput, findContoursExternalOnly, findContoursOutput);
 
-		// Step Convex_Hulls0:
-		ArrayList<MatOfPoint> convexHullsContours = findContoursOutput;
-		convexHulls(convexHullsContours, convexHullsOutput);
-
 		// Step Filter_Contours0:
-		ArrayList<MatOfPoint> filterContoursContours = convexHullsOutput;
+		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
 		double filterContoursMinArea = 500.0;
 		double filterContoursMinPerimeter = 32.0;
 		double filterContoursMinWidth = 16.0;
-		double filterContoursMaxWidth = 1000;
-		double filterContoursMinHeight = 0;
-		double filterContoursMaxHeight = 1000;
+		double filterContoursMaxWidth = 1000.0;
+		double filterContoursMinHeight = 0.0;
+		double filterContoursMaxHeight = 1000.0;
 		double[] filterContoursSolidity = {0, 100};
-		double filterContoursMaxVertices = 1000000;
-		double filterContoursMinVertices = 0;
-		double filterContoursMinRatio = 0;
-		double filterContoursMaxRatio = 1000;
+		double filterContoursMaxVertices = 1000000.0;
+		double filterContoursMinVertices = 0.0;
+		double filterContoursMinRatio = 0.0;
+		double filterContoursMaxRatio = 1000.0;
 		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
+
+		// Step Convex_Hulls0:
+		ArrayList<MatOfPoint> convexHullsContours = filterContoursOutput;
+		convexHulls(convexHullsContours, convexHullsOutput);
 
 	}
 
@@ -89,11 +101,19 @@ public class RedContourVisionPipeline implements VisionPipeline {
 	}
 
 	/**
-	 * This method is a generated getter for the output of a HSL_Threshold.
-	 * @return Mat output from HSL_Threshold.
+	 * This method is a generated getter for the output of a RGB_Threshold.
+	 * @return Mat output from RGB_Threshold.
 	 */
-	public Mat hslThresholdOutput() {
-		return hslThresholdOutput;
+	public Mat rgbThresholdOutput() {
+		return rgbThresholdOutput;
+	}
+
+	/**
+	 * This method is a generated getter for the output of a CV_erode.
+	 * @return Mat output from CV_erode.
+	 */
+	public Mat cvErodeOutput() {
+		return cvErodeOutput;
 	}
 
 	/**
@@ -105,19 +125,19 @@ public class RedContourVisionPipeline implements VisionPipeline {
 	}
 
 	/**
-	 * This method is a generated getter for the output of a Convex_Hulls.
-	 * @return ArrayList<MatOfPoint> output from Convex_Hulls.
-	 */
-	public ArrayList<MatOfPoint> convexHullsOutput() {
-		return convexHullsOutput;
-	}
-
-	/**
 	 * This method is a generated getter for the output of a Filter_Contours.
 	 * @return ArrayList<MatOfPoint> output from Filter_Contours.
 	 */
 	public ArrayList<MatOfPoint> filterContoursOutput() {
 		return filterContoursOutput;
+	}
+
+	/**
+	 * This method is a generated getter for the output of a Convex_Hulls.
+	 * @return ArrayList<MatOfPoint> output from Convex_Hulls.
+	 */
+	public ArrayList<MatOfPoint> convexHullsOutput() {
+		return convexHullsOutput;
 	}
 
 
@@ -135,19 +155,42 @@ public class RedContourVisionPipeline implements VisionPipeline {
 	}
 
 	/**
-	 * Segment an image based on hue, saturation, and luminance ranges.
-	 *
-	 * @param input The image on which to perform the HSL threshold.
-	 * @param hue The min and max hue
-	 * @param sat The min and max saturation
-	 * @param lum The min and max luminance
+	 * Segment an image based on color ranges.
+	 * @param input The image on which to perform the RGB threshold.
+	 * @param red The min and max red.
+	 * @param green The min and max green.
+	 * @param blue The min and max blue.
 	 * @param output The image in which to store the output.
 	 */
-	private void hslThreshold(Mat input, double[] hue, double[] sat, double[] lum,
+	private void rgbThreshold(Mat input, double[] red, double[] green, double[] blue,
 		Mat out) {
-		Imgproc.cvtColor(input, out, Imgproc.COLOR_BGR2HLS);
-		Core.inRange(out, new Scalar(hue[0], lum[0], sat[0]),
-			new Scalar(hue[1], lum[1], sat[1]), out);
+		Imgproc.cvtColor(input, out, Imgproc.COLOR_BGR2RGB);
+		Core.inRange(out, new Scalar(red[0], green[0], blue[0]),
+			new Scalar(red[1], green[1], blue[1]), out);
+	}
+
+	/**
+	 * Expands area of lower value in an image.
+	 * @param src the Image to erode.
+	 * @param kernel the kernel for erosion.
+	 * @param anchor the center of the kernel.
+	 * @param iterations the number of times to perform the erosion.
+	 * @param borderType pixel extrapolation method.
+	 * @param borderValue value to be used for a constant border.
+	 * @param dst Output Image.
+	 */
+	private void cvErode(Mat src, Mat kernel, Point anchor, double iterations,
+		int borderType, Scalar borderValue, Mat dst) {
+		if (kernel == null) {
+			kernel = new Mat();
+		}
+		if (anchor == null) {
+			anchor = new Point(-1,-1);
+		}
+		if (borderValue == null) {
+			borderValue = new Scalar(-1);
+		}
+		Imgproc.erode(src, dst, kernel, anchor, (int)iterations, borderType, borderValue);
 	}
 
 	/**
@@ -170,29 +213,6 @@ public class RedContourVisionPipeline implements VisionPipeline {
 		}
 		int method = Imgproc.CHAIN_APPROX_SIMPLE;
 		Imgproc.findContours(input, contours, hierarchy, mode, method);
-	}
-
-	/**
-	 * Compute the convex hulls of contours.
-	 * @param inputContours The contours on which to perform the operation.
-	 * @param outputContours The contours where the output will be stored.
-	 */
-	private void convexHulls(List<MatOfPoint> inputContours,
-		ArrayList<MatOfPoint> outputContours) {
-		final MatOfInt hull = new MatOfInt();
-		outputContours.clear();
-		for (int i = 0; i < inputContours.size(); i++) {
-			final MatOfPoint contour = inputContours.get(i);
-			final MatOfPoint mopHull = new MatOfPoint();
-			Imgproc.convexHull(contour, hull);
-			mopHull.create((int) hull.size().height, 1, CvType.CV_32SC2);
-			for (int j = 0; j < hull.size().height; j++) {
-				int index = (int) hull.get(j, 0)[0];
-				double[] point = new double[] {contour.get(index, 0)[0], contour.get(index, 0)[1]};
-				mopHull.put(j, 0, point);
-			}
-			outputContours.add(mopHull);
-		}
 	}
 
 
@@ -241,6 +261,29 @@ public class RedContourVisionPipeline implements VisionPipeline {
 			final double ratio = bb.width / (double)bb.height;
 			if (ratio < minRatio || ratio > maxRatio) continue;
 			output.add(contour);
+		}
+	}
+
+	/**
+	 * Compute the convex hulls of contours.
+	 * @param inputContours The contours on which to perform the operation.
+	 * @param outputContours The contours where the output will be stored.
+	 */
+	private void convexHulls(List<MatOfPoint> inputContours,
+		ArrayList<MatOfPoint> outputContours) {
+		final MatOfInt hull = new MatOfInt();
+		outputContours.clear();
+		for (int i = 0; i < inputContours.size(); i++) {
+			final MatOfPoint contour = inputContours.get(i);
+			final MatOfPoint mopHull = new MatOfPoint();
+			Imgproc.convexHull(contour, hull);
+			mopHull.create((int) hull.size().height, 1, CvType.CV_32SC2);
+			for (int j = 0; j < hull.size().height; j++) {
+				int index = (int) hull.get(j, 0)[0];
+				double[] point = new double[] {contour.get(index, 0)[0], contour.get(index, 0)[1]};
+				mopHull.put(j, 0, point);
+			}
+			outputContours.add(mopHull);
 		}
 	}
 
