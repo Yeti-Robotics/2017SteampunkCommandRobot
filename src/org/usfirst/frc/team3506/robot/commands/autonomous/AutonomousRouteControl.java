@@ -3,11 +3,10 @@ package org.usfirst.frc.team3506.robot.commands.autonomous;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.usfirst.frc.team3506.robot.commands.drivetrain.DriveStraightDistanceAtPower;
-import org.usfirst.frc.team3506.robot.commands.drivetrain.PointTurnDegreesAtPowerCommand;
+import org.usfirst.frc.team3506.robot.commands.drivetrain.DriveStraightPIDCommand;
+import org.usfirst.frc.team3506.robot.commands.drivetrain.PointTurnPIDCommand;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutonomousRouteControl extends CommandGroup {
@@ -87,10 +86,10 @@ public class AutonomousRouteControl extends CommandGroup {
 			if (moveStepEnable.get(i)) {
 				switch (moveType.get(i)) {
 					case MoveTypes.DRIVE:
-						addSequential(new DriveStraightDistanceAtPower(moveSpeed.get(i), moveDistance.get(i)));
+						addSequential(new DriveStraightPIDCommand(moveDistance.get(i)));
 						break;
 					case MoveTypes.ROTATE:
-						addSequential(new PointTurnDegreesAtPowerCommand(moveAngle.get(i), moveSpeed.get(i)));
+						addSequential(new PointTurnPIDCommand(moveAngle.get(i)));
 						break;
 					case MoveTypes.WAIT:
 						

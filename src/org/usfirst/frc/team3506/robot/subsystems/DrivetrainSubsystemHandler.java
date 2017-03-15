@@ -29,13 +29,11 @@ public class DrivetrainSubsystemHandler {
 	}
 	
 	public static void startDistancePID(double distance) {
-		enableVelocityPID();
 		leftTrain.startDistancePID(distance);
 		rightTrain.startDistancePID(distance);
 	}
 	
 	public static void startDistancePID(double leftDistance, double rightDistance) {
-		enableVelocityPID();
 		leftTrain.startDistancePID(leftDistance);
 		rightTrain.startDistancePID(rightDistance);
 	}

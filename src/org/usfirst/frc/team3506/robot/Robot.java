@@ -24,8 +24,6 @@ import org.usfirst.frc.team3506.robot.subsystems.TurretRotationSubsystem;
 import org.usfirst.frc.team3506.robot.vision.GearTargetInfo;
 import org.usfirst.frc.team3506.robot.vision.RedContourVisionPipeline;
 
-import edu.wpi.cscore.CvSink;
-import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoSink;
 import edu.wpi.first.wpilibj.CameraServer;

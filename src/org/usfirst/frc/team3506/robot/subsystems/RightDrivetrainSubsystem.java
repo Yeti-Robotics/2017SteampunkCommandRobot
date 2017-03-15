@@ -25,16 +25,13 @@ public class RightDrivetrainSubsystem extends PIDSubsystem {
 	public RightDrivetrainSubsystem() {
 		super("Right Drivetrain", RobotMap.RIGHT_RATE_P, RobotMap.RIGHT_RATE_I, RobotMap.RIGHT_RATE_D);
     	setOutputRange(RobotMap.MIN_DRIVETRAIN_OUTPUT, RobotMap.MAX_DRIVETRAIN_OUTPUT);
-    	disable();
+    	enable();
 
 		rightEnc.setDistancePerPulse(RobotMap.DRIVE_ENCODER_FEET_PER_PULSE);
 		rightEnc.setPIDSourceType(PIDSourceType.kDisplacement);
 	
-		drivetrainDistancePID = new PIDController(RobotMap.RIGHT_DISTANCE_P, RobotMap.RIGHT_DISTANCE_I, RobotMap.RIGHT_DISTANCE_D, rightEnc, new PIDOutput() {
-			@Override
-			public void pidWrite(double output) {
-				Robot.rightDrivetrainSubsystem.setSetpoint(output);
-			}
+		drivetrainDistancePID = new PIDController(RobotMap.RIGHT_DISTANCE_P, RobotMap.RIGHT_DISTANCE_I, RobotMap.RIGHT_DISTANCE_D, rightEnc, output -> {
+			Robot.rightDrivetrainSubsystem.setSetpoint(output);
 		});
 	}
 

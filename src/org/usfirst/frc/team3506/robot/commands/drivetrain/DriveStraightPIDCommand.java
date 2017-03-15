@@ -21,7 +21,6 @@ public class DriveStraightPIDCommand extends Command {
 	protected void initialize() {
 		DrivetrainSubsystemHandler.resetEncoders();
 		DrivetrainSubsystemHandler.startDistancePID(distance);
-    	DrivetrainSubsystemHandler.enableVelocityPID();
 	}
 
 	protected void execute() {

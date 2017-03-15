@@ -30,19 +30,20 @@ public class PointTurnPIDCommand extends Command {
     	} else if(degrees < 0){
 			DrivetrainSubsystemHandler.startDistancePID(-turnArcLength, turnArcLength);
     	}
-    	DrivetrainSubsystemHandler.enableVelocityPID();
 	}
 
 	protected void execute() {
+		
 	}
 
 	protected boolean isFinished() {
-		return (Math.abs(Robot.leftMainDrivetrainSubsystem.getPosition()) >= turnArcLength)
-				&& (Math.abs(Robot.leftMainDrivetrainSubsystem.getPosition()) >= turnArcLength);
+//		return (Math.abs(Robot.leftMainDrivetrainSubsystem.getPosition()) >= turnArcLength)
+//				&& (Math.abs(Robot.leftMainDrivetrainSubsystem.getPosition()) >= turnArcLength);
+		return DrivetrainSubsystemHandler.reachedDistance();
 	}
 
 	protected void end() {
-    	DrivetrainSubsystemHandler.disableVelocityPID();
+		
 	}
 
 	protected void interrupted() {
