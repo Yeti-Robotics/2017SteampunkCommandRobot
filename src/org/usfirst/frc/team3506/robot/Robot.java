@@ -7,6 +7,8 @@ import org.usfirst.frc.team3506.robot.commands.autonomous.CenterGearAutonomous;
 import org.usfirst.frc.team3506.robot.commands.autonomous.DriveForwardAutonomous;
 import org.usfirst.frc.team3506.robot.commands.autonomous.LeftCenterAutonomous;
 import org.usfirst.frc.team3506.robot.commands.autonomous.RightGearAutonomous;
+import org.usfirst.frc.team3506.robot.subsystems.ClawGripSubsystem;
+import org.usfirst.frc.team3506.robot.subsystems.ClawLiftSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystemHandler;
 import org.usfirst.frc.team3506.robot.subsystems.GearPickerSubsystem;
@@ -22,7 +24,10 @@ import org.usfirst.frc.team3506.robot.subsystems.TurretRotationSubsystem;
 import org.usfirst.frc.team3506.robot.vision.GearTargetInfo;
 import org.usfirst.frc.team3506.robot.vision.RedContourVisionPipeline;
 
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoSink;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -42,18 +47,23 @@ public class Robot extends IterativeRobot {
 	public static TowerSubsystem towerSubsystem;
 	public static ClimberSubsystem climberSubsystem;
 	public static GearPickerSubsystem gearPickerSubsystem;
+	public static ClawGripSubsystem clawGripSubsystem;
+	public static ClawLiftSubsystem clawLiftSubsystem;
 	public static TurretFlywheelSubsystem turretFlywheelSubsystem;
 	public static TurretPitchSubsystem turretPitchSubsystem;
 	public static AutonomousRouteControl autonomousRouteControl;
 	public SendableChooser<Robot.AutoModes> autoChooser;
 	public static OI oi;
-	public static UsbCamera camera;
+	public static UsbCamera camera1;
+	public static UsbCamera camera2;
+	public static VideoSink server;
+	public static boolean usingCamera1 = true;
 
 	public static Command autonomousCommand;
 
 	private VisionThread visionThread;
 	private final Object imgLock = new Object();
-	private boolean runVisionThread;
+	public static boolean runVisionThread;
 
 	public static enum AutoModes {
 		CENTER_GEAR, LEFT_GEAR, RIGHT_GEAR, DRIVE_FORWARD, ROUTE_CONTROL
@@ -65,6 +75,8 @@ public class Robot extends IterativeRobot {
 		leftMainDrivetrainSubsystem = new LeftDrivetrainSubsystem();
 		gearShiftSubsystem = new GearShiftSubsystem();
 		intakeSubsystem = new IntakeSubsystem();
+		clawGripSubsystem = new ClawGripSubsystem();
+		clawLiftSubsystem = new ClawLiftSubsystem();
 		towerSubsystem = new TowerSubsystem();
 		climberSubsystem = new ClimberSubsystem();
 		gearPickerSubsystem = new GearPickerSubsystem();
@@ -82,11 +94,14 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		SmartDashboard.putData(Scheduler.getInstance());
 
-		camera = CameraServer.getInstance().startAutomaticCapture();
-		camera.setResolution(RobotMap.IMG_WIDTH, RobotMap.IMG_HEIGHT);
+		camera1 = CameraServer.getInstance().startAutomaticCapture(0);
+		camera2 = CameraServer.getInstance().startAutomaticCapture(1);
+		camera1.setResolution(RobotMap.IMG_WIDTH, RobotMap.IMG_HEIGHT);
+		camera2.setResolution(RobotMap.IMG_WIDTH, RobotMap.IMG_HEIGHT);
+		server = CameraServer.getInstance().getServer();
 		disableVisionProcessing();
-		if (camera.isConnected()) {
-			visionThread = new VisionThread(camera, new RedContourVisionPipeline(), pipeline -> {
+		if (camera1.isConnected() || camera2.isConnected()) {
+			visionThread = new VisionThread(camera1, new RedContourVisionPipeline(), pipeline -> {
 				if (runVisionThread) {
 					Collections.sort(pipeline.convexHullsOutput(), (first, second) -> {
 						if (first.size().area() > second.size().area()) {
@@ -104,15 +119,19 @@ public class Robot extends IterativeRobot {
 		}
 	}
 	
-	public void enableVisionProcessing() {
-		camera.setBrightness(RobotMap.CAM_BRIGHTNESS_VISION);
-		camera.setExposureManual(RobotMap.CAM_EXPOSURE_VISION);
+	public static void enableVisionProcessing() {
+		camera1.setBrightness(RobotMap.CAM_BRIGHTNESS_VISION);
+		camera1.setExposureManual(RobotMap.CAM_EXPOSURE_VISION);
+		camera2.setBrightness(RobotMap.CAM_BRIGHTNESS_VISION);
+		camera2.setExposureManual(RobotMap.CAM_EXPOSURE_VISION);
 		runVisionThread = true;
 	}
 	
-	public void disableVisionProcessing() {
-		camera.setBrightness(RobotMap.CAM_BRIGHTNESS_DRIVING);
-		camera.setExposureManual(RobotMap.CAM_EXPOSURE_DRIVING);
+	public static void disableVisionProcessing() {
+		camera1.setBrightness(RobotMap.CAM_BRIGHTNESS_DRIVING);
+		camera1.setExposureManual(RobotMap.CAM_EXPOSURE_DRIVING);
+		camera2.setBrightness(RobotMap.CAM_BRIGHTNESS_DRIVING);
+		camera2.setExposureManual(RobotMap.CAM_EXPOSURE_DRIVING);
 		runVisionThread = false;
 	}
 

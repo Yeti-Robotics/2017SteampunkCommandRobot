@@ -20,11 +20,6 @@ public class UserDriveCommand extends Command {
     }
 
     protected void execute() {
-//    	if (Robot.leftMainDrivetrainSubsystem.getControlType() == ControlType.TANK) {
-//    		Robot.leftMainDrivetrainSubsystem.tankDrive(Robot.oi.getLeftY(), Robot.oi.getRightY());
-//    	} else {
-//    		Robot.leftMainDrivetrainSubsystem.arcadeDrive(-Robot.oi.getRightX(), Robot.oi.getLeftY());
-//    	}
     	DrivetrainSubsystemHandler.setSetpoint(Robot.oi.getLeftY(), Robot.oi.getRightY());
     }
 
