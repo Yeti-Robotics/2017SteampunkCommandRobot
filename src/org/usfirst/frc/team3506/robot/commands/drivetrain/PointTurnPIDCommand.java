@@ -3,7 +3,6 @@ package org.usfirst.frc.team3506.robot.commands.drivetrain;
 import org.usfirst.frc.team3506.robot.Robot;
 import org.usfirst.frc.team3506.robot.RobotMap;
 import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystemHandler;
-import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystemHandler.DrivetrainFeedbackType;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -24,17 +23,14 @@ public class PointTurnPIDCommand extends Command {
 
 	protected void initialize() {
 		DrivetrainSubsystemHandler.resetEncoders();
-		DrivetrainSubsystemHandler.setFeedbackType(DrivetrainFeedbackType.DISTANCE);
 		turnArcLength = Math.abs((degrees / 360.0) * (RobotMap.ROBOT_TRACK_WIDTH_FT * Math.PI));
 
 		if(degrees > 0){
-			DrivetrainSubsystemHandler.setSetpoint(turnArcLength, -turnArcLength);
+			DrivetrainSubsystemHandler.startDistancePID(turnArcLength, -turnArcLength);
     	} else if(degrees < 0){
-
-			DrivetrainSubsystemHandler.setSetpoint(-turnArcLength, turnArcLength);
+			DrivetrainSubsystemHandler.startDistancePID(-turnArcLength, turnArcLength);
     	}
-		
-    	DrivetrainSubsystemHandler.enable();
+    	DrivetrainSubsystemHandler.enableVelocityPID();
 	}
 
 	protected void execute() {
@@ -46,7 +42,7 @@ public class PointTurnPIDCommand extends Command {
 	}
 
 	protected void end() {
-    	DrivetrainSubsystemHandler.disable();
+    	DrivetrainSubsystemHandler.disableVelocityPID();
 	}
 
 	protected void interrupted() {

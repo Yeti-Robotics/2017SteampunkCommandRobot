@@ -3,10 +3,12 @@ package org.usfirst.frc.team3506.robot.subsystems;
 import org.usfirst.frc.team3506.robot.Robot;
 import org.usfirst.frc.team3506.robot.RobotMap;
 import org.usfirst.frc.team3506.robot.commands.drivetrain.UserDriveCommand;
-import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystemHandler.DrivetrainFeedbackType;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
@@ -15,7 +17,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class LeftDrivetrainSubsystem extends PIDSubsystem {
 
 	private ControlType controlType;
-	private DrivetrainFeedbackType feedbackType;
 	private RobotDrive drive;
 	
 	private Spark frontLeftSpark = new Spark(RobotMap.FRONT_LEFT_SPARK);
@@ -23,12 +24,14 @@ public class LeftDrivetrainSubsystem extends PIDSubsystem {
 
 	private Encoder leftEnc = new Encoder(RobotMap.LEFT_DRIVE_ENCODER[0], RobotMap.LEFT_DRIVE_ENCODER[1], false, EncodingType.k4X);
 	
+	private PIDController drivetrainDistancePID;
+	
 	public static enum ControlType {
 		TANK, ARCADE;
 	}
 
 	public LeftDrivetrainSubsystem() {
-		super("Left Drivetrain", RobotMap.P, RobotMap.I, RobotMap.D);
+		super("Left Drivetrain", RobotMap.LEFT_RATE_P, RobotMap.LEFT_RATE_I, RobotMap.LEFT_RATE_D);
     	setOutputRange(RobotMap.MIN_DRIVETRAIN_OUTPUT, RobotMap.MAX_DRIVETRAIN_OUTPUT);
     	disable();
 
@@ -38,9 +41,16 @@ public class LeftDrivetrainSubsystem extends PIDSubsystem {
 		drive = new RobotDrive(frontLeftSpark, backLeftSpark, Robot.rightDrivetrainSubsystem.frontRightSpark, Robot.rightDrivetrainSubsystem.backRightSpark);
 		
 		controlType = ControlType.TANK;
-		feedbackType = DrivetrainFeedbackType.RATE;
 
 		leftEnc.setDistancePerPulse(RobotMap.DRIVE_ENCODER_FEET_PER_PULSE);
+		leftEnc.setPIDSourceType(PIDSourceType.kDisplacement);
+		
+		drivetrainDistancePID = new PIDController(RobotMap.LEFT_DISTANCE_P, RobotMap.LEFT_DISTANCE_I, RobotMap.LEFT_DISTANCE_D, leftEnc, new PIDOutput() {
+			@Override
+			public void pidWrite(double output) {
+				Robot.leftMainDrivetrainSubsystem.setSetpoint(output);
+			}
+		});
 	}
 
 	public void initDefaultCommand() {
@@ -48,21 +58,13 @@ public class LeftDrivetrainSubsystem extends PIDSubsystem {
 	}
 
     protected double returnPIDInput() {
-        return feedbackType == DrivetrainFeedbackType.DISTANCE ? getLeftEncoderDistance() : getLeftEncoderVel();
+        return getLeftEncoderVel();
     }
 
     protected void usePIDOutput(double output) {
-    	moveLeftTrain(feedbackType == DrivetrainFeedbackType.DISTANCE ? RobotMap.LEFT_DRIVETRAIN_TRIM * output : output);
+    	moveLeftTrain(output);
     }
-	
-	public DrivetrainFeedbackType getFeedbackType() {
-		return feedbackType;
-	}
-
-	public void setFeedbackType(DrivetrainFeedbackType feedbackType) {
-		this.feedbackType = feedbackType;
-	}
-
+    
 	public ControlType getControlType() {
 		return controlType;
 	}
@@ -85,9 +87,22 @@ public class LeftDrivetrainSubsystem extends PIDSubsystem {
 	public void arcadeDrive(double moveSpeed, double rotateSpeed) {
 		drive.arcadeDrive(moveSpeed, rotateSpeed);
 	}
+	
+	public void startDistancePID (double distance) {
+		drivetrainDistancePID.setSetpoint(distance);
+		drivetrainDistancePID.enable();
+	}
 
-	public void driveStraight(double speed) {
-		moveLeftTrain(-RobotMap.LEFT_DRIVETRAIN_TRIM * speed);
+	public void disableDistancePID () {
+		drivetrainDistancePID.disable();
+	}
+	
+	public double getDistanceSetpoint() {
+		return drivetrainDistancePID.getSetpoint();
+	}
+	
+	public double getDistanceError() {
+		return drivetrainDistancePID.getError();
 	}
 
 	public double getRawLeftEncoderPos() {

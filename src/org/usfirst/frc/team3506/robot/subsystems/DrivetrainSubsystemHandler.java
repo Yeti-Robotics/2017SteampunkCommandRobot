@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DrivetrainSubsystemHandler {
 
-	private static DrivetrainFeedbackType drivetrainFeedbackType;
 	private static LeftDrivetrainSubsystem leftTrain = Robot.leftMainDrivetrainSubsystem;
 	private static RightDrivetrainSubsystem rightTrain = Robot.rightDrivetrainSubsystem;
 
@@ -18,33 +17,44 @@ public class DrivetrainSubsystemHandler {
 		leftTrain.resetEncoders();
 		rightTrain.resetEncoders();
 	}
-
-	public static void setFeedbackType(DrivetrainFeedbackType drivetrainFeedbackType) {
-		leftTrain.setFeedbackType(drivetrainFeedbackType);
-		rightTrain.setFeedbackType(drivetrainFeedbackType);
-		DrivetrainSubsystemHandler.drivetrainFeedbackType = drivetrainFeedbackType;
-	}
-
-	public static DrivetrainFeedbackType getDrivetrainFeedbackType() {
-		return drivetrainFeedbackType;
-	}
 	
-	public static void enable() {
+	public static void enableVelocityPID() {
 		leftTrain.enable();
 		rightTrain.enable();
 	}
 	
-	public static void disable() {
+	public static void disableVelocityPID() {
 		leftTrain.disable();
 		rightTrain.disable();
 	}
 	
-	public static void setSetpoint(double setpoint) {
+	public static void startDistancePID(double distance) {
+		enableVelocityPID();
+		leftTrain.startDistancePID(distance);
+		rightTrain.startDistancePID(distance);
+	}
+	
+	public static void startDistancePID(double leftDistance, double rightDistance) {
+		enableVelocityPID();
+		leftTrain.startDistancePID(leftDistance);
+		rightTrain.startDistancePID(rightDistance);
+	}
+	
+	public static void disableDistancePID() {
+		leftTrain.disableDistancePID();
+		rightTrain.disableDistancePID();
+	}
+	
+	public static boolean reachedDistance () {
+		return (leftTrain.getDistanceError() <= 0) && (rightTrain.getDistanceError() <= 0);
+	}
+	
+	public static void setVelocitySetpoint(double setpoint) {
 		leftTrain.setSetpoint(setpoint);
 		rightTrain.setSetpoint(setpoint);
 	}
 	
-	public static void setSetpoint(double leftSetpoint, double rightSetpoint) {
+	public static void setVelocitySetpoint(double leftSetpoint, double rightSetpoint) {
 		leftTrain.setSetpoint(leftSetpoint);
 		rightTrain.setSetpoint(rightSetpoint);
 	}
