@@ -2,7 +2,6 @@ package org.usfirst.frc.team3506.robot.commands.drivetrain;
 
 import org.usfirst.frc.team3506.robot.Robot;
 import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystemHandler;
-import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystemHandler.DrivetrainFeedbackType;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -21,21 +20,19 @@ public class DriveStraightPIDCommand extends Command {
 
 	protected void initialize() {
 		DrivetrainSubsystemHandler.resetEncoders();
-		DrivetrainSubsystemHandler.setFeedbackType(DrivetrainFeedbackType.DISTANCE);
-		DrivetrainSubsystemHandler.setSetpoint(distance);
-    	DrivetrainSubsystemHandler.enable();
+		DrivetrainSubsystemHandler.startDistancePID(distance);
+    	DrivetrainSubsystemHandler.enableVelocityPID();
 	}
 
 	protected void execute() {
 	}
 
 	protected boolean isFinished() {
-		return (Robot.leftMainDrivetrainSubsystem.getSetpoint() - Robot.leftMainDrivetrainSubsystem.getPosition() <= 0)
-				&& (Robot.rightDrivetrainSubsystem.getSetpoint() - Robot.rightDrivetrainSubsystem.getPosition() <= 0);
+		return DrivetrainSubsystemHandler.reachedDistance();
 	}
 
 	protected void end() {
-    	DrivetrainSubsystemHandler.disable();
+    	DrivetrainSubsystemHandler.disableDistancePID();
 	}
 
 	protected void interrupted() {

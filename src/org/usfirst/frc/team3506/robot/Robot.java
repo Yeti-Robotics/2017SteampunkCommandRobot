@@ -72,6 +72,7 @@ public class Robot extends IterativeRobot {
 		turretFlywheelSubsystem = new TurretFlywheelSubsystem();
 		turretPitchSubsystem = new TurretPitchSubsystem();
 		oi = new OI();
+		
 		autoChooser = new SendableChooser<AutoModes>();
 		autoChooser.addDefault("Drive Forward", AutoModes.DRIVE_FORWARD);
 		autoChooser.addObject("Center Gear", AutoModes.CENTER_GEAR);
@@ -80,27 +81,29 @@ public class Robot extends IterativeRobot {
 		autonomousCommand = new DriveForwardAutonomous();
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		SmartDashboard.putData(Scheduler.getInstance());
+		SmartDashboard.putData("Drivetrain", leftMainDrivetrainSubsystem);
+		SmartDashboard.putData("Right Drivetrain", rightDrivetrainSubsystem);
 
 		camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(RobotMap.IMG_WIDTH, RobotMap.IMG_HEIGHT);
 		disableVisionProcessing();
-		if (camera.isConnected()) {
-			visionThread = new VisionThread(camera, new RedContourVisionPipeline(), pipeline -> {
-				if (runVisionThread) {
-					Collections.sort(pipeline.convexHullsOutput(), (first, second) -> {
-						if (first.size().area() > second.size().area()) {
-							return -1;
-						} else if (first.size().area() == second.size().area()) {
-							return 0;
-						} else {
-							return 1;
-						}
-					});
-					GearTargetInfo.setTargetContours(pipeline.convexHullsOutput());
-				}
-			});
-			visionThread.start();
-		}
+//		if (camera.isConnected()) {
+//			visionThread = new VisionThread(camera, new RedContourVisionPipeline(), pipeline -> {
+//				if (runVisionThread) {
+//					Collections.sort(pipeline.convexHullsOutput(), (first, second) -> {
+//						if (first.size().area() > second.size().area()) {
+//							return -1;
+//						} else if (first.size().area() == second.size().area()) {
+//							return 0;
+//						} else {
+//							return 1;
+//						}
+//					});
+//					GearTargetInfo.setTargetContours(pipeline.convexHullsOutput());
+//				}
+//			});
+//			visionThread.start();
+//		}
 	}
 	
 	public void enableVisionProcessing() {
@@ -158,6 +161,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
+		System.out.println(RobotMap.LEFT_DISTANCE_P);
+		System.out.println(RobotMap.RIGHT_DISTANCE_P);
 	}
 
 	public void teleopPeriodic() {

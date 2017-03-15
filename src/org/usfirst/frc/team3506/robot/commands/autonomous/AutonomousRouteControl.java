@@ -1,7 +1,7 @@
 package org.usfirst.frc.team3506.robot.commands.autonomous;
 
-import org.usfirst.frc.team3506.robot.commands.drivetrain.DriveStraightDistanceAtPower;
-import org.usfirst.frc.team3506.robot.commands.drivetrain.PointTurnDegreesAtPowerCommand;
+import org.usfirst.frc.team3506.robot.commands.drivetrain.DriveStraightPIDCommand;
+import org.usfirst.frc.team3506.robot.commands.drivetrain.PointTurnPIDCommand;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
@@ -37,9 +37,9 @@ public class AutonomousRouteControl extends CommandGroup {
 			if (moveStepEnable[i]) {
 				switch ((int) moveType[i]) {
 					case 1:
-						addSequential(new DriveStraightDistanceAtPower(moveSpeed[i], moveDistance[i]));
+						addSequential(new DriveStraightPIDCommand(moveDistance[i]));
 					case 2:
-						addSequential(new PointTurnDegreesAtPowerCommand(moveAngle[i], moveSpeed[i]));
+						addSequential(new PointTurnPIDCommand(moveAngle[i]));
 				}
 				System.out.println("Step " + i + " completed.");
 			} else {

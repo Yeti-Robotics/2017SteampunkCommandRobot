@@ -2,7 +2,6 @@ package org.usfirst.frc.team3506.robot.commands.drivetrain;
 
 import org.usfirst.frc.team3506.robot.Robot;
 import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystemHandler;
-import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystemHandler.DrivetrainFeedbackType;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -15,8 +14,8 @@ public class UserDriveCommand extends Command {
 
     protected void initialize() {
     	DrivetrainSubsystemHandler.resetEncoders();
-    	DrivetrainSubsystemHandler.setFeedbackType(DrivetrainFeedbackType.RATE);
-    	DrivetrainSubsystemHandler.enable();
+    	DrivetrainSubsystemHandler.enableVelocityPID();
+    	DrivetrainSubsystemHandler.disableDistancePID();
     }
 
     protected void execute() {
@@ -25,7 +24,7 @@ public class UserDriveCommand extends Command {
 //    	} else {
 //    		Robot.leftMainDrivetrainSubsystem.arcadeDrive(-Robot.oi.getRightX(), Robot.oi.getLeftY());
 //    	}
-    	DrivetrainSubsystemHandler.setSetpoint(Robot.oi.getLeftY(), Robot.oi.getRightY());
+    	DrivetrainSubsystemHandler.setVelocitySetpoint(Robot.oi.getLeftY(), Robot.oi.getRightY());
     }
 
     protected boolean isFinished() {
@@ -36,6 +35,6 @@ public class UserDriveCommand extends Command {
     }
 
     protected void interrupted() {
-    	DrivetrainSubsystemHandler.disable();
+    	DrivetrainSubsystemHandler.disableVelocityPID();
     }
 }

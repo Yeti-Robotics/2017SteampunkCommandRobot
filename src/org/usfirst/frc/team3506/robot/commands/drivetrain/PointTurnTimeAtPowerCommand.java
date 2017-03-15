@@ -33,7 +33,6 @@ private double time, power;
     }
 
     protected void end() {
-    	Robot.leftMainDrivetrainSubsystem.driveStraight(0);
     }
 
     protected void interrupted() {

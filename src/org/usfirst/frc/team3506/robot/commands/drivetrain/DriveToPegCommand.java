@@ -3,7 +3,6 @@ package org.usfirst.frc.team3506.robot.commands.drivetrain;
 import org.usfirst.frc.team3506.robot.Robot;
 import org.usfirst.frc.team3506.robot.RobotMap;
 import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystemHandler;
-import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystemHandler.DrivetrainFeedbackType;
 import org.usfirst.frc.team3506.robot.vision.GearTargetInfo;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -19,10 +18,9 @@ public class DriveToPegCommand extends Command {
     }
 
     protected void initialize() {
-    	DrivetrainSubsystemHandler.setFeedbackType(DrivetrainFeedbackType.DISTANCE);
     	DrivetrainSubsystemHandler.resetEncoders();
-    	DrivetrainSubsystemHandler.setSetpoint(GearTargetInfo.getDistance());
-    	DrivetrainSubsystemHandler.enable();
+    	DrivetrainSubsystemHandler.startDistancePID(GearTargetInfo.getDistance());
+    	DrivetrainSubsystemHandler.enableVelocityPID();
     }
 
     protected void execute() {
@@ -34,7 +32,7 @@ public class DriveToPegCommand extends Command {
     }
 
     protected void end() {
-    	DrivetrainSubsystemHandler.disable();
+    	DrivetrainSubsystemHandler.disableDistancePID();
     }
 
     protected void interrupted() {
