@@ -18,11 +18,11 @@ public class ClawLiftSubsystem extends Subsystem {
 	}
 
 	public void raiseClaw() {
-		clawPiston.set(Value.kReverse);
+		clawPiston.set(RobotMap.CLAW_RAISED_STATE);
 	}
 
 	public void lowerClaw() {
-		clawPiston.set(Value.kForward);
+		clawPiston.set(RobotMap.CLAW_LOWERED_STATE);
 	}
 
 	public void initDefaultCommand() {

@@ -27,6 +27,7 @@ import org.usfirst.frc.team3506.robot.vision.RedContourVisionPipeline;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoSink;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -91,6 +92,8 @@ public class Robot extends IterativeRobot {
 		autonomousCommand = new DriveForwardAutonomous();
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		SmartDashboard.putData(Scheduler.getInstance());
+		
+		DrivetrainSubsystemHandler.publishSmartDashboardValues();
 
 		camera1 = CameraServer.getInstance().startAutomaticCapture(0);
 		camera2 = CameraServer.getInstance().startAutomaticCapture(1);
@@ -115,6 +118,7 @@ public class Robot extends IterativeRobot {
 			});
 			visionThread.start();
 		}
+		
 	}
 	
 	public static void enableVisionProcessing() {

@@ -20,18 +20,23 @@ public class RobotMap {
 	public static final double MAX_DRIVE_RATE = 11.5;
 	public static final double MIN_DRIVETRAIN_OUTPUT = -1;
 	public static final double MAX_DRIVETRAIN_OUTPUT = 1;
-	public static final double LEFT_DISTANCE_P = 1.0/(69.0/12.0);
+	public static final double LEFT_DISTANCE_P = 1;
 	public static final double LEFT_DISTANCE_I = 0;
 	public static final double LEFT_DISTANCE_D = 0;
-	public static final double RIGHT_DISTANCE_P = 1.0/(69.0/12.0);
+	public static final double RIGHT_DISTANCE_P = 1;
 	public static final double RIGHT_DISTANCE_I = 0;
 	public static final double RIGHT_DISTANCE_D = 0;
-	public static final double LEFT_RATE_P = 0.8;
-	public static final double LEFT_RATE_I = 0.3;
+	public static final double LEFT_RATE_FORWARDS_P = IS_PRACTICE_BOT ? 1 : .95;
+	public static final double LEFT_RATE_BACKWARDS_P = IS_PRACTICE_BOT ? .87 : 1;
+	public static final double LEFT_RATE_I = 0;
 	public static final double LEFT_RATE_D = 0;
-	public static final double RIGHT_RATE_P = 0.8;
-	public static final double RIGHT_RATE_I = 0.3;
+	public static final double RIGHT_RATE_FORWARDS_P = IS_PRACTICE_BOT ? .701 : 1;
+	public static final double RIGHT_RATE_BACKWARDS_P = IS_PRACTICE_BOT ? 1 : .95;
+	public static final double RIGHT_RATE_I = 0;
 	public static final double RIGHT_RATE_D = 0;
+	public static final double STRAIGHT_DISTANCE_ERROR_TOLERANCE = .1;
+	public static final double ROTATE_DISTANCE_ERROR_TOLERANCE = .25;
+	public static final double RATE_ERROR_TOLERANCE = .1;
 	public static final double MAX_TURN_SPEED = .4;
 	public static final double MIN_TURN_SPEED = 0;
 	public static final double GEAR_PLACEMENT_DISTANCE = .5;
@@ -75,11 +80,18 @@ public class RobotMap {
 	public static final double RIGHT_SERVO_UPPER_LIMIT = 0.8;
 	public static final double RIGHT_SERVO_LOWER_LIMIT = 0.3;
 	
-	public static final int[] CLAW_GRIP_SOLENOID = { 4, 5 };//4, 5 | 6, 7
-	public static final int[] CLAW_LIFT_SOLENOID = { 2, 3 };//2, 3 | 4, 5
+	//Gear Claw
+	public static final int[] CLAW_GRIP_SOLENOID = IS_PRACTICE_BOT ? new int[] { 4, 5 } : new int[] { 6, 7 };
+	public static final Value CLAW_GRIPPED_STATE = Value.kForward;
+	public static final Value CLAW_UNGRIPPED_STATE = Value.kReverse;
+	
+	//Gear Lift
+	public static final int[] CLAW_LIFT_SOLENOID = IS_PRACTICE_BOT ? new int[] { 2, 3 } : new int[] { 4, 5 };
+	public static final Value CLAW_RAISED_STATE = Value.kReverse;
+	public static final Value CLAW_LOWERED_STATE = Value.kForward;
 	
 	//Gear Picker
-	public static final int [] GEAR_PICKER_SOLENOID =  { 6, 7 };
+	public static final int [] GEAR_PICKER_SOLENOID = IS_PRACTICE_BOT ? new int[] { 6, 7 } : new int[] { 2, 3 };
 	
 	//Tower
 	public static final int TOWER_SPARK = 6;

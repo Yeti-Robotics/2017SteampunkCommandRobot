@@ -4,6 +4,8 @@ import org.usfirst.frc.team3506.robot.commands.clawgrip.GripClawCommand;
 import org.usfirst.frc.team3506.robot.commands.clawlift.LiftClawCommand;
 import org.usfirst.frc.team3506.robot.commands.clawlift.LowerClawCommand;
 import org.usfirst.frc.team3506.robot.commands.climber.ClimbUpCommand;
+import org.usfirst.frc.team3506.robot.commands.drivetrain.DriveStraightPIDCommand;
+import org.usfirst.frc.team3506.robot.commands.drivetrain.PointTurnPIDCommand;
 import org.usfirst.frc.team3506.robot.commands.gearpicker.ExtendGearPickerCommand;
 import org.usfirst.frc.team3506.robot.commands.gearpicker.RetractGearPickerCommand;
 import org.usfirst.frc.team3506.robot.commands.gearshift.ToggleGearShiftCommand;
@@ -25,13 +27,15 @@ public class OI {
 
 		// Right joystick
 		setJoystickButtonWhilePressedCommand(rightStick, 1, new ClimbUpCommand());
+		setJoystickButtonWhenPressedCommand(rightStick, 2, new DriveStraightPIDCommand(5));
+		setJoystickButtonWhenPressedCommand(rightStick, 3, new PointTurnPIDCommand(180));
 
 		// Shooter joystick
 		setJoystickButtonWhenPressedCommand(shooterStick, 1, new GripClawCommand());
 		setJoystickButtonWhenPressedCommand(shooterStick, 2, new LowerClawCommand());
 		setJoystickButtonWhenPressedCommand(shooterStick, 3, new LiftClawCommand());
-		setJoystickButtonWhenPressedCommand(shooterStick, 4, new ExtendGearPickerCommand());
-		setJoystickButtonWhenPressedCommand(shooterStick, 5, new RetractGearPickerCommand());
+		setJoystickButtonWhenPressedCommand(shooterStick, 6, new ExtendGearPickerCommand());
+		setJoystickButtonWhenPressedCommand(shooterStick, 7, new RetractGearPickerCommand());
 	}
 
 	public double getShooterY() {

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3506.robot.subsystems;
 
 import org.usfirst.frc.team3506.robot.Robot;
+import org.usfirst.frc.team3506.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -43,8 +44,12 @@ public class DrivetrainSubsystemHandler {
 		rightTrain.disableDistancePID();
 	}
 	
-	public static boolean reachedDistance () {
-		return (leftTrain.getDistanceError() <= 0) && (rightTrain.getDistanceError() <= 0);
+	public static boolean reachedStraightDistance() {
+		return (leftTrain.getDistanceError() <= RobotMap.STRAIGHT_DISTANCE_ERROR_TOLERANCE) && (rightTrain.getDistanceError() <= RobotMap.STRAIGHT_DISTANCE_ERROR_TOLERANCE);
+	}
+	
+	public static boolean reachedRotateDistance() {
+		return (leftTrain.getDistanceError() <= RobotMap.ROTATE_DISTANCE_ERROR_TOLERANCE) && (rightTrain.getDistanceError() <= RobotMap.ROTATE_DISTANCE_ERROR_TOLERANCE);
 	}
 	
 	public static void setVelocitySetpoint(double setpoint) {
@@ -62,5 +67,9 @@ public class DrivetrainSubsystemHandler {
 		SmartDashboard.getNumber("LeftTrain Position", leftTrain.getPosition());
 		SmartDashboard.getNumber("RightTrain Setpoint", rightTrain.getSetpoint());
 		SmartDashboard.getNumber("RightTrain Position", rightTrain.getPosition());
+		SmartDashboard.putData("RightDrivetrainVelocity", rightTrain);
+		SmartDashboard.putData("LeftDrivetrainVelocity", leftTrain);
+		SmartDashboard.putData("RightDrivetrainDistance", rightTrain.getDistancePIDController());
+		SmartDashboard.putData("LeftDrivetrainDistance", leftTrain.getDistancePIDController());
 	}
 }

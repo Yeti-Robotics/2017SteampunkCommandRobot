@@ -37,9 +37,7 @@ public class PointTurnPIDCommand extends Command {
 	}
 
 	protected boolean isFinished() {
-//		return (Math.abs(Robot.leftMainDrivetrainSubsystem.getPosition()) >= turnArcLength)
-//				&& (Math.abs(Robot.leftMainDrivetrainSubsystem.getPosition()) >= turnArcLength);
-		return DrivetrainSubsystemHandler.reachedDistance();
+		return DrivetrainSubsystemHandler.reachedRotateDistance();
 	}
 
 	protected void end() {

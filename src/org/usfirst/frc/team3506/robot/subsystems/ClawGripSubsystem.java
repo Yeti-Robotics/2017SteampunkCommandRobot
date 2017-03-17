@@ -17,21 +17,18 @@ public class ClawGripSubsystem extends Subsystem {
 	}
 
 	public void gripClaw() {
-		clawPiston.set(Value.kForward);
+		clawPiston.set(RobotMap.CLAW_GRIPPED_STATE);
 	}
 
 	public void ungripClaw() {
-		clawPiston.set(Value.kReverse);
+		clawPiston.set(RobotMap.CLAW_UNGRIPPED_STATE);
 	}
 
 	public Value getGripState() {
 		return clawPiston.get();
 	}
-	// Put methods for controlling this subsystem
-	// here. Call these from Commands.
 
 	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
-		// setDefaultCommand(new MySpecialCommand());
+		
 	}
 }

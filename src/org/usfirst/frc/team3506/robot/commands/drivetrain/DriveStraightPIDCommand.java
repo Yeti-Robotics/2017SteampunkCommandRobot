@@ -27,7 +27,7 @@ public class DriveStraightPIDCommand extends Command {
 	}
 
 	protected boolean isFinished() {
-		return DrivetrainSubsystemHandler.reachedDistance();
+		return DrivetrainSubsystemHandler.reachedStraightDistance();
 	}
 
 	protected void end() {
