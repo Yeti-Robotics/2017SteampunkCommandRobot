@@ -4,7 +4,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 public class RobotMap {
 	
-	public static final boolean IS_PRACTICE_BOT = true;
+	public static final boolean IS_PRACTICE_BOT = false;
+	public static final boolean USE_ENCODERS = false;
 
 	// Drivetrain
 	public static final int FRONT_LEFT_SPARK = IS_PRACTICE_BOT ? 0 : 2;
@@ -15,7 +16,7 @@ public class RobotMap {
 	public static final int[] RIGHT_DRIVE_ENCODER = { 8, 9 };
 	public static final double DRIVE_ENCODER_FEET_PER_PULSE = (Math.PI / 3.0) / 128.0;
 	public static final double ROBOT_TRACK_WIDTH_FT = 2;
-	public static final double LEFT_DRIVETRAIN_TRIM = IS_PRACTICE_BOT ? 1 : .95;
+	public static final double LEFT_DRIVETRAIN_TRIM = IS_PRACTICE_BOT ? 1 : 1;
 	public static final double RIGHT_DRIVETRAIN_TRIM = IS_PRACTICE_BOT ? .701 : 1;
 	public static final double MAX_DRIVE_RATE = 11.5;
 	public static final double MIN_DRIVETRAIN_OUTPUT = -1;

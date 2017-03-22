@@ -16,7 +16,9 @@ public class ToggleCameraCommand extends Command {
     protected void initialize() {
     	if (Robot.usingCamera1) {
     		Robot.server.setSource(Robot.camera2);
+    		Robot.usingCamera1 = false;
     	} else {
+    		Robot.usingCamera1 = true;
     		Robot.server.setSource(Robot.camera1);
     	}
     }

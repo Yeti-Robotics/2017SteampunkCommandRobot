@@ -2,21 +2,17 @@ package org.usfirst.frc.team3506.robot;
 
 import java.util.Collections;
 
-import org.usfirst.frc.team3506.robot.commands.autonomous.AutonomousRouteControl;
-import org.usfirst.frc.team3506.robot.commands.autonomous.CenterGearAutonomous;
-import org.usfirst.frc.team3506.robot.commands.autonomous.DriveForwardAutonomous;
-import org.usfirst.frc.team3506.robot.commands.autonomous.LeftCenterAutonomous;
-import org.usfirst.frc.team3506.robot.commands.autonomous.RightGearAutonomous;
+import org.usfirst.frc.team3506.robot.commands.autonomous.CenterGearTimeAutonomous;
+import org.usfirst.frc.team3506.robot.commands.autonomous.RightGearTimeAutonomous;
+import org.usfirst.frc.team3506.robot.commands.drivetrain.DriveStraightTimeAtPowerCommand;
 import org.usfirst.frc.team3506.robot.subsystems.ClawGripSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.ClawLiftSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.ClimberSubsystem;
-import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystemHandler;
+import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.GearPickerSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.GearShiftSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.IntakeSubsystem.IntakeState;
-import org.usfirst.frc.team3506.robot.subsystems.LeftDrivetrainSubsystem;
-import org.usfirst.frc.team3506.robot.subsystems.RightDrivetrainSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.TowerSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.TurretFlywheelSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.TurretPitchSubsystem;
@@ -27,7 +23,6 @@ import org.usfirst.frc.team3506.robot.vision.RedContourVisionPipeline;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoSink;
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -38,8 +33,9 @@ import edu.wpi.first.wpilibj.vision.VisionThread;
 
 public class Robot extends IterativeRobot {
 
-	public static RightDrivetrainSubsystem rightDrivetrainSubsystem;
-	public static LeftDrivetrainSubsystem leftMainDrivetrainSubsystem;
+//	public static RightDrivetrainSubsystem rightDrivetrainSubsystem;
+//	public static LeftDrivetrainSubsystem leftMainDrivetrainSubsystem;
+	public static DrivetrainSubsystem driveTrainSubsystem;
 	public static GearShiftSubsystem gearShiftSubsystem;
 	public static IntakeSubsystem intakeSubsystem;
 	public static TurretRotationSubsystem turretRotationSubsystem;
@@ -50,7 +46,6 @@ public class Robot extends IterativeRobot {
 	public static ClawLiftSubsystem clawLiftSubsystem;
 	public static TurretFlywheelSubsystem turretFlywheelSubsystem;
 	public static TurretPitchSubsystem turretPitchSubsystem;
-	public static AutonomousRouteControl autonomousRouteControl;
 	public SendableChooser<Robot.AutoModes> autoChooser;
 	public static OI oi;
 	public static UsbCamera camera1;
@@ -70,8 +65,9 @@ public class Robot extends IterativeRobot {
 
 	public void robotInit() {
 		turretRotationSubsystem = new TurretRotationSubsystem();
-		rightDrivetrainSubsystem = new RightDrivetrainSubsystem();
-		leftMainDrivetrainSubsystem = new LeftDrivetrainSubsystem();
+//		rightDrivetrainSubsystem = new RightDrivetrainSubsystem();
+//		leftMainDrivetrainSubsystem = new LeftDrivetrainSubsystem();
+		driveTrainSubsystem = new DrivetrainSubsystem();
 		gearShiftSubsystem = new GearShiftSubsystem();
 		intakeSubsystem = new IntakeSubsystem();
 		clawGripSubsystem = new ClawGripSubsystem();
@@ -81,7 +77,6 @@ public class Robot extends IterativeRobot {
 		gearPickerSubsystem = new GearPickerSubsystem();
 		turretFlywheelSubsystem = new TurretFlywheelSubsystem();
 		turretPitchSubsystem = new TurretPitchSubsystem();
-		autonomousRouteControl = new AutonomousRouteControl();
 		oi = new OI();
 		autoChooser = new SendableChooser<AutoModes>();
 		autoChooser.addDefault("Drive Forward", AutoModes.DRIVE_FORWARD);
@@ -89,11 +84,11 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("Left Gear", AutoModes.LEFT_GEAR);
 		autoChooser.addObject("Right Gear", AutoModes.RIGHT_GEAR);
 		autoChooser.addObject("Route Control", AutoModes.ROUTE_CONTROL);
-		autonomousCommand = new DriveForwardAutonomous();
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		SmartDashboard.putData(Scheduler.getInstance());
 		
-		DrivetrainSubsystemHandler.publishSmartDashboardValues();
+//		autonomousCommand = new DriveStraightTimeAtPowerCommand(.5, 4.5);
+		
 
 		camera1 = CameraServer.getInstance().startAutomaticCapture(0);
 		camera2 = CameraServer.getInstance().startAutomaticCapture(1);
@@ -155,27 +150,22 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousInit() {
-		switch ((AutoModes) autoChooser.getSelected()) {
-			case DRIVE_FORWARD:
-				autonomousCommand = new DriveForwardAutonomous();
-				break;
-			case CENTER_GEAR:
-				autonomousCommand = new CenterGearAutonomous();
-				break;
-			case LEFT_GEAR:
-				autonomousCommand = new LeftCenterAutonomous();
-				break;
-			case RIGHT_GEAR:
-				autonomousCommand = new RightGearAutonomous();
-				break;
-			case ROUTE_CONTROL:
-				autonomousCommand = autonomousRouteControl;
-				break;
-			default:
-				autonomousCommand = new DriveForwardAutonomous();
+		switch(autoChooser.getSelected()) {
+		case DRIVE_FORWARD:
+			autonomousCommand = new DriveStraightTimeAtPowerCommand(0.5, 4);
+			break;
+		case CENTER_GEAR:
+			autonomousCommand = new CenterGearTimeAutonomous();
+			break;
+		case RIGHT_GEAR:
+			autonomousCommand = new RightGearTimeAutonomous();
+			break;
+		default:
+			autonomousCommand = new CenterGearTimeAutonomous();
 		}
-		if (autonomousCommand != null)
+		if (autonomousCommand != null) {
 			autonomousCommand.start();
+		}
 	}
 
 	public void autonomousPeriodic() {
@@ -187,9 +177,9 @@ public class Robot extends IterativeRobot {
 
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		rightDrivetrainSubsystem.publishEncoderValues();
-		leftMainDrivetrainSubsystem.publishEncoderValues();
-		DrivetrainSubsystemHandler.publishSmartDashboardValues();
+//		rightDrivetrainSubsystem.publishEncoderValues();
+//		leftMainDrivetrainSubsystem.publishEncoderValues();
+//		DrivetrainSubsystemHandler.publishSmartDashboardValues();
 		GearTargetInfo.publishTargetValues();
 	}
 
