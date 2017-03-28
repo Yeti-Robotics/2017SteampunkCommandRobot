@@ -46,7 +46,7 @@ public class RightDrivetrainSubsystem extends PIDSubsystem {
 	}
 
 	protected double returnPIDInput() {
-		if (Robot.leftMainDrivetrainSubsystem.useEncoders) {
+		if (DrivetrainSubsystemHandler.useEncoders) {
 			return getRightEncoderVel();
 		} else {
 			System.out.println("right: " + frontRightSpark.get());
@@ -59,7 +59,7 @@ public class RightDrivetrainSubsystem extends PIDSubsystem {
 	}
 
 	public void moveRightTrain(double speed) {
-		if (speed > 0) {
+		if (getSetpoint() > 0) {
 			getPIDController().setPID(RobotMap.RIGHT_RATE_FORWARDS_P, RobotMap.RIGHT_RATE_I, RobotMap.RIGHT_RATE_D);
 		} else {
 			getPIDController().setPID(RobotMap.RIGHT_RATE_BACKWARDS_P, RobotMap.RIGHT_RATE_I, RobotMap.RIGHT_RATE_D);
@@ -68,6 +68,9 @@ public class RightDrivetrainSubsystem extends PIDSubsystem {
 		if (Math.abs(speed) >= RobotMap.RATE_ERROR_TOLERANCE) {
 			frontRightSpark.set(-speed);
 			backRightSpark.set(-speed);
+		} else {
+			frontRightSpark.set(0);
+			backRightSpark.set(0);
 		}
 	}
 

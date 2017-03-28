@@ -13,7 +13,7 @@ public class UserDriveCommand extends Command {
     }
 
     protected void initialize() {
-//    	DrivetrainSubsystemHandler.resetEncoders();
+    	DrivetrainSubsystemHandler.resetEncoders();
     	DrivetrainSubsystemHandler.disableDistancePID();
     }
 

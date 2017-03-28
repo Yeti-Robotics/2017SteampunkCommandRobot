@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3506.robot.commands.drivetrain;
 
 import org.usfirst.frc.team3506.robot.Robot;
+import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystemHandler;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -16,7 +17,7 @@ public class ChangeEncoderDependencyCommand extends Command {
     }
 
     protected void execute() {
-    	Robot.leftMainDrivetrainSubsystem.useEncoders = !Robot.leftMainDrivetrainSubsystem.useEncoders;
+    	DrivetrainSubsystemHandler.useEncoders = !DrivetrainSubsystemHandler.useEncoders;
     }
 
     protected boolean isFinished() {

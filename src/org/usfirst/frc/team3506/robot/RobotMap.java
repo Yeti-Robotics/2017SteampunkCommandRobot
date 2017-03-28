@@ -30,7 +30,7 @@ public class RobotMap {
 	public static final double LEFT_RATE_BACKWARDS_P = IS_PRACTICE_BOT ? .87 : 1;
 	public static final double LEFT_RATE_I = 0;
 	public static final double LEFT_RATE_D = 0;
-	public static final double RIGHT_RATE_FORWARDS_P = IS_PRACTICE_BOT ? .701 : 1;
+	public static final double RIGHT_RATE_FORWARDS_P = IS_PRACTICE_BOT ? .79 : 1;
 	public static final double RIGHT_RATE_BACKWARDS_P = IS_PRACTICE_BOT ? 1 : .95;
 	public static final double RIGHT_RATE_I = 0;
 	public static final double RIGHT_RATE_D = 0;
