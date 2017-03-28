@@ -9,10 +9,9 @@ import org.usfirst.frc.team3506.robot.vision.GearTargetInfo;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
-public class CenterGearAutonomous extends CommandGroup {
+public class CenterGearEncoderlessAutonomous extends CommandGroup {
 
-    public CenterGearAutonomous() {
-    	addSequential(new PointTurnPIDCommand(GearTargetInfo.getAzimuth()));
+    public CenterGearEncoderlessAutonomous() {
     	addSequential(new DriveStraightPIDCommand(GearTargetInfo.getDistance()));
     	addSequential(new ExtendGearPickerCommand());
     	addSequential(new RetractGearPickerCommand());

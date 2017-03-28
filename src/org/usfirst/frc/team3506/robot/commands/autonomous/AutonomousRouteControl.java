@@ -7,6 +7,7 @@ import org.usfirst.frc.team3506.robot.commands.drivetrain.DriveStraightPIDComman
 import org.usfirst.frc.team3506.robot.commands.drivetrain.PointTurnPIDCommand;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutonomousRouteControl extends CommandGroup {
@@ -92,7 +93,6 @@ public class AutonomousRouteControl extends CommandGroup {
 						addSequential(new PointTurnPIDCommand(moveAngle.get(i)));
 						break;
 					case MoveTypes.WAIT:
-						
 						break;
 				}
 				System.out.println("Step " + i + " completed.");

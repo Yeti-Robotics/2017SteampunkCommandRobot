@@ -14,42 +14,49 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RightDrivetrainSubsystem extends PIDSubsystem {
-	
+
 	public Spark frontRightSpark = new Spark(RobotMap.FRONT_RIGHT_SPARK);
 	public Spark backRightSpark = new Spark(RobotMap.BACK_RIGHT_SPARK);
 
-	private Encoder rightEnc = new Encoder(RobotMap.RIGHT_DRIVE_ENCODER[0], RobotMap.RIGHT_DRIVE_ENCODER[1], true, EncodingType.k4X);
-	
+	private Encoder rightEnc = new Encoder(RobotMap.RIGHT_DRIVE_ENCODER[0], RobotMap.RIGHT_DRIVE_ENCODER[1], true,
+			EncodingType.k4X);
+
 	private PIDController drivetrainDistancePID;
-	
+
 	public RightDrivetrainSubsystem() {
 		super("Right Drivetrain", RobotMap.RIGHT_RATE_FORWARDS_P, RobotMap.RIGHT_RATE_I, RobotMap.RIGHT_RATE_D);
-    	setOutputRange(RobotMap.MIN_DRIVETRAIN_OUTPUT, RobotMap.MAX_DRIVETRAIN_OUTPUT);
-    	enable();
+		setOutputRange(RobotMap.MIN_DRIVETRAIN_OUTPUT, RobotMap.MAX_DRIVETRAIN_OUTPUT);
+		enable();
 
 		rightEnc.setDistancePerPulse(RobotMap.DRIVE_ENCODER_FEET_PER_PULSE);
 		rightEnc.setPIDSourceType(PIDSourceType.kDisplacement);
-	
-		drivetrainDistancePID = new PIDController(RobotMap.RIGHT_DISTANCE_P, RobotMap.RIGHT_DISTANCE_I, RobotMap.RIGHT_DISTANCE_D, rightEnc, output -> {
-			Robot.rightDrivetrainSubsystem.setSetpoint(output);
-		});
+
+		drivetrainDistancePID = new PIDController(RobotMap.RIGHT_DISTANCE_P, RobotMap.RIGHT_DISTANCE_I,
+				RobotMap.RIGHT_DISTANCE_D, rightEnc, output -> {
+					Robot.rightDrivetrainSubsystem.setSetpoint(output);
+				});
 	}
 
 	public void initDefaultCommand() {
-		
+
 	}
-	
+
 	public PIDController getDistancePIDController() {
 		return drivetrainDistancePID;
 	}
 
-    protected double returnPIDInput() {
-    	return getRightEncoderVel();
-    }
+	protected double returnPIDInput() {
+		if (Robot.leftMainDrivetrainSubsystem.useEncoders) {
+			return getRightEncoderVel();
+		} else {
+			System.out.println("right: " + frontRightSpark.get());
+			return frontRightSpark.get();
+		}
+	}
 
-    protected void usePIDOutput(double output) {
-    	moveRightTrain(output);
-    }
+	protected void usePIDOutput(double output) {
+		moveRightTrain(output);
+	}
 
 	public void moveRightTrain(double speed) {
 		if (speed > 0) {
@@ -57,30 +64,30 @@ public class RightDrivetrainSubsystem extends PIDSubsystem {
 		} else {
 			getPIDController().setPID(RobotMap.RIGHT_RATE_BACKWARDS_P, RobotMap.RIGHT_RATE_I, RobotMap.RIGHT_RATE_D);
 		}
-		
+
 		if (Math.abs(speed) >= RobotMap.RATE_ERROR_TOLERANCE) {
 			frontRightSpark.set(-speed);
 			backRightSpark.set(-speed);
 		}
 	}
 
-	public void startDistancePID (double distance) {
+	public void startDistancePID(double distance) {
 		drivetrainDistancePID.setSetpoint(distance);
 		drivetrainDistancePID.enable();
 	}
 
-	public void disableDistancePID () {
+	public void disableDistancePID() {
 		drivetrainDistancePID.disable();
 	}
-	
+
 	public double getDistanceSetpoint() {
 		return drivetrainDistancePID.getSetpoint();
 	}
-	
+
 	public double getDistanceError() {
 		return drivetrainDistancePID.getError();
 	}
-	
+
 	public double getRightEncoderDistance() {
 		return rightEnc.getDistance();
 	}

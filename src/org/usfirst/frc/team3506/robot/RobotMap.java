@@ -57,7 +57,7 @@ public class RobotMap {
 	public static final double INTAKE_SPEED = 1;
 	
 	// Turret Control
-	public static final int TURRET_ROTATION_SPARK = IS_PRACTICE_BOT ? 4 : 5;
+	public static final int TURRET_ROTATION_SPARK = IS_PRACTICE_BOT ? 4 : 15;
 	public static final double MANUAL_TURRET_ROTATION_SPEED = 0.2;
 	public static final int IMAGE_CENTER_X = 320;
 	public static final int MIN_TARGET_SIZE = 300;
@@ -94,7 +94,7 @@ public class RobotMap {
 	public static final int [] GEAR_PICKER_SOLENOID = IS_PRACTICE_BOT ? new int[] { 6, 7 } : new int[] { 2, 3 };
 	
 	//Tower
-	public static final int TOWER_SPARK = 6;
+	public static final int TOWER_SPARK = 16;
 	public static final double TOWER_LIFT_SPEED = 1;
 	
 	//Climber
