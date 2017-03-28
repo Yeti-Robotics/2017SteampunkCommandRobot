@@ -93,6 +93,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		SmartDashboard.putData(Scheduler.getInstance());
 		
+		DrivetrainSubsystemHandler.grabSubsystems();
 		DrivetrainSubsystemHandler.publishSmartDashboardValues();
 
 		camera1 = CameraServer.getInstance().startAutomaticCapture(0);

@@ -17,8 +17,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class LeftDrivetrainSubsystem extends PIDSubsystem {
 
 	private ControlType controlType;
-	private RobotDrive drive;
-
 	private Spark frontLeftSpark = new Spark(RobotMap.FRONT_LEFT_SPARK);
 	private Spark backLeftSpark = new Spark(RobotMap.BACK_LEFT_SPARK);
 
@@ -27,8 +25,6 @@ public class LeftDrivetrainSubsystem extends PIDSubsystem {
 
 	private PIDController drivetrainDistancePID;
 	
-	public boolean useEncoders = false;
-
 	public static enum ControlType {
 		TANK, ARCADE;
 	}
@@ -40,9 +36,6 @@ public class LeftDrivetrainSubsystem extends PIDSubsystem {
 
 		frontLeftSpark.setInverted(true);
 		backLeftSpark.setInverted(true);
-
-		drive = new RobotDrive(frontLeftSpark, backLeftSpark, Robot.rightDrivetrainSubsystem.frontRightSpark,
-				Robot.rightDrivetrainSubsystem.backRightSpark);
 
 		controlType = ControlType.TANK;
 
@@ -60,7 +53,7 @@ public class LeftDrivetrainSubsystem extends PIDSubsystem {
 	}
 
 	protected double returnPIDInput() {
-		if (useEncoders) {
+		if (DrivetrainSubsystemHandler.useEncoders) {
 			return getLeftEncoderVel();
 		} else {
 			System.out.println("left: " + frontLeftSpark.get());
@@ -85,24 +78,20 @@ public class LeftDrivetrainSubsystem extends PIDSubsystem {
 	}
 
 	public void moveLeftTrain(double speed) {
-		if (speed > 0) {
+		if (getSetpoint() > 0) {
 			getPIDController().setPID(RobotMap.LEFT_RATE_FORWARDS_P, RobotMap.LEFT_RATE_I, RobotMap.LEFT_RATE_D);
 		} else {
-			getPIDController().setPID(RobotMap.RIGHT_RATE_BACKWARDS_P, RobotMap.LEFT_RATE_I, RobotMap.LEFT_RATE_D);
+			getPIDController().setPID(RobotMap.LEFT_RATE_BACKWARDS_P, RobotMap.LEFT_RATE_I, RobotMap.LEFT_RATE_D);
 		}
 
 		if (Math.abs(speed) >= RobotMap.RATE_ERROR_TOLERANCE) {
 			frontLeftSpark.set(-speed);
 			backLeftSpark.set(-speed);
 		}
-	}
-
-	public void tankDrive(double left, double right) {
-		drive.tankDrive(-left, right);
-	}
-
-	public void arcadeDrive(double moveSpeed, double rotateSpeed) {
-		drive.arcadeDrive(moveSpeed, rotateSpeed);
+		else {
+			frontLeftSpark.set(0);
+			backLeftSpark.set(0);
+		}
 	}
 
 	public void startDistancePID(double distance) {
