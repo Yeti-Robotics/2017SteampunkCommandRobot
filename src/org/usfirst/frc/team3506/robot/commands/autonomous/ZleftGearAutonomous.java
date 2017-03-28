@@ -12,11 +12,11 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 /**
  *
  */
-public class RightGearAutonomous extends CommandGroup {
+public class ZleftGearAutonomous extends CommandGroup {
 
-    public RightGearAutonomous() {
+    public ZleftGearAutonomous() {
     	addSequential(new DriveStraightPIDCommand(4.495));
-    	addSequential(new PointTurnPIDCommand(60));
+    	addSequential(new PointTurnPIDCommand(-60));
     	addSequential(new DriveStraightPIDCommand(7.049));
     	addSequential(new ExtendGearPickerCommand());
     	addSequential(new WaitCommand(0.5));

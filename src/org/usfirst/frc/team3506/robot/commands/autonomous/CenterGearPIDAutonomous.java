@@ -12,11 +12,11 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 public class CenterGearPIDAutonomous extends CommandGroup {
 
     public CenterGearPIDAutonomous() {
-    	addSequential(new PointTurnPIDCommand(GearTargetInfo.getAzimuth()));
-    	addSequential(new DriveStraightPIDCommand(GearTargetInfo.getDistance()));
+    	addSequential(new DriveStraightPIDCommand(7.049));
     	addSequential(new ExtendGearPickerCommand());
+    	addSequential(new WaitCommand(0.5));
     	addSequential(new RetractGearPickerCommand());
-    	addSequential(new WaitCommand(2));
+    	addSequential(new WaitCommand(0.5));
     	addSequential(new DriveStraightPIDCommand(-1));
     }
 }
