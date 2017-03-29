@@ -19,6 +19,7 @@ public class ToggleCameraCommand extends Command {
     	} else {
     		Robot.server.setSource(Robot.camera1);
     	}
+    	Robot.usingCamera1 = !Robot.usingCamera1;
     }
 
     protected void execute() {

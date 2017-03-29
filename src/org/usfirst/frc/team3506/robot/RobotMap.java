@@ -13,7 +13,7 @@ public class RobotMap {
 	public static final int BACK_RIGHT_SPARK = IS_PRACTICE_BOT ? 2 : 0;
 	public static final int[] LEFT_DRIVE_ENCODER = { 6, 7 };
 	public static final int[] RIGHT_DRIVE_ENCODER = { 8, 9 };
-	public static final double DRIVE_ENCODER_FEET_PER_PULSE = (Math.PI / 3.0) / 128.0;
+	public static final double DRIVE_ENCODER_FEET_PER_PULSE = (Math.PI / 3.0) / 128.0; //Circumference in feet divided by pulses per revolution
 	public static final double ROBOT_TRACK_WIDTH_FT = 2;
 	public static final double LEFT_DRIVETRAIN_TRIM = IS_PRACTICE_BOT ? 1 : .95;
 	public static final double RIGHT_DRIVETRAIN_TRIM = IS_PRACTICE_BOT ? .701 : 1;

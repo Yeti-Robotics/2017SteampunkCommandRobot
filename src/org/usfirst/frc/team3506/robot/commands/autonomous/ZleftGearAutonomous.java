@@ -15,13 +15,13 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 public class ZleftGearAutonomous extends CommandGroup {
 
     public ZleftGearAutonomous() {
-    	addSequential(new DriveStraightPIDCommand(4.495));
-    	addSequential(new PointTurnPIDCommand(-60));
-    	addSequential(new DriveStraightPIDCommand(7.049));
+    	addSequential(new DriveStraightPIDCommand(6));
+    	addSequential(new PointTurnPIDCommand(60));
+    	addSequential(new DriveStraightPIDCommand(3.79));
     	addSequential(new ExtendGearPickerCommand());
     	addSequential(new WaitCommand(0.5));
     	addSequential(new RetractGearPickerCommand());
     	addSequential(new WaitCommand(0.5));
-    	addSequential(new DriveStraightPIDCommand(-1));
+    	addSequential(new DriveStraightPIDCommand(1));
     }
 }

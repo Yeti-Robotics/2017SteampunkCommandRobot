@@ -24,7 +24,7 @@ public class LeftDrivetrainSubsystem extends PIDSubsystem {
 			EncodingType.k4X);
 
 	private PIDController drivetrainDistancePID;
-	
+
 	public static enum ControlType {
 		TANK, ARCADE;
 	}
@@ -87,8 +87,7 @@ public class LeftDrivetrainSubsystem extends PIDSubsystem {
 		if (Math.abs(speed) >= RobotMap.RATE_ERROR_TOLERANCE) {
 			frontLeftSpark.set(-speed);
 			backLeftSpark.set(-speed);
-		}
-		else {
+		} else {
 			frontLeftSpark.set(0);
 			backLeftSpark.set(0);
 		}

@@ -51,8 +51,8 @@ public class DrivetrainSubsystemHandler {
 	}
 
 	public static boolean reachedStraightDistance() {
-		return (leftTrain.getDistanceError() <= RobotMap.STRAIGHT_DISTANCE_ERROR_TOLERANCE)
-				&& (rightTrain.getDistanceError() <= RobotMap.STRAIGHT_DISTANCE_ERROR_TOLERANCE);
+		return (Math.abs(leftTrain.getDistanceError()) <= RobotMap.STRAIGHT_DISTANCE_ERROR_TOLERANCE)
+				&& (Math.abs(rightTrain.getDistanceError()) <= RobotMap.STRAIGHT_DISTANCE_ERROR_TOLERANCE);
 	}
 
 	public static boolean reachedRotateDistance() {

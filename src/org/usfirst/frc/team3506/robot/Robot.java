@@ -117,7 +117,7 @@ public class Robot extends IterativeRobot {
 					GearTargetInfo.setTargetContours(pipeline.convexHullsOutput());
 				}
 			});
-			visionThread.start();
+//			visionThread.start();
 		}
 		
 	}
