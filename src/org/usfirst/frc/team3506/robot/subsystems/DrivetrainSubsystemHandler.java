@@ -51,8 +51,13 @@ public class DrivetrainSubsystemHandler {
 	}
 
 	public static boolean reachedStraightDistance() {
-		return (Math.abs(leftTrain.getDistanceError()) <= RobotMap.STRAIGHT_DISTANCE_ERROR_TOLERANCE)
-				&& (Math.abs(rightTrain.getDistanceError()) <= RobotMap.STRAIGHT_DISTANCE_ERROR_TOLERANCE);
+		if (leftTrain.getDistancePIDController().getSetpoint() >= 0) {
+			return (Math.abs(leftTrain.getDistanceError()) <= RobotMap.STRAIGHT_DISTANCE_ERROR_TOLERANCE)
+					&& (Math.abs(rightTrain.getDistanceError()) <= RobotMap.STRAIGHT_DISTANCE_ERROR_TOLERANCE);
+		} else {
+			return (Math.abs(leftTrain.getDistanceError()) >= RobotMap.STRAIGHT_DISTANCE_ERROR_TOLERANCE)
+					&& (Math.abs(rightTrain.getDistanceError()) >= RobotMap.STRAIGHT_DISTANCE_ERROR_TOLERANCE);
+		}
 	}
 
 	public static boolean reachedRotateDistance() {
@@ -92,5 +97,6 @@ public class DrivetrainSubsystemHandler {
 		 leftTrain.getDistancePIDController());
 		 SmartDashboard.putData("LeftDrivetrainRate", leftTrain.getPIDController());
 		 SmartDashboard.putData("RightDrivetrainRate", rightTrain.getPIDController());
+		 SmartDashboard.putBoolean("Using encoders", useEncoders);
 	}
 }

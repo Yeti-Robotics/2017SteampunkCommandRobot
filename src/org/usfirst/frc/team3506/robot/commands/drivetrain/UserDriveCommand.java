@@ -18,7 +18,13 @@ public class UserDriveCommand extends Command {
     }
 
     protected void execute() {
-    	DrivetrainSubsystemHandler.setVelocitySetpoint(Robot.oi.getLeftY(), Robot.oi.getRightY());
+    	if (DrivetrainSubsystemHandler.useEncoders) {
+    		DrivetrainSubsystemHandler.enableVelocityPID();
+			DrivetrainSubsystemHandler.setVelocitySetpoint(Robot.oi.getLeftY(), Robot.oi.getRightY());
+		} else {
+			DrivetrainSubsystemHandler.disableVelocityPID();
+			DrivetrainSubsystemHandler.tankDrive(Robot.oi.getLeftY(), Robot.oi.getRightY());
+		}
     }
 
     protected boolean isFinished() {

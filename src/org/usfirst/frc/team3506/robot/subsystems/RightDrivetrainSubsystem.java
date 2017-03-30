@@ -33,7 +33,11 @@ public class RightDrivetrainSubsystem extends PIDSubsystem {
 
 		drivetrainDistancePID = new PIDController(RobotMap.RIGHT_DISTANCE_P, RobotMap.RIGHT_DISTANCE_I,
 				RobotMap.RIGHT_DISTANCE_D, rightEnc, output -> {
-					Robot.rightDrivetrainSubsystem.setSetpoint(output);
+					if (DrivetrainSubsystemHandler.useEncoders) {
+						Robot.rightDrivetrainSubsystem.setSetpoint(output);
+					} else {
+						Robot.rightDrivetrainSubsystem.moveRightTrain(output);
+					}
 				});
 	}
 
@@ -46,12 +50,7 @@ public class RightDrivetrainSubsystem extends PIDSubsystem {
 	}
 
 	protected double returnPIDInput() {
-		if (DrivetrainSubsystemHandler.useEncoders) {
-			return getRightEncoderVel();
-		} else {
-			System.out.println("right: " + frontRightSpark.get());
-			return frontRightSpark.get();
-		}
+		return getRightEncoderVel();
 	}
 
 	protected void usePIDOutput(double output) {

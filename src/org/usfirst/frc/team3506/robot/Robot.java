@@ -5,7 +5,7 @@ import java.util.Collections;
 import org.usfirst.frc.team3506.robot.commands.autonomous.AutonomousRouteControl;
 import org.usfirst.frc.team3506.robot.commands.autonomous.CenterGearPIDAutonomous;
 import org.usfirst.frc.team3506.robot.commands.autonomous.DriveForwardAutonomous;
-import org.usfirst.frc.team3506.robot.commands.autonomous.ZleftGearAutonomous;
+import org.usfirst.frc.team3506.robot.commands.autonomous.LeftGearAutonomous;
 import org.usfirst.frc.team3506.robot.commands.autonomous.RightGearAutonomous;
 import org.usfirst.frc.team3506.robot.subsystems.ClawGripSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.ClawLiftSubsystem;
@@ -164,7 +164,7 @@ public class Robot extends IterativeRobot {
 				autonomousCommand = new CenterGearPIDAutonomous();
 				break;
 			case LEFT_GEAR:
-				autonomousCommand = new ZleftGearAutonomous();
+				autonomousCommand = new LeftGearAutonomous();
 				break;
 			case RIGHT_GEAR:
 				autonomousCommand = new RightGearAutonomous();
@@ -191,7 +191,7 @@ public class Robot extends IterativeRobot {
 		rightDrivetrainSubsystem.publishEncoderValues();
 		leftMainDrivetrainSubsystem.publishEncoderValues();
 		DrivetrainSubsystemHandler.publishSmartDashboardValues();
-		GearTargetInfo.publishTargetValues();
+//		GearTargetInfo.publishTargetValues();
 	}
 
 	public void testPeriodic() {

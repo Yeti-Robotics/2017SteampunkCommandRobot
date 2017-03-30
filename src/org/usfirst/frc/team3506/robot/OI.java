@@ -5,6 +5,7 @@ import org.usfirst.frc.team3506.robot.commands.clawgrip.GripClawCommand;
 import org.usfirst.frc.team3506.robot.commands.clawlift.LiftClawCommand;
 import org.usfirst.frc.team3506.robot.commands.clawlift.LowerClawCommand;
 import org.usfirst.frc.team3506.robot.commands.climber.ClimbUpCommand;
+import org.usfirst.frc.team3506.robot.commands.drivetrain.ChangeEncoderDependencyCommand;
 import org.usfirst.frc.team3506.robot.commands.drivetrain.DriveStraightPIDCommand;
 import org.usfirst.frc.team3506.robot.commands.drivetrain.PointTurnPIDCommand;
 import org.usfirst.frc.team3506.robot.commands.drivetrain.ResetDriveTrainEncodersCommand;
@@ -27,13 +28,12 @@ public class OI {
 		// Left joystick
 		setJoystickButtonWhenPressedCommand(leftStick, 1, new ToggleGearShiftCommand());
 		setJoystickButtonWhenPressedCommand(leftStick, 2, new ToggleCameraCommand());
-		setJoystickButtonWhenPressedCommand(leftStick, 3, new DriveStraightPIDCommand(-5));
-		setJoystickButtonWhenPressedCommand(leftStick, 4, new DriveStraightPIDCommand(5));
+		setJoystickButtonWhenPressedCommand(leftStick, 12, new ChangeEncoderDependencyCommand());
+//		setJoystickButtonWhenPressedCommand(leftStick, 3, new DriveStraightPIDCommand(-5));
+//		setJoystickButtonWhenPressedCommand(leftStick, 4, new DriveStraightPIDCommand(5));
 
 		// Right joystick
 		setJoystickButtonWhilePressedCommand(rightStick, 1, new ClimbUpCommand());
-		setJoystickButtonWhenPressedCommand(rightStick, 2, new DriveStraightPIDCommand(5));
-		setJoystickButtonWhenPressedCommand(rightStick, 3, new PointTurnPIDCommand(180));
 
 		// Shooter joystick
 		setJoystickButtonWhenPressedCommand(shooterStick, 1, new GripClawCommand());
@@ -41,7 +41,7 @@ public class OI {
 		setJoystickButtonWhenPressedCommand(shooterStick, 3, new LiftClawCommand());
 		setJoystickButtonWhenPressedCommand(shooterStick, 6, new ExtendGearPickerCommand());
 		setJoystickButtonWhenPressedCommand(shooterStick, 7, new RetractGearPickerCommand());
-		setJoystickButtonWhenPressedCommand(shooterStick, 9, new ResetDriveTrainEncodersCommand());
+//		setJoystickButtonWhenPressedCommand(shooterStick, 9, new ResetDriveTrainEncodersCommand());
 	}
 
 	public double getShooterY() {

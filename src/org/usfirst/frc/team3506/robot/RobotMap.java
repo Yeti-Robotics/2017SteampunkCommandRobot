@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 public class RobotMap {
 	
-	public static final boolean IS_PRACTICE_BOT = true;
+	public static final boolean IS_PRACTICE_BOT = false;
 
 	// Drivetrain
 	public static final int FRONT_LEFT_SPARK = IS_PRACTICE_BOT ? 0 : 2;
