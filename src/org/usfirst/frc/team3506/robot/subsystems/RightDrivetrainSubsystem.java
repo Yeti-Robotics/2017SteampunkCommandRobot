@@ -24,7 +24,7 @@ public class RightDrivetrainSubsystem extends PIDSubsystem {
 	private PIDController drivetrainDistancePID;
 
 	public RightDrivetrainSubsystem() {
-		super("Right Drivetrain", RobotMap.RIGHT_RATE_FORWARDS_P, RobotMap.RIGHT_RATE_I, RobotMap.RIGHT_RATE_D);
+		super("Right Drivetrain", RobotMap.RIGHT_RATE_FORWARDS_SCALAR, RobotMap.RIGHT_RATE_I, RobotMap.RIGHT_RATE_D);
 		setOutputRange(RobotMap.MIN_DRIVETRAIN_OUTPUT, RobotMap.MAX_DRIVETRAIN_OUTPUT);
 		enable();
 
@@ -39,6 +39,7 @@ public class RightDrivetrainSubsystem extends PIDSubsystem {
 						Robot.rightDrivetrainSubsystem.moveRightTrain(output);
 					}
 				});
+		drivetrainDistancePID.setOutputRange(-.5, .5);
 	}
 
 	public void initDefaultCommand() {
@@ -59,9 +60,9 @@ public class RightDrivetrainSubsystem extends PIDSubsystem {
 
 	public void moveRightTrain(double speed) {
 		if (getSetpoint() > 0) {
-			getPIDController().setPID(RobotMap.RIGHT_RATE_FORWARDS_P, RobotMap.RIGHT_RATE_I, RobotMap.RIGHT_RATE_D);
+			getPIDController().setPID(RobotMap.RIGHT_RATE_FORWARDS_SCALAR, RobotMap.RIGHT_RATE_I, RobotMap.RIGHT_RATE_D);
 		} else {
-			getPIDController().setPID(RobotMap.RIGHT_RATE_BACKWARDS_P, RobotMap.RIGHT_RATE_I, RobotMap.RIGHT_RATE_D);
+			getPIDController().setPID(RobotMap.RIGHT_RATE_BACKWARDS_SCALAR, RobotMap.RIGHT_RATE_I, RobotMap.RIGHT_RATE_D);
 		}
 
 		if (Math.abs(speed) >= RobotMap.RATE_ERROR_TOLERANCE) {

@@ -51,18 +51,26 @@ public class DrivetrainSubsystemHandler {
 	}
 
 	public static boolean reachedStraightDistance() {
-		if (leftTrain.getDistancePIDController().getSetpoint() >= 0) {
-			return (Math.abs(leftTrain.getDistanceError()) <= RobotMap.STRAIGHT_DISTANCE_ERROR_TOLERANCE)
-					&& (Math.abs(rightTrain.getDistanceError()) <= RobotMap.STRAIGHT_DISTANCE_ERROR_TOLERANCE);
+		if (leftTrain.getDistanceSetpoint() >= 0) {
+			return (leftTrain.getDistanceError() <= RobotMap.STRAIGHT_DISTANCE_ERROR_TOLERANCE)
+					|| (rightTrain.getDistanceError() <= RobotMap.STRAIGHT_DISTANCE_ERROR_TOLERANCE);
 		} else {
-			return (Math.abs(leftTrain.getDistanceError()) >= RobotMap.STRAIGHT_DISTANCE_ERROR_TOLERANCE)
-					&& (Math.abs(rightTrain.getDistanceError()) >= RobotMap.STRAIGHT_DISTANCE_ERROR_TOLERANCE);
+			System.out.println(leftTrain.getDistanceError());
+			return (leftTrain.getDistanceError() >= -RobotMap.STRAIGHT_DISTANCE_ERROR_TOLERANCE)
+					|| (rightTrain.getDistanceError() >= -RobotMap.STRAIGHT_DISTANCE_ERROR_TOLERANCE);
 		}
 	}
 
 	public static boolean reachedRotateDistance() {
-		return (leftTrain.getDistanceError() <= RobotMap.ROTATE_DISTANCE_ERROR_TOLERANCE)
-				&& (rightTrain.getDistanceError() <= RobotMap.ROTATE_DISTANCE_ERROR_TOLERANCE);
+		if (leftTrain.getDistanceSetpoint() > 0 && rightTrain.getDistanceSetpoint() < 0) {
+			return (leftTrain.getDistanceError() <= RobotMap.ROTATE_DISTANCE_ERROR_TOLERANCE)
+					|| (rightTrain.getDistanceError() >= -RobotMap.ROTATE_DISTANCE_ERROR_TOLERANCE);
+		} else if (leftTrain.getDistanceSetpoint() < 0 && rightTrain.getDistanceSetpoint() > 0) {
+			return (leftTrain.getDistanceError() >= -RobotMap.ROTATE_DISTANCE_ERROR_TOLERANCE)
+					|| (rightTrain.getDistanceError() <= RobotMap.ROTATE_DISTANCE_ERROR_TOLERANCE);
+		} else {
+			return true;
+		}
 	}
 
 	public static void setVelocitySetpoint(double setpoint) {

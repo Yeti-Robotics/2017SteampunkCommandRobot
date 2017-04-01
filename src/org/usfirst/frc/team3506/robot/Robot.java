@@ -92,6 +92,9 @@ public class Robot extends IterativeRobot {
 		autonomousCommand = new DriveForwardAutonomous();
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		SmartDashboard.putData(Scheduler.getInstance());
+		SmartDashboard.putNumber("Auto drive distance 1", 7.25);
+		SmartDashboard.putNumber("Auto rotate distance", 70);
+		SmartDashboard.putNumber("Auto drive distance 2", 3.79);
 		
 		DrivetrainSubsystemHandler.grabSubsystems();
 		DrivetrainSubsystemHandler.publishSmartDashboardValues();
@@ -140,6 +143,8 @@ public class Robot extends IterativeRobot {
 
 	public void disabledInit() {
 		intakeSubsystem.intakeState = IntakeState.OFF;
+		DrivetrainSubsystemHandler.setVelocitySetpoint(0);
+		DrivetrainSubsystemHandler.startDistancePID(0);
 	}
 
 	public void disabledPeriodic() {
@@ -181,6 +186,8 @@ public class Robot extends IterativeRobot {
 
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		rightDrivetrainSubsystem.publishEncoderValues();
+		leftMainDrivetrainSubsystem.publishEncoderValues();
 	}
 
 	public void teleopInit() {

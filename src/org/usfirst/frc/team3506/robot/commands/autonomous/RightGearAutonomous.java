@@ -8,6 +8,7 @@ import org.usfirst.frc.team3506.robot.commands.gearpicker.RetractGearPickerComma
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -15,13 +16,13 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 public class RightGearAutonomous extends CommandGroup {
 
     public RightGearAutonomous() {
-    	addSequential(new DriveStraightPIDCommand(4.495));
-    	addSequential(new PointTurnPIDCommand(60));
-    	addSequential(new DriveStraightPIDCommand(7.049));
+    	addSequential(new DriveStraightPIDCommand(-SmartDashboard.getNumber("Auto drive distance 1", 7.25)));
+    	addSequential(new PointTurnPIDCommand(-SmartDashboard.getNumber("Auto rotate distance", 70)));
+    	addSequential(new DriveStraightPIDCommand(-SmartDashboard.getNumber("Auto drive distance 2", 3.79)));
     	addSequential(new ExtendGearPickerCommand());
     	addSequential(new WaitCommand(0.5));
     	addSequential(new RetractGearPickerCommand());
     	addSequential(new WaitCommand(0.5));
-    	addSequential(new DriveStraightPIDCommand(-1));
+    	addSequential(new DriveStraightPIDCommand(1));
     }
 }
