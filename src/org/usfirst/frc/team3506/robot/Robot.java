@@ -7,6 +7,7 @@ import org.usfirst.frc.team3506.robot.commands.autonomous.CenterGearPIDAutonomou
 import org.usfirst.frc.team3506.robot.commands.autonomous.DriveForwardAutonomous;
 import org.usfirst.frc.team3506.robot.commands.autonomous.LeftGearAutonomous;
 import org.usfirst.frc.team3506.robot.commands.autonomous.RightGearAutonomous;
+import org.usfirst.frc.team3506.robot.commands.drivetrain.DriveStraightTimeCommand;
 import org.usfirst.frc.team3506.robot.subsystems.ClawGripSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.ClawLiftSubsystem;
 import org.usfirst.frc.team3506.robot.subsystems.ClimberSubsystem;
@@ -65,7 +66,7 @@ public class Robot extends IterativeRobot {
 	public static boolean runVisionThread;
 
 	public static enum AutoModes {
-		CENTER_GEAR, LEFT_GEAR, RIGHT_GEAR, DRIVE_FORWARD, ROUTE_CONTROL
+		CENTER_GEAR, LEFT_GEAR, RIGHT_GEAR, DRIVE_FORWARD_ENCODER, ROUTE_CONTROL, NO_AUTO, DRIVE_FORWARD_TIME
 	}
 
 	public void robotInit() {
@@ -84,17 +85,19 @@ public class Robot extends IterativeRobot {
 		autonomousRouteControl = new AutonomousRouteControl();
 		oi = new OI();
 		autoChooser = new SendableChooser<AutoModes>();
-		autoChooser.addDefault("Drive Forward", AutoModes.DRIVE_FORWARD);
+		autoChooser.addDefault("Drive Forward w/ Encoders", AutoModes.DRIVE_FORWARD_ENCODER);
 		autoChooser.addObject("Center Gear", AutoModes.CENTER_GEAR);
 		autoChooser.addObject("Left Gear", AutoModes.LEFT_GEAR);
 		autoChooser.addObject("Right Gear", AutoModes.RIGHT_GEAR);
 		autoChooser.addObject("Route Control", AutoModes.ROUTE_CONTROL);
+		autoChooser.addObject("No Auto", AutoModes.NO_AUTO);
+		autoChooser.addObject("Drive Forward w/o Encoders", AutoModes.DRIVE_FORWARD_TIME);
 		autonomousCommand = new DriveForwardAutonomous();
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		SmartDashboard.putData(Scheduler.getInstance());
-		SmartDashboard.putNumber("Auto drive distance 1", 7.25);
-		SmartDashboard.putNumber("Auto rotate distance", 70);
-		SmartDashboard.putNumber("Auto drive distance 2", 3.79);
+		SmartDashboard.putNumber("Auto drive distance 1", RobotMap.RL_DRIVE_DISTANCE_1);
+		SmartDashboard.putNumber("Auto rotate distance", RobotMap.RL_ROTATE_DISTANCE);
+		SmartDashboard.putNumber("Auto drive distance 2", RobotMap.RL_DRIVE_DISTANCE_2);
 		
 		DrivetrainSubsystemHandler.grabSubsystems();
 		DrivetrainSubsystemHandler.publishSmartDashboardValues();
@@ -146,7 +149,7 @@ public class Robot extends IterativeRobot {
 		DrivetrainSubsystemHandler.setVelocitySetpoint(0);
 		DrivetrainSubsystemHandler.startDistancePID(0);
 	}
-
+	
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 //		if (!camera.isConnected()) {
@@ -161,8 +164,10 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousInit() {
+		DrivetrainSubsystemHandler.useEncoders = true;
+		
 		switch ((AutoModes) autoChooser.getSelected()) {
-			case DRIVE_FORWARD:
+			case DRIVE_FORWARD_ENCODER:
 				autonomousCommand = new DriveForwardAutonomous();
 				break;
 			case CENTER_GEAR:
@@ -177,11 +182,18 @@ public class Robot extends IterativeRobot {
 			case ROUTE_CONTROL:
 				autonomousCommand = autonomousRouteControl;
 				break;
+			case NO_AUTO:
+				autonomousCommand = null;
+				break;
+			case DRIVE_FORWARD_TIME:
+				autonomousCommand = new DriveStraightTimeCommand(4);
 			default:
 				autonomousCommand = new DriveForwardAutonomous();
 		}
-		if (autonomousCommand != null)
+		
+		if (autonomousCommand != null) {
 			autonomousCommand.start();
+		}
 	}
 
 	public void autonomousPeriodic() {

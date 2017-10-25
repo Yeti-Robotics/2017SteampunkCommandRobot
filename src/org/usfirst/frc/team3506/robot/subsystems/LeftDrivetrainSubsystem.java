@@ -31,7 +31,7 @@ public class LeftDrivetrainSubsystem extends PIDSubsystem {
 
 	public LeftDrivetrainSubsystem() {
 		super("Left Drivetrain", RobotMap.LEFT_RATE_FORWARDS_SCALAR, RobotMap.LEFT_RATE_I, RobotMap.LEFT_RATE_D);
-		setOutputRange(RobotMap.MIN_DRIVETRAIN_OUTPUT, RobotMap.MAX_DRIVETRAIN_OUTPUT);
+		setOutputRange(RobotMap.MIN_RATE_DRIVETRAIN_OUTPUT, RobotMap.MAX_RATE_DRIVETRAIN_OUTPUT);
 		enable();
 
 		frontLeftSpark.setInverted(true);
@@ -50,7 +50,7 @@ public class LeftDrivetrainSubsystem extends PIDSubsystem {
 						Robot.leftMainDrivetrainSubsystem.moveLeftTrain(output);
 					}
 				});
-		drivetrainDistancePID.setOutputRange(-.5, .5);
+		drivetrainDistancePID.setOutputRange(RobotMap.MIN_DISTANCE_DRIVETRAIN_OUTPUT, RobotMap.MAX_DISTANCE_DRIVETRAIN_OUTPUT);
 	}
 
 	public void initDefaultCommand() {

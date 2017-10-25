@@ -25,7 +25,7 @@ public class RightDrivetrainSubsystem extends PIDSubsystem {
 
 	public RightDrivetrainSubsystem() {
 		super("Right Drivetrain", RobotMap.RIGHT_RATE_FORWARDS_SCALAR, RobotMap.RIGHT_RATE_I, RobotMap.RIGHT_RATE_D);
-		setOutputRange(RobotMap.MIN_DRIVETRAIN_OUTPUT, RobotMap.MAX_DRIVETRAIN_OUTPUT);
+		setOutputRange(RobotMap.MIN_RATE_DRIVETRAIN_OUTPUT, RobotMap.MAX_RATE_DRIVETRAIN_OUTPUT);
 		enable();
 
 		rightEnc.setDistancePerPulse(RobotMap.DRIVE_ENCODER_FEET_PER_PULSE);
@@ -39,7 +39,7 @@ public class RightDrivetrainSubsystem extends PIDSubsystem {
 						Robot.rightDrivetrainSubsystem.moveRightTrain(output);
 					}
 				});
-		drivetrainDistancePID.setOutputRange(-.5, .5);
+		drivetrainDistancePID.setOutputRange(RobotMap.MIN_DISTANCE_DRIVETRAIN_OUTPUT, RobotMap.MAX_DISTANCE_DRIVETRAIN_OUTPUT);
 	}
 
 	public void initDefaultCommand() {

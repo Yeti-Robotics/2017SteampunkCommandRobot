@@ -13,13 +13,15 @@ public class RobotMap {
 	public static final int BACK_RIGHT_SPARK = IS_PRACTICE_BOT ? 2 : 0;
 	public static final int[] LEFT_DRIVE_ENCODER = { 6, 7 };
 	public static final int[] RIGHT_DRIVE_ENCODER = { 8, 9 };
-	public static final double DRIVE_ENCODER_FEET_PER_PULSE = (Math.PI / 3.0) / 128.0; //Circumference in feet divided by pulses per revolution
+	public static final double DRIVE_ENCODER_FEET_PER_PULSE = (Math.PI / 3.0) / 256.0; //Circumference in feet divided by pulses per revolution
 	public static final double ROBOT_TRACK_WIDTH_FT = 2;
 	public static final double LEFT_DRIVETRAIN_TRIM = IS_PRACTICE_BOT ? 1 : .95;
 	public static final double RIGHT_DRIVETRAIN_TRIM = IS_PRACTICE_BOT ? .701 : 1;
 	public static final double MAX_DRIVE_RATE = 11.5;
-	public static final double MIN_DRIVETRAIN_OUTPUT = -1;
-	public static final double MAX_DRIVETRAIN_OUTPUT = 1;
+	public static final double MIN_RATE_DRIVETRAIN_OUTPUT = -1;
+	public static final double MAX_RATE_DRIVETRAIN_OUTPUT = 1;
+	public static final double MIN_DISTANCE_DRIVETRAIN_OUTPUT = -.5;
+	public static final double MAX_DISTANCE_DRIVETRAIN_OUTPUT = .5;
 	public static final double LEFT_DISTANCE_P = 1;
 	public static final double LEFT_DISTANCE_I = 0;
 	public static final double LEFT_DISTANCE_D = 0;
@@ -44,6 +46,18 @@ public class RobotMap {
 	public static final double MAX_TURN_SPEED = .4;
 	public static final double MIN_TURN_SPEED = 0;
 	public static final double GEAR_PLACEMENT_DISTANCE = .5;
+	
+	//Autonomous
+	public static final boolean USE_SMART_DASHBOARD = true;
+	public static final double AUTO_DRIVE_STRAIGHT_POWER = .5;
+	//Right and left gear auto
+	public static final double RL_DRIVE_DISTANCE_1 = 6.7;
+	public static final double RL_ROTATE_DISTANCE = 81.5;
+	public static final double RL_DRIVE_DISTANCE_2 = 4.3;
+	//Center gear auto
+	public static final double CENTER_DRIVE_DISTANCE = 6.63;
+	//Drive straight auto
+	public static final double DRIVE_STRAIGHT_DISTANCE = 9;
     
 	// Joysticks
 	public static final int LFFT_JOYSTICK_PORT = 1;
