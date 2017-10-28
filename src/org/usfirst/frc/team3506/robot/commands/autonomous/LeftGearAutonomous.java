@@ -15,20 +15,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class RightGearAutonomous extends CommandGroup {
+public class LeftGearAutonomous extends CommandGroup {
 
-    public RightGearAutonomous() {
+    public LeftGearAutonomous() {
     	addSequential(new ShiftDownCommand());
     	if (RobotMap.USE_SMART_DASHBOARD) {
 			addSequential(new DriveStraightPIDCommand(
 					-SmartDashboard.getNumber("Auto drive distance 1", RobotMap.RL_DRIVE_DISTANCE_1)));
 			addSequential(new PointTurnPIDCommand(
-					-SmartDashboard.getNumber("Auto rotate distance", RobotMap.RL_ROTATE_DISTANCE)));
+					SmartDashboard.getNumber("Auto rotate distance", RobotMap.RL_ROTATE_DISTANCE)));
 			addSequential(new DriveStraightPIDCommand(
 					-SmartDashboard.getNumber("Auto drive distance 2", RobotMap.RL_DRIVE_DISTANCE_2)));
 		} else {
 	    	addSequential(new DriveStraightPIDCommand(-RobotMap.RL_DRIVE_DISTANCE_1));
-	    	addSequential(new PointTurnPIDCommand(-RobotMap.RL_ROTATE_DISTANCE));
+	    	addSequential(new PointTurnPIDCommand(RobotMap.RL_ROTATE_DISTANCE));
 	    	addSequential(new DriveStraightPIDCommand(-RobotMap.RL_DRIVE_DISTANCE_2));
 		}
     	addSequential(new ExtendGearPickerCommand());

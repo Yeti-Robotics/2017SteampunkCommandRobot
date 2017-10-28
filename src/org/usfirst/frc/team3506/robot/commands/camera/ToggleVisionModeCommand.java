@@ -1,20 +1,28 @@
-package org.usfirst.frc.team3506.robot.commands.gearpicker;
+package org.usfirst.frc.team3506.robot.commands.camera;
 
 import org.usfirst.frc.team3506.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class RetractGearDispenserCommand extends Command {
+/**
+ *
+ */
+public class ToggleVisionModeCommand extends Command {
 
-    public RetractGearDispenserCommand() {
-    	requires(Robot.gearDispenserSubsystem);
+    public ToggleVisionModeCommand() {
+    	
     }
 
     protected void initialize() {
+    	if (Robot.runVisionThread) {
+    		Robot.disableVisionProcessing();
+    	} else {
+    		Robot.enableVisionProcessing();
+    	}
     }
 
     protected void execute() {
-    	Robot.gearDispenserSubsystem.retractDispenser();
+    	
     }
 
     protected boolean isFinished() {
@@ -22,8 +30,10 @@ public class RetractGearDispenserCommand extends Command {
     }
 
     protected void end() {
+    	
     }
 
     protected void interrupted() {
+    	
     }
 }

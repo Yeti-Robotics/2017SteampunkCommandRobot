@@ -5,18 +5,19 @@ import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystemHandler;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ResetDriveTrainEncodersCommand extends Command {
+/**
+ *
+ */
+public class ChangeEncoderDependencyCommand extends Command {
 
-    public ResetDriveTrainEncodersCommand() {
-    	requires(Robot.rightDrivetrainSubsystem);
-    	requires(Robot.leftMainDrivetrainSubsystem);
+    public ChangeEncoderDependencyCommand() {
     }
 
     protected void initialize() {
     }
 
     protected void execute() {
-    	DrivetrainSubsystemHandler.resetEncoders();
+    	DrivetrainSubsystemHandler.useEncoders = !DrivetrainSubsystemHandler.useEncoders;
     }
 
     protected boolean isFinished() {
@@ -24,10 +25,8 @@ public class ResetDriveTrainEncodersCommand extends Command {
     }
 
     protected void end() {
-    	
     }
 
     protected void interrupted() {
-    	
     }
 }

@@ -14,26 +14,27 @@ public class PointTurnDegreesAtPowerCommand extends Command {
     public PointTurnDegreesAtPowerCommand(double degrees, double power) {
     	this.degrees = degrees;
     	this.power = power;
-    	requires(Robot.driveTrainSubsystem);
+    	requires(Robot.leftMainDrivetrainSubsystem);
     }
 
     protected void initialize() {
-    	Robot.driveTrainSubsystem.resetEncoders();
+    	Robot.leftMainDrivetrainSubsystem.resetEncoders();
+    	Robot.rightDrivetrainSubsystem.resetEncoders();
     	turnArcLength = Math.abs((degrees / 360.0) * (RobotMap.ROBOT_TRACK_WIDTH_FT * Math.PI));
     }
 
     protected void execute() {
     	if(degrees > 0){
-    		Robot.driveTrainSubsystem.moveLeftTrain(power);
-    		Robot.driveTrainSubsystem.moveRightTrain(-power);
+    		Robot.leftMainDrivetrainSubsystem.moveLeftTrain(power);
+    		Robot.rightDrivetrainSubsystem.moveRightTrain(-power);
     	} else if(degrees < 0){
-    		Robot.driveTrainSubsystem.moveLeftTrain(-power);
-    		Robot.driveTrainSubsystem.moveRightTrain(power);
+    		Robot.leftMainDrivetrainSubsystem.moveLeftTrain(-power);
+    		Robot.rightDrivetrainSubsystem.moveRightTrain(power);
     	}
     }
 
     protected boolean isFinished() {
-    	return Math.abs(Robot.driveTrainSubsystem.getLeftEncoderDistance()) >= turnArcLength;
+    	return Math.abs(Robot.leftMainDrivetrainSubsystem.getLeftEncoderDistance()) >= turnArcLength;
     }
 
     protected void end() {

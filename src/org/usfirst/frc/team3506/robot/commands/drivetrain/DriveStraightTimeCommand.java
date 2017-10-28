@@ -1,30 +1,39 @@
 package org.usfirst.frc.team3506.robot.commands.drivetrain;
 
 import org.usfirst.frc.team3506.robot.Robot;
+import org.usfirst.frc.team3506.robot.RobotMap;
 import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystemHandler;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ResetDriveTrainEncodersCommand extends Command {
+/**
+ *
+ */
+public class DriveStraightTimeCommand extends Command {
 
-    public ResetDriveTrainEncodersCommand() {
+	double time;
+	
+    public DriveStraightTimeCommand(double time) {
     	requires(Robot.rightDrivetrainSubsystem);
     	requires(Robot.leftMainDrivetrainSubsystem);
+    	this.time = time;
     }
 
     protected void initialize() {
+    	setTimeout(time);
+    	DrivetrainSubsystemHandler.tankDrive(RobotMap.AUTO_DRIVE_STRAIGHT_POWER, RobotMap.AUTO_DRIVE_STRAIGHT_POWER);
     }
 
     protected void execute() {
-    	DrivetrainSubsystemHandler.resetEncoders();
+    	
     }
 
     protected boolean isFinished() {
-        return true;
+        return isTimedOut();
     }
 
     protected void end() {
-    	
+    	DrivetrainSubsystemHandler.tankDrive(0, 0);
     }
 
     protected void interrupted() {

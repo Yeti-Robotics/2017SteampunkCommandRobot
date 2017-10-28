@@ -13,10 +13,51 @@ public class RobotMap {
 	public static final int BACK_RIGHT_SPARK = IS_PRACTICE_BOT ? 2 : 0;
 	public static final int[] LEFT_DRIVE_ENCODER = { 6, 7 };
 	public static final int[] RIGHT_DRIVE_ENCODER = { 8, 9 };
-	public static final double DRIVE_ENCODER_FEET_PER_PULSE = (Math.PI / 3.0) / 128.0;
+	public static final double DRIVE_ENCODER_FEET_PER_PULSE = (Math.PI / 3.0) / 256.0; //Circumference in feet divided by pulses per revolution
 	public static final double ROBOT_TRACK_WIDTH_FT = 2;
 	public static final double LEFT_DRIVETRAIN_TRIM = IS_PRACTICE_BOT ? 1 : .95;
 	public static final double RIGHT_DRIVETRAIN_TRIM = IS_PRACTICE_BOT ? .701 : 1;
+	public static final double MAX_DRIVE_RATE = 11.5;
+	public static final double MIN_RATE_DRIVETRAIN_OUTPUT = -1;
+	public static final double MAX_RATE_DRIVETRAIN_OUTPUT = 1;
+	public static final double MIN_DISTANCE_DRIVETRAIN_OUTPUT = -.5;
+	public static final double MAX_DISTANCE_DRIVETRAIN_OUTPUT = .5;
+	public static final double LEFT_DISTANCE_P = 1;
+	public static final double LEFT_DISTANCE_I = 0;
+	public static final double LEFT_DISTANCE_D = 0;
+	public static final double RIGHT_DISTANCE_P = 1;
+	public static final double RIGHT_DISTANCE_I = 0;
+	public static final double RIGHT_DISTANCE_D = 0;
+	public static final double LEFT_RATE_P = 1;
+	public static final double LEFT_RATE_BACKWARDS_P = 1;
+	public static final double LEFT_RATE_FORWARDS_SCALAR = IS_PRACTICE_BOT ? 1 : .95;
+	public static final double LEFT_RATE_BACKWARDS_SCALAR = IS_PRACTICE_BOT ? .89 : .95;
+	public static final double LEFT_RATE_I = 0;
+	public static final double LEFT_RATE_D = 0;
+	public static final double RIGHT_RATE_P = 1;
+	public static final double RIGHT_RATE_BACKWARDS_P = 1;
+	public static final double RIGHT_RATE_FORWARDS_SCALAR = IS_PRACTICE_BOT ? .79 : 1;
+	public static final double RIGHT_RATE_BACKWARDS_SCALAR = IS_PRACTICE_BOT ? 1 : 1;
+	public static final double RIGHT_RATE_I = 0;
+	public static final double RIGHT_RATE_D = 0;
+	public static final double STRAIGHT_DISTANCE_ERROR_TOLERANCE = .15;
+	public static final double ROTATE_DISTANCE_ERROR_TOLERANCE = .25;
+	public static final double RATE_ERROR_TOLERANCE = .1;
+	public static final double MAX_TURN_SPEED = .4;
+	public static final double MIN_TURN_SPEED = 0;
+	public static final double GEAR_PLACEMENT_DISTANCE = .5;
+	
+	//Autonomous
+	public static final boolean USE_SMART_DASHBOARD = true;
+	public static final double AUTO_DRIVE_STRAIGHT_POWER = .5;
+	//Right and left gear auto
+	public static final double RL_DRIVE_DISTANCE_1 = 6.7;
+	public static final double RL_ROTATE_DISTANCE = 81.5;
+	public static final double RL_DRIVE_DISTANCE_2 = 4.3;
+	//Center gear auto
+	public static final double CENTER_DRIVE_DISTANCE = 6.63;
+	//Drive straight auto
+	public static final double DRIVE_STRAIGHT_DISTANCE = 9;
     
 	// Joysticks
 	public static final int LFFT_JOYSTICK_PORT = 1;
@@ -34,7 +75,7 @@ public class RobotMap {
 	public static final double INTAKE_SPEED = 1;
 	
 	// Turret Control
-	public static final int TURRET_ROTATION_SPARK = IS_PRACTICE_BOT ? 4 : 5;
+	public static final int TURRET_ROTATION_SPARK = IS_PRACTICE_BOT ? 4 : 15;
 	public static final double MANUAL_TURRET_ROTATION_SPEED = 0.2;
 	public static final int IMAGE_CENTER_X = 320;
 	public static final int MIN_TARGET_SIZE = 300;
@@ -57,23 +98,37 @@ public class RobotMap {
 	public static final double RIGHT_SERVO_UPPER_LIMIT = 0.8;
 	public static final double RIGHT_SERVO_LOWER_LIMIT = 0.3;
 	
-	//Gear dispenser
-	public static final int[] GEAR_DISPENSER_SOLENOID = { 2, 3 };
+	//Gear Claw
+	public static final int[] CLAW_GRIP_SOLENOID = IS_PRACTICE_BOT ? new int[] { 4, 5 } : new int[] { 6, 7 };
+	public static final Value CLAW_GRIPPED_STATE = Value.kForward;
+	public static final Value CLAW_UNGRIPPED_STATE = Value.kReverse;
+	
+	//Gear Lift
+	public static final int[] CLAW_LIFT_SOLENOID = IS_PRACTICE_BOT ? new int[] { 2, 3 } : new int[] { 4, 5 };
+	public static final Value CLAW_RAISED_STATE = Value.kReverse;
+	public static final Value CLAW_LOWERED_STATE = Value.kForward;
 	
 	//Gear Picker
-	public static final int[] GEAR_PICKER_SOLENOID = { 4, 5 };
+	public static final int [] GEAR_PICKER_SOLENOID = IS_PRACTICE_BOT ? new int[] { 6, 7 } : new int[] { 2, 3 };
 	
 	//Tower
-	public static final int TOWER_SPARK = 6;
+	public static final int TOWER_SPARK = 16;
 	public static final double TOWER_LIFT_SPEED = 1;
 	
 	//Climber
 	public static final int CLIMBER_SPARK = IS_PRACTICE_BOT ? 9 : 8;
 	public static final double CLIMBER_SPEED = 1;
 	
-	//Vision
+	//Camera
 	public static final int IMG_WIDTH = 640;
 	public static final int IMG_HEIGHT = 480;
-	public static final int CAM_EXPOSURE = 0;
-	public static final int CAM_BRIGHTNESS = 50;
+	public static final int CAM_EXPOSURE_VISION = 0;
+	public static final int CAM_BRIGHTNESS_VISION = 50;
+	public static final int CAM_EXPOSURE_DRIVING = 50;
+	public static final int CAM_BRIGHTNESS_DRIVING = 100;
+	public static final double HORIZONTAL_FOV = 66 * Math.cos(Math.atan(9.0 / 16.0));
+	public static final double VERTICAL_FOV = 66 * Math.sin(Math.atan(9.0 / 16.0));
+	public static final double FOCAL_LENGTH = 683.4736842;
+	public static final double TARGET_WIDTH_INCH = /*10.25*/9.5;
+	public static final double TARGET_HEIGHT_INCH = /*5*/4.75;
 }

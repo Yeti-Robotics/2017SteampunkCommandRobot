@@ -11,7 +11,7 @@ private double time, power;
     public PointTurnTimeAtPowerCommand(double time, double power) {
     	this.time = time;
     	this.power = power;
-    	requires(Robot.driveTrainSubsystem);
+    	requires(Robot.rightDrivetrainSubsystem);
     }
 
     protected void initialize() {
@@ -20,11 +20,11 @@ private double time, power;
 
     protected void execute() {
     	if(power > 0){
-    		Robot.driveTrainSubsystem.moveLeftTrain(power);
-    		Robot.driveTrainSubsystem.moveRightTrain(-power);
+    		Robot.leftMainDrivetrainSubsystem.moveLeftTrain(power);
+    		Robot.rightDrivetrainSubsystem.moveRightTrain(-power);
     	} else if(power < 0){
-    		Robot.driveTrainSubsystem.moveLeftTrain(-power);
-    		Robot.driveTrainSubsystem.moveRightTrain(power);
+    		Robot.leftMainDrivetrainSubsystem.moveLeftTrain(-power);
+    		Robot.rightDrivetrainSubsystem.moveRightTrain(power);
     	}
     }
 
@@ -33,7 +33,6 @@ private double time, power;
     }
 
     protected void end() {
-    	Robot.driveTrainSubsystem.driveStraight(0);
     }
 
     protected void interrupted() {
