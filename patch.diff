@@ -1,0 +1,85 @@
+From acaedf0d0d8a08cb738fdaf32ba8f6bacce02a0d Mon Sep 17 00:00:00 2001
+From: Matthew <wazateer1@gmail.com>
+Date: Sat, 28 Oct 2017 13:18:33 -0400
+Subject: [PATCH] Change userDriveCommand's execute to the LeftMainDriveTrain's
+ tankdrive method so that the robot actually drives. Changed Practice bot to
+ false. Robot Works now :)
+
+---
+ src/org/usfirst/frc/team3506/robot/Robot.java                      | 2 +-
+ src/org/usfirst/frc/team3506/robot/RobotMap.java                   | 2 +-
+ .../frc/team3506/robot/commands/drivetrain/UserDriveCommand.java   | 7 +++++--
+ .../frc/team3506/robot/subsystems/DrivetrainSubsystemHandler.java  | 2 ++
+ 4 files changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/src/org/usfirst/frc/team3506/robot/Robot.java b/src/org/usfirst/frc/team3506/robot/Robot.java
+index ad6ce0a..342bb1b 100644
+--- a/src/org/usfirst/frc/team3506/robot/Robot.java
++++ b/src/org/usfirst/frc/team3506/robot/Robot.java
+@@ -61,7 +61,7 @@ public class Robot extends IterativeRobot {
+ 	public static Command autonomousCommand;
+ 
+ 	private VisionThread visionThread;
+-	private final Object imgLock = new Object();
++	//private final Object imgLock = new Object();
+ 	public static boolean runVisionThread;
+ 
+ 	public static enum AutoModes {
+diff --git a/src/org/usfirst/frc/team3506/robot/RobotMap.java b/src/org/usfirst/frc/team3506/robot/RobotMap.java
+index 4cdc12a..3c0c2c0 100644
+--- a/src/org/usfirst/frc/team3506/robot/RobotMap.java
++++ b/src/org/usfirst/frc/team3506/robot/RobotMap.java
+@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+ 
+ public class RobotMap {
+ 	
+-	public static final boolean IS_PRACTICE_BOT = true;
++	public static final boolean IS_PRACTICE_BOT = false;
+ 
+ 	// Drivetrain
+ 	public static final int FRONT_LEFT_SPARK = IS_PRACTICE_BOT ? 0 : 2;
+diff --git a/src/org/usfirst/frc/team3506/robot/commands/drivetrain/UserDriveCommand.java b/src/org/usfirst/frc/team3506/robot/commands/drivetrain/UserDriveCommand.java
+index 617691c..f1ab495 100644
+--- a/src/org/usfirst/frc/team3506/robot/commands/drivetrain/UserDriveCommand.java
++++ b/src/org/usfirst/frc/team3506/robot/commands/drivetrain/UserDriveCommand.java
+@@ -2,6 +2,7 @@ package org.usfirst.frc.team3506.robot.commands.drivetrain;
+ 
+ import org.usfirst.frc.team3506.robot.Robot;
+ import org.usfirst.frc.team3506.robot.subsystems.DrivetrainSubsystemHandler;
++import org.usfirst.frc.team3506.robot.subsystems.LeftDrivetrainSubsystem;
+ 
+ import edu.wpi.first.wpilibj.command.Command;
+ 
+@@ -13,12 +14,14 @@ public class UserDriveCommand extends Command {
+     }
+ 
+     protected void initialize() {
+-//    	DrivetrainSubsystemHandler.resetEncoders();
++    	DrivetrainSubsystemHandler.resetEncoders();
+     	DrivetrainSubsystemHandler.disableDistancePID();
++        
+     }
+ 
+     protected void execute() {
+-    	DrivetrainSubsystemHandler.setVelocitySetpoint(Robot.oi.getLeftY(), Robot.oi.getRightY());
++    	//DrivetrainSubsystemHandler.setVelocitySetpoint(Robot.oi.getLeftY(), Robot.oi.getRightY());
++    Robot.leftMainDrivetrainSubsystem.tankDrive(Robot.oi.getLeftY(), Robot.oi.getRightY());
+     }
+ 
+     protected boolean isFinished() {
+diff --git a/src/org/usfirst/frc/team3506/robot/subsystems/DrivetrainSubsystemHandler.java b/src/org/usfirst/frc/team3506/robot/subsystems/DrivetrainSubsystemHandler.java
+index b6d9e24..c7e8421 100644
+--- a/src/org/usfirst/frc/team3506/robot/subsystems/DrivetrainSubsystemHandler.java
++++ b/src/org/usfirst/frc/team3506/robot/subsystems/DrivetrainSubsystemHandler.java
+@@ -60,6 +60,8 @@ public class DrivetrainSubsystemHandler {
+ 	public static void setVelocitySetpoint(double leftSetpoint, double rightSetpoint) {
+ 		leftTrain.setSetpoint(leftSetpoint);
+ 		rightTrain.setSetpoint(rightSetpoint);
++		//leftTrain.moveLeftTrain(speed);
++		//rightTrain.moveLeftTrain(speed);
+ 	}
+ 	
+ 	public static void publishSmartDashboardValues() {
+-- 
+2.7.1.windows.2
+
